@@ -1,0 +1,885 @@
+﻿@model SalonDB.Web.Models.POSViewModel
+@{ decimal TaxPercentage = 5;}
+@{
+    ViewBag.Title = "Appointment";
+}
+
+@using (Html.BeginForm("Save", "POS", new { sPModelCol = @Model.ServiceProductViewModelCol, enctype = "multipart/form-data" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h2>Appointment</h2>
+
+    @Html.EJ().Splitter("Splitter").Height("625").Width("100%").EnableAutoResize(true).Orientation(Orientation.Horizontal).PaneProperties(
+    p =>
+    {
+        p.Add().ContentTemplate(
+
+            @<div>
+
+                <div style="padding: 0px 0px;">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Appointment</h3>
+                        </div>
+                        <div class="panel-body">
+                            @Html.EJ().DropDownList("selectAppointment").Datasource((IEnumerable<SalonDB.Web.Models.AppointmentViewModel>)Model.AppointmentCol).DropDownListFields(df => df.ID("AppointmentID").Text("Subject").Value("AppointmentID")).Width("225px").WatermarkText("Select Appointment").ClientSideEvents(e => e.Change("onAppointmentActiveValueChange")).EnableIncrementalSearch(true).EnableFilterSearch(true)
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Client</h3>
+                        </div>
+                        <div class="panel-body">
+                            @Html.EJ().DropDownList("selectCustomer").Datasource((IEnumerable<SalonDB.Web.Models.CustomerViewModel>)Model.CustomerCol).DropDownListFields(df => df.ID("CustomerID").Text("Name").Value("CustomerID")).Width("225px").WatermarkText("Select Customer").ClientSideEvents(e => e.Change("onCustomerActiveValueChange")).EnableIncrementalSearch(true).EnableFilterSearch(true)
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Staff</h3>
+                        </div>
+                        <div class="panel-body">
+                            @Html.EJ().DropDownList("selectStaff").Datasource((IEnumerable<SalonDB.Web.Models.StaffViewModel>)Model.StaffCol).DropDownListFields(df => df.ID("StaffID").Text("Name").Value("StaffID")).Width("225px").WatermarkText("Select Staff").ClientSideEvents(e => e.Change("onStaffActiveValueChange")).EnableIncrementalSearch(true).EnableFilterSearch(true)
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>).Collapsible(true).PaneSize("25%");
+
+    p.Add().ContentTemplate(
+
+        @<div>
+
+            <div style="padding: 0px 0px;">
+
+                <div class="panel panel-primary col-md-6">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add Services</h3>
+                    </div>
+                    <div class="panel-body col-md-offset-0">
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("selectService").Datasource((IEnumerable<SalonDB.Web.Models.ServiceViewModel>)Model.ServiceCol).DropDownListFields(df => df.ID("ServiceID").Text("Name").Value("ServiceID")).Width("250px").WatermarkText("Select Service").ClientSideEvents(e => e.Change("onServiceActiveValueChange")).Enabled(false).EnableIncrementalSearch(true).EnableFilterSearch(true)
+                        </div>
+                        <div class="col-md-3">
+                            <button id="serviceButton" type="button" class="btn btn-primary" onclick="onaddserviceclick()">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary col-md-6">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Add Products</h3>
+                    </div>
+                    <div class="panel-body col-md-offset-0">
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("selectProduct").Datasource((IEnumerable<SalonDB.Web.Models.ProductViewModel>)Model.ProductCol).DropDownListFields(df => df.ID("ProductID").Text("Name").Value("ProductID")).Width("250px").WatermarkText("Select Product").ClientSideEvents(e => e.Change("onProductActiveValueChange")).Enabled(false).EnableIncrementalSearch(true).EnableFilterSearch(true)
+                        </div>
+                        <div class="col-md-3">
+                            <button id="productButton" type="button" class="btn btn-primary" onclick="onaddproductclick()">+</button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Items</h3>
+                    </div>
+                    <div class="panel-body col-md-offset-0">
+                        <div style="padding: 0px 0px;">
+                            @(Html.EJ().Grid<SalonDB.Web.Models.ServiceProductViewModel>("gridServiceProduct")
+                .Datasource((IEnumerable<SalonDB.Web.Models.ServiceProductViewModel>)Model.ServiceProductViewModelCol)
+                //.IsResponsive(true)
+                //.EnableResponsiveRow(false)
+                //.AllowPaging()
+                //.PageSettings(page => page.PageSize(8))
+                .SelectionType(SelectionType.Multiple)
+                .AllowResizeToFit(true)
+                .AllowResizing()
+                .EditSettings(edit =>
+                {
+                    //edit.AllowEditing(); edit.AllowDeleting(); edit.AllowAdding(); edit.EditMode(EditMode.Dialog).TitleColumn("Name");
+                    edit.AllowEditing(); edit.AllowDeleting(); edit.EditMode(EditMode.Dialog).TitleColumn("Name");
+                })
+                .EnableAltRow(true)
+                .EnableRowHover(true)
+                .EnableAltRow(true)
+                .AllowScrolling()
+                .ScrollSettings(col =>
+                {
+                    col.Width("auto").Height("150");
+                })
+                .ContextMenuSettings(contextMenu =>
+                {
+                    contextMenu.EnableContextMenu();
+                })
+                //.ShowSummary()
+                //.SummaryRow(row =>
+                //{
+                //    row.Title("Sum").SummaryColumns(col => { col.SummaryType(SummaryType.Custom).CustomSummaryValue("refreshSummaryTotals").Format("{0:C2}").DisplayColumn("Total").DataMember("Total").Add(); }).Add();
+                //})
+                .ClientSideEvents(eve => eve.Create("create").ActionComplete("actionComplete"))
+                //.ClientSideEvents(eve => eve.Create("create").QueryCellInfo("queryCellInfo"))
+                .Columns(col =>
+                {
+                    col.Field(oRow => oRow.ID).HeaderText("ID").TextAlign(TextAlign.Left).Width("5%").IsPrimaryKey(true).AllowEditing(false).Visible(false).Type("guid").Add();
+                    col.Field(oRow => oRow.Name).HeaderText("Name").TextAlign(TextAlign.Left).Width("28%").AllowEditing(false).Type("string").Add();
+                    col.Field(oRow => oRow.Price).HeaderText("Price").TextAlign(TextAlign.Right).Width("5%").Format("{0:C2}").Type("number").Add();
+                    col.Field(oRow => oRow.Quantity).HeaderText("Quantity").TextAlign(TextAlign.Right).Width("7%").Format("{0:N0}").Type("number").Add();
+                    col.Field(oRow => oRow.DiscountPercentage).HeaderText("Discount%").TextAlign(TextAlign.Right).Width("7%").Format("{0:N2}").Type("number").Add();
+                    col.Field(oRow => oRow.Total).HeaderText("Total").TextAlign(TextAlign.Right).Width("7%").Format("{0:C2}").AllowEditing(false).Visible(true).Type("number").Add();
+                    //col.HeaderText("Total").Template("<span>{{:(Price * Quantity) - (DiscountPercentage / 100 * (Price * Quantity)) }}</span>").TextAlign(TextAlign.Right).Width("7%").Format("{0:C2}").AllowEditing(false).Type("number").Add();
+                    col.HeaderText("Delete").Template("<a href='#' id='mydeletelink' onclick='ondeleteclick(); return false;'>Delete</a>").Add();
+                    //col.HeaderText("Edit").Template("<a href='#' id='myeditlink' onclick='oneditclick();'>Edit</a>").Add();
+                }))
+
+                            <table class="totalcalcs col-md-offset-8">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label>Total</label>
+                                        </td>
+                                        <td>
+                                            @*@Html.EJ().NumericTextbox("totalAmount").ShowRoundedCorner(true).ClientSideEvents(e => e.Change("onTotalAmountChange")).Enabled(false).Value("0")*@
+                                            @Html.EJ().NumericTextbox("totalAmount").ShowRoundedCorner(true).Enabled(true).Value(0).DecimalPlaces(2)
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            @*<label>Tax %</label>*@
+                                            @Html.Label("Tax " + TaxPercentage + " %")
+                                        </td>
+                                        <td>
+                                            @Html.EJ().NumericTextbox("taxAmount").ShowRoundedCorner(true).Enabled(true).Value(0).DecimalPlaces(2)
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label>Discount %</label>
+                                        </td>
+                                        <td>
+                                            @*@Html.EJ().NumericTextbox("totalDiscountPercentage").ShowRoundedCorner(true).ClientSideEvents(e => e.Change("onTotalDiscountPercentageChange")).Value("0")*@
+                                            @Html.EJ().NumericTextbox("totalDiscountPercentage").ShowRoundedCorner(true).Value(0).DecimalPlaces(2)
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <label>Grand Total</label>
+                                        </td>
+                                        <td>
+                                            @Html.EJ().NumericTextbox("grandTotal").ShowRoundedCorner(true).Enabled(true).Value(0).DecimalPlaces(2)
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <button id="newButton"      type="button" class="btn btn-info"    onclick="onnewclick()" >New</button>
+                            <button id="printButton"    type="button" class="btn btn-info"    onclick="onprintclick()">Print</button>
+                            <button id="cancelButton"   type="button" class="btn btn-warning" onclick="oncancelclick()">Cancel</button>
+                            <button id="checkoutButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">CheckOut</button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Payment</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Select a payment method or click [x] to Cancel.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning" onclick="onsavecashclick()" data-dismiss="modal">Cash</button>
+                                            <button type="button" class="btn btn-info"    onclick="onsavevisaclick()" data-dismiss="modal">Visa</button>
+                                            <button type="button" class="btn btn-primary" onclick="onsavemastercardclick()" data-dismiss="modal">Master Card</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>).Collapsible(true).PaneSize("75%");
+    })
+
+}
+
+<script type="text/javascript">
+    var selectedAppointmentValue;
+    var selectedCustomerValue;
+    var selectedServiceValue;
+    var selectedServiceText;
+    var selectedProductValue;
+    var selectedProductText;
+    var selectedStaffValue;
+    var selectedStaffText;
+    var taxPercentage = 5;
+    var totalAmount = 0;
+    var taxAmount = 0;
+    var totalDiscountPercentage = 0;
+    var totalDiscountAmount = 0;
+    var grandTotal = 0;
+    var decimalPlaces = 2;
+    var blankAppointmentDD = false;
+    var appointmentID = null;
+    var appointmentList = null;
+    var serviceList = null;
+    var productList = null;
+    var serviceProductList = null;
+    var staffList = null;
+    var staffID = null;
+    var viewLoading = true;
+    var useAppointment = false;
+    var dataSaved = false;
+
+    //$(window).on("load", function () {
+    //    //debugger;
+    //    //refreshSummaryTotals();
+    //    //alert("window loaded");
+    //});
+
+    $(document).ready(function () {
+        //debugger;
+        //refreshControls();
+        //refreshSummaryTotals();
+        //alert("document ready");
+    });
+
+    $.when($.ready).then(function () {
+        //alert("when ready");
+        //debugger;
+        appointmentID = @Html.Raw(Json.Encode(Model.AppointmentID));
+        appointmentList = @Html.Raw(Json.Encode(Model.AppointmentCol));
+        serviceList = @Html.Raw(Json.Encode(Model.ServiceCol));
+        productList = @Html.Raw(Json.Encode(Model.ProductCol));
+        staffList = @Html.Raw(Json.Encode(Model.StaffCol));
+        serviceProductList = @Html.Raw(Json.Encode(Model.ServiceProductViewModelCol));
+        staffID = @Html.Raw(Json.Encode(Model.StaffEnt.StaffID));
+        dataSaved = @Html.Raw(Json.Encode(Model.DataSaved));
+
+        viewLoading = true;
+        useAppointment = false;
+
+        if (appointmentID != null || appointmentID != "") {
+            useAppointment = true;
+            blankAppointmentDD = false;
+            updateAppointmentByAppointmentID(appointmentID);
+            updateCustomerByAppointmentID(appointmentID);
+        }
+
+        updateStaffByStaffID(staffID);
+        refreshControls();
+        refreshSummaryTotals();
+
+        blankAppointmentDD = true;
+        viewLoading = false;
+
+    });
+
+    //$(function () {
+    //    $("form").submit(function () {
+    //        debugger;
+    //        var valid = true;
+    //        //validation logic here , change valid to false if fail
+    //        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+    //        $("#returnList").val(JSON.stringify(gridObj.model.dataSource));
+    //        var jlst = $.toJSON(gridObj.model.dataSource);
+
+    //        document.getElementById("returnList").innerHTML = JSON.stringify(gridObj.model.dataSource);
+    //        document.getElementById("sPModelCol").innerHTML = JSON.stringify(gridObj.model.dataSource);
+
+    //        //serviceProductList.forEach(function (data) {
+    //        //    SPList = data;
+    //        //});
+
+    //        if (!valid) return false;
+    //    });
+    //});
+
+
+    function newData() {
+        var currentViewLoading = viewLoading;
+        viewLoading = true;
+        $("#selectAppointment").ejDropDownList("selectItemByValue", "");
+        $("#selectCustomer").ejDropDownList("selectItemByValue", "");
+        $("#selectStaff").ejDropDownList("selectItemByValue", "");
+        $("#selectService").ejDropDownList("disable");
+        $("#selectProduct").ejDropDownList("disable");
+        resetServiceData();
+        resetProductData();
+        resetItemData();
+        refreshSummaryTotals();
+        viewLoading = currentViewLoading;
+    }
+
+    function cancelChanges() {
+        var PostIt = false;
+
+        if (PostIt) {
+            $.post("/POS/Cancel/", { cancel: true },
+                function (data, textStatus) {
+                    if (textStatus != "success") {
+                        result = "false";
+                    }
+
+                    alert("Cancel: '" + textStatus);
+                });
+        }
+        else {
+            location.href = '@Url.Action("Index","Home")';
+        }
+    }
+
+    function saveData(args) {
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+        var serviceProductCol = JSON.stringify(gridObj.model.dataSource);
+
+        $.post("/POS/Save/", { jsonData: serviceProductCol, paymentType: args },
+            function (data, textStatus) {
+                if (textStatus == "success") {
+                    dataSaved = true;
+                    result = "false";
+                }
+                else {
+                    result = "true";
+                }
+
+                alert("Payment: '" + textStatus + "' Type: '" + args + "'");
+
+                refreshControls();
+            });
+    }
+
+    function getCustomerByAppointmentID(appointmentID) {
+        var ReturnValue = null;
+        var result = $.grep(appointmentList, function (e) { return e.AppointmentID == appointmentID; });
+
+        if (result.length > 0) {
+            ReturnValue = result[0].CustomerID;
+        }
+
+        return ReturnValue;
+    }
+
+    function getServicePrice(serviceID) {
+        var ReturnValue = 0;
+        var result = $.grep(serviceList, function (e) { return e.ServiceID == serviceID; });
+
+        if (result.length > 0) {
+            ReturnValue = result[0].Price;
+        }
+
+        return ReturnValue;
+    }
+
+    function getProductPrice(productID) {
+        var ReturnValue = 0;
+        var result = $.grep(productList, function (e) { return e.ProductID == productID; });
+
+        if (result.length > 0) {
+            ReturnValue = result[0].Price;
+        }
+
+        return ReturnValue;
+    }
+
+    function reLoadServiceProductData() {
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+
+        serviceProductList.forEach(function (data) {
+            gridObj.model.dataSource.push(data);
+            gridObj.refreshContent();
+        });
+    }
+
+    function updateAppointmentByAppointmentID(appointmentID) {
+        var target = $('#selectAppointment').data("ejDropDownList");
+        target.selectItemByValue(appointmentID);
+    }
+
+    function updateCustomerByAppointmentID(appointmentID) {
+        var target = $('#selectCustomer').data("ejDropDownList");
+        var customerID = getCustomerByAppointmentID(appointmentID);
+        target.selectItemByValue(customerID);
+        //var oValue = target.option("value");
+        //var oText = target.option("text");
+    }
+
+    function updateStaffByStaffID(staffID) {
+        var target = $('#selectStaff').data("ejDropDownList");
+        target.selectItemByValue(staffID);
+    }
+
+    function create(args) {
+        //debugger;
+        //var gridObj = $("#gridServiceProduct").ejGrid("instance");
+        //var scrollerwidth = $("#container").width();//Obtain the width of the container
+        //var scrollerheight = ($("#container").height()) - ($(".e-gridheader").outerHeight()) - ($(".e-pager").outerHeight());//Obtain the height of the container and subtract it from gridheader and pager
+        //gridObj.option({ allowScrolling: true, scrollSettings: { width: scrollerwidth, height: scrollerheight } });//pass the obtainer width and height to gridmodel options
+
+        //var gridObj = $("#gridServiceProduct").ejGrid("instance");
+
+        //if (gridObj.model != null && gridObj.model.dataSource != null) {
+        //    var rowCount = gridObj.model.dataSource.length;
+
+        //    if (firstTime && rowCount > 0) {
+        //        firstTime = false;
+        //        refreshSummaryTotals();
+        //    }
+        //}
+
+        this.element.find(".e-gridcontent").on("click", "a", function (e) {
+            debugger;
+            e.preventDefault();
+            deleteSelectedGridRows();
+        });
+
+    }
+
+    function actionComplete(args) {
+        //debugger;
+
+        if (args.requestType == "save" && args.type == "actionComplete") {
+            //debugger;
+            var gridObj = $("#gridServiceProduct").ejGrid("instance");
+            var Total = recalTotal(parseFloat(args.data.Price), parseInt(args.data.Quantity), parseFloat(args.data.DiscountPercentage));
+            args.data.Total = Total;
+            gridObj.setCellText(args.selectedRow, "Total", Total);
+            gridObj.refreshContent();
+            refreshSummaryTotals();
+        }
+
+        if (args.requestType == "delete" && args.type == "actionComplete") {
+            //debugger;
+            refreshSummaryTotals();
+        }
+    }
+
+    //function queryCellInfo(args) {
+    //    if (args.column.field == "Total") {
+    //        //debugger;
+    //        var TotalAmount = recalTotal(args.data["Price"], args.data["Quantity"], args.data["DiscountPercentage"]); //set the datasource value
+    //        //args.data["Total"] = TotalAmount.toFixed(2);
+    //        args.data["Total"] = formatter.format(TotalAmount);
+    //        $(args.cell).html(args.data["Total"]);  //set the element values
+
+    //        //var newvalue = 0 //args.value;// getting the new value
+    //        //var oldvalue = 0; //args.rowData.Total;// getting the old value
+    //        //var extra = newvalue - oldvalue;//getting the difference in value
+
+    //        //for (var i = 0; i < this.model.summaryRows.length; i++)
+    //        //    for (var j = 0; j < this.model.summaryRows[i].summaryColumns.length; j++) {
+    //        //        if (this.model.summaryRows[i].summaryColumns[j].dataMember == "Total" && this.model.summaryRows[i].summaryColumns[j].summaryType == "sum") {
+    //        //            j = i;// finding the summaryRow to be modified
+    //        //            break;
+    //        //        }
+    //        //    }
+
+    //        //var summary = ($(".e-gridSummaryRows:eq(" + j + ")").find("td.e-summaryrow")[args.cell.index()].innerHTML).replace(/[$,]/g, "")// getting the summaryValue of the corresponding summaryRow
+    //        //var summaryval = (parseFloat(summary) + extra).toFixed(2);
+
+    //        //summaryval = addCommas(summaryval);//add commas to the obtained value
+    //        //$(".e-gridSummaryRows:eq(" + j + ")").find("td.e-summaryrow")[args.cell.index()].innerHTML = "$" + summaryval;//assigning the innerHTML of the summaryrow with updated value
+
+    //    }
+    //}
+
+    function refreshSummaryTotals() {
+        var ReturnValue = 0;
+        var Price = 0;
+        var Quantity = 0;
+        var DiscountPercentage = 0;
+        var Total = 0;
+
+        totalAmount = 0;
+        taxAmount = 0;
+        grandTotal = 0;
+
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+
+        if (gridObj.model != null && gridObj.model.dataSource != null) {
+            var rowCount = gridObj.model.dataSource.length;
+
+            if (rowCount > 0) {
+                for (var row = 0; row < rowCount; row++) {
+                    var rowEnt = gridObj.model.dataSource[row];
+                    Price = rowEnt["Price"];
+                    Quantity = rowEnt["Quantity"];
+                    DiscountPercentage = rowEnt["DiscountPercentage"];
+                    Total = recalTotal(Price, Quantity, DiscountPercentage)
+                    ReturnValue += Total;
+                }
+            }
+        }
+
+        totalDiscountPercentage = $("#totalDiscountPercentage").ejNumericTextbox("option", "value")
+
+        totalAmount = ReturnValue;
+        totalDiscountAmount = roundTo((totalDiscountPercentage / 100) * totalAmount, decimalPlaces);
+        taxAmount = roundTo((taxPercentage / 100) * (totalAmount - totalDiscountAmount), decimalPlaces);
+        grandTotal = roundTo((totalAmount - totalDiscountAmount) + taxAmount, decimalPlaces);
+
+        $('#totalAmount').ejNumericTextbox({ value: totalAmount });
+        $('#taxAmount').ejNumericTextbox({ value: taxAmount });
+        $('#grandTotal').ejNumericTextbox({ value: grandTotal });
+
+        return ReturnValue;
+    }
+
+    function refreshControls() {
+        //debugger;
+        var selectedCustomerVal = $('#selectCustomer').val();
+        var selectedServiceVal = $('#selectService').val();
+        var selectedProductVal = $('#selectProduct').val();
+        var selectedStaffVal = $('#selectStaff').val();
+
+        $("#cancelButton").attr('disabled', false);
+
+        if (dataSaved) {
+            $("#selectAppointment").ejDropDownList("disable");
+            $("#selectCustomer").ejDropDownList("disable");
+            $("#selectStaff").ejDropDownList("disable");
+            $("#selectService").ejDropDownList("disable");
+            $("#selectProduct").ejDropDownList("disable");
+            $("#serviceButton").attr('disabled', true);
+            $("#productButton").attr('disabled', true);
+            $("#newButton").attr('disabled', false);
+            $("#printButton").attr('disabled', false);
+            $("#checkoutButton").attr('disabled', true);
+        }
+        else {
+            $("#newButton").attr('disabled', true);
+            $("#printButton").attr('disabled', true);
+            $("#checkoutButton").attr('disabled', false);
+            if (useAppointment) {
+                $("#selectAppointment").ejDropDownList("disable");
+                $("#selectCustomer").ejDropDownList("disable");
+                $("#selectStaff").ejDropDownList("disable");
+            }
+            else {
+                $("#selectAppointment").ejDropDownList("enable");
+                $("#selectCustomer").ejDropDownList("enable");
+                $("#selectStaff").ejDropDownList("enable");
+            }
+            if (selectedCustomerVal == null || selectedCustomerVal == "") {
+                debugger;
+                resetAllData();
+            }
+            else {
+                $("#selectService").ejDropDownList("enable");
+                $("#selectProduct").ejDropDownList("enable");
+                if (selectedServiceVal == null || selectedServiceVal == "") {
+                    $("#serviceButton").attr('disabled', true);
+                }
+                else {
+                    $("#serviceButton").attr('disabled', false);
+                }
+
+                if (selectedProductVal == null || selectedProductVal == "") {
+                    $("#productButton").attr('disabled', true);
+                }
+                else {
+                    $("#productButton").attr('disabled', false);
+                }
+            }
+        }
+    }
+
+    var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+    });
+
+
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
+
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        var test = (Math.round(n) / multiplicator);
+        return +(test.toFixed(2));
+    }
+
+    function RefreshTotal(price, quantity, discountpercentage) {
+        var ReturnValue = "";
+        var Result = recalTotal(price, quantity, discountpercentage);
+
+        ReturnValue = formatter.format(Result);
+
+        return ReturnValue;
+    }
+
+    function recalTotal(price, quantity, discountpercentage) {
+        var ReturnValue = 0;
+        var DiscountAmount = 0;
+        var Amount = 0;
+        try
+        {
+            Amount = price * quantity;
+            DiscountAmount = roundTo((discountpercentage / 100) * Amount, decimalPlaces);
+            //DiscountAmount = Math.round((discountpercentage / 100) * Amount);
+            ReturnValue = roundTo(Amount - DiscountAmount, decimalPlaces);
+        }
+        catch (Exception)
+        {
+            ReturnValue = 0;
+        }
+
+        return ReturnValue;
+    }
+
+    function resetAllData() {
+        $("#selectService").ejDropDownList("disable");
+        $("#selectProduct").ejDropDownList("disable");
+        resetServiceData();
+        resetProductData();
+        resetItemData();
+        refreshSummaryTotals();
+    }
+
+    function resetServiceData() {
+        $("#selectService").ejDropDownList("selectItemByValue", "");
+        //$("#servicePrice").ejNumericTextbox({ value: 0 });
+        //$("#serviceQuantity").ejNumericTextbox({ value: 0 });
+        //$("#serviceDiscountPercentage").ejNumericTextbox({ value: 0 });
+        //$("#serviceButton").ejButton("disable");
+        //document.getElementsByName("#serviceButton")[0].disabled = true;
+        $("#serviceButton").attr('disabled', true);
+
+    }
+
+    function resetProductData() {
+        $("#selectProduct").ejDropDownList("selectItemByValue", "");
+        //$("#productPrice").ejNumericTextbox({ value: 0 });
+        //$("#productQuantity").ejNumericTextbox({ value: 0 });
+        //$("#productDiscountPercentage").ejNumericTextbox({ value: 0 });
+        //$("#productButton").ejButton("disable");
+        //document.getElementsByName("#productButton")[0].disabled = true;
+        $("#productButton").attr('disabled', true);
+    }
+
+    function resetItemData() {
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+        var rowCount = gridObj.model.dataSource.length;
+
+        if (rowCount > 0) {
+            gridObj.selectRows(0, rowCount - 1);
+            deleteSelectedGridRows();
+        }
+
+    }
+
+    function deleteSelectedGridRows() {
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+        var selrecs = gridObj.getSelectedRecords()
+        var rowCount = selrecs.length;
+
+        if (rowCount > 0) {
+            for (var row = 0; row < rowCount; row++) {
+                var rowtodel = selrecs[row];
+                gridObj.deleteRecord("ID", rowtodel);
+            }
+        }
+
+        gridObj.refreshContent();
+        refreshSummaryTotals();
+
+    }
+
+    function editSelectedGridRow() {
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+        var selrecs = gridObj.getSelectedRecords()
+        var rowCount = selrecs.length;
+
+        if (rowCount > 0) {
+            var rowtoedit = selrecs[0];
+            //gridObj.startEdit(rowtoedit);
+            gridObj.startEdit($(".gridcontent tr").first());
+        }
+
+        //gridObj.refreshContent();
+    }
+
+    function onaddserviceclick() {
+        target = $('#selectService').data("ejDropDownList");
+        selectedServiceValue = target.option("value");
+        var price = getServicePrice(selectedServiceValue);
+        var quantity = 1;
+        var discountpercentage = 0;
+        var total = recalTotal(price, quantity, discountpercentage)
+        var data = { ID: selectedServiceValue, Name: selectedServiceText, Price: price, Quantity: quantity, DiscountPercentage: discountpercentage, Total: total, IsService: true }
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+
+        gridObj.model.dataSource.push(data);
+        gridObj.refreshContent();
+
+        resetServiceData();
+        refreshSummaryTotals();
+    }
+
+    function onaddproductclick() {
+        target = $('#selectProduct').data("ejDropDownList");
+        selectedProductValue = target.option("value");
+        var price = getProductPrice(selectedProductValue);
+        var quantity = 1;
+        var discountpercentage = 0;
+        var total = recalTotal(price, quantity, discountpercentage)
+        var data = { ID: selectedProductValue , Name: selectedProductText, Price: price, Quantity: quantity, DiscountPercentage: discountpercentage, Total: total, IsService: false }
+        var gridObj = $("#gridServiceProduct").ejGrid("instance");
+
+        gridObj.model.dataSource.push(data);
+        gridObj.refreshContent();
+
+        resetProductData();
+        refreshSummaryTotals()
+    }
+
+    function onAppointmentActiveValueChange(args) {
+        target = $('#selectAppointment').data("ejDropDownList");
+        var oValue = target.option("value");
+        target.selectItemByValue(args.selectedValue);
+        selectedAppointmentValue = target._itemID;
+
+        if (!viewLoading) {
+            if (selectedAppointmentValue != null || selectedAppointmentValue != "") {
+                blankAppointmentDD = false;
+
+                if (args.selectedValue == appointmentID) {
+                    reLoadServiceProductData();
+                }
+                updateCustomerByAppointmentID(selectedAppointmentValue);
+                blankAppointmentDD = true;
+            }
+            else {
+                resetAllData();
+                refreshControls();
+            }
+        }
+
+    }
+
+    function onCustomerActiveValueChange(args) {
+        target = $('#selectCustomer').data("ejDropDownList");
+        target.selectItemByValue(args.selectedValue);
+        selectedCustomerValue = target._itemID;
+
+        if (!viewLoading) {
+            resetAllData();
+            refreshControls();
+
+            target = $('#selectAppointment').data("ejDropDownList");
+            var oValue = target.option("value");
+
+            if (blankAppointmentDD) {
+                selectedAppointmentValue = null;
+                target = $('#selectAppointment').data("ejDropDownList");
+                target.selectItemByValue(selectedAppointmentValue);
+            }
+        }
+    }
+
+    function onStaffActiveValueChange(args) {
+        target = $('#selectStaff').data("ejDropDownList");
+        target.selectItemByValue(args.selectedValue);
+        selectedStaffValue = target._itemID;
+        selectedStaffText = target.selectedTextValue;
+
+        if (!viewLoading) {
+            //$("#productPrice").ejNumericTextbox({ value: 20 });
+            //$("#productQuantity").ejNumericTextbox({ value: 1 });
+            //$("#productDiscountPercentage").ejNumericTextbox({ value: 0 });
+
+            refreshControls();
+        }
+    }
+
+    function onServiceActiveValueChange(args) {
+        target = $('#selectService').data("ejDropDownList");
+        target.selectItemByValue(args.selectedValue);
+        selectedServiceValue = target._itemID;
+        selectedServiceText = target.selectedTextValue;
+
+        if (!viewLoading) {
+            //$("#servicePrice").ejNumericTextbox({ value: 10 });
+            //$("#serviceQuantity").ejNumericTextbox({ value: 1 });
+            //$("#serviceDiscountPercentage").ejNumericTextbox({ value: 0 });
+
+            refreshControls();
+        }
+    }
+
+    function onProductActiveValueChange(args) {
+        target = $('#selectProduct').data("ejDropDownList");
+        target.selectItemByValue(args.selectedValue);
+        selectedProductValue = target._itemID;
+        selectedProductText = target.selectedTextValue;
+
+        if (!viewLoading) {
+            //$("#productPrice").ejNumericTextbox({ value: 20 });
+            //$("#productQuantity").ejNumericTextbox({ value: 1 });
+            //$("#productDiscountPercentage").ejNumericTextbox({ value: 0 });
+
+            refreshControls();
+        }
+    }
+
+    function onprintclick() {
+        //location.href = '@Url.Action("Index","Home")';
+        alert("Print");
+    }
+
+    function ondeleteclick() {
+        //debugger;
+        deleteSelectedGridRows();
+    }
+
+    function oneditclick() {
+        //debugger;
+        editSelectedGridRow();
+    }
+
+    function onsaveclick() {
+        //location.href = '@Url.Action("Save","POS")';
+        saveData("");
+    }
+
+    function onsavecashclick() {
+        saveData("Cash");
+    }
+
+    function onsavevisaclick() {
+        saveData("Visa");
+    }
+
+    function onsavemastercardclick() {
+        saveData("MasterCard");
+    }
+
+    function oncancelclick() {
+        cancelChanges();
+    }
+
+    function onnewclick() {
+        newData();
+    }
+
+</script>

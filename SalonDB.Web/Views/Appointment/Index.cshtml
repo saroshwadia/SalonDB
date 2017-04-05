@@ -1,0 +1,89 @@
+﻿@model SalonDB.Web.Models.SchedulerViewModel
+@{
+    ViewBag.Title = "Appointments";
+}
+@{
+
+    //List<string> view = new List<string>() { "Day", "Week", "WorkWeek", "Month" };
+
+
+}
+
+<h2>Appointmenst</h2>
+
+<div class="panel panel-primary col-md-3">
+    <div class="panel-heading">
+        <h3 class="panel-title">Calendar</h3>
+    </div>
+    <div class="panel-body">
+        @Html.EJ().DatePicker("DatePick").TagName("div").Value(Model.CurrentDate).DisplayInline(true).ShowFooter(false).ClientSideEvents(s => s.Select("onSelected"))
+    </div>
+</div>
+
+<div class="panel panel-primary col-md-9">
+    <div class="panel-heading">
+        <h3 class="panel-title">Scheduler</h3>
+    </div>
+    <div class="panel-body">
+@(Html.EJ().Schedule("Schedule1")
+        .Width("100%")
+        .Height("525px")
+        .TimeZone("UTC -07:00")
+        .CurrentView(CurrentView.Day)
+        .CurrentDate(Model.CurrentDate)
+        .ShowDeleteConfirmationDialog()
+        .ShowLocationField(true)
+        .ShowAppointmentNavigator(true)
+        .ShowHeaderBar(true)
+        .ShowCurrentTimeIndicator(true)
+        .TooltipSettings(set => set.Enable(true))
+        .EnableAppointmentNavigation(false)
+        .ContextMenuSettings(cxt => cxt.Enable(true).MenuItems(item => item.Appointment(Model.AppContextMenu)))
+        .ScheduleClientSideEvents(evt => evt.MenuItemClick("onMenuItemClick").Create("onCreate"))
+        .Group(gr => { gr.Resources(Model.GroupCol); })
+        .Resources(res =>
+        {
+            res.Field("StaffId").Title("Staff").Name("Owners").AllowMultiple(false).ResourceSettings(flds => flds.Datasource(ds => ds.URL("Appointment/GetResData").Adaptor("UrlAdaptor")).Text("Text").Id("Id").Color("Color")).Add();
+        })
+        .CategorizeSettings(cat => cat.Enable(true))
+        .PrioritySettings(pri => pri.Enable(true))
+        .AppointmentSettings(fields => fields.Datasource(ds => ds.URL("Appointment/GetData").Adaptor("UrlAdaptor"))
+            .Id("Id")
+            .Subject("Subject")
+            .StartTime("StartTime")
+            .StartTimeZone("StartTimeZone")
+            .EndTime("EndTime")
+            .EndTimeZone("EndTimeZone")
+            .Description("Description")
+            .Location("Location")
+            .AllDay("AllDay")
+            .Priority("Priority")
+            .Categorize("Categorize")
+            .Recurrence("Recurrence")
+            .RecurrenceRule("RecurrenceRule")
+            .RecurrenceId("RecurrenceId")
+            .RecurrenceExDate("RecurrenceExDate")
+            .ResourceFields("StaffId"))
+)
+    </div>
+</div>
+
+
+<script>
+    function onSelected(args) { // this function will be called when the date is selected in the month calendar
+        $("#Schedule1").ejSchedule({ currentDate: new Date(args.value) }); // here we are rendering the Scheduler with the selected date
+    }
+
+    function onMenuItemClick(args) {
+        //args.events contains information of the clicked menu item.
+        //debugger;
+        if (args.events.ID == "checkout") {
+            alert("Custom menu CheckOut clicked");
+        }
+    }
+
+    function onCreate(args) {
+        this._dataManager.dataSource.crudUrl = "/Appointment/Batch";
+    }
+
+</script>

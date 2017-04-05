@@ -1,0 +1,96 @@
+﻿@model SalonDB.Web.Models.StaffViewModel
+
+@{
+    ViewBag.Title = "Staff Profile";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<div class="jumbotron">
+    <h1>@Model.FullName</h1>
+</div>
+
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Profile</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <fieldset>
+                @*<legend>Profile:</legend>*@
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputFirstName">First Name</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputFirstName" type="text" placeholder="First Name" value=@Model.FirstName disabled="disabled">
+                    </div>
+                    <label class="col-lg-2 control-label" for="inputLastName">Last Name</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputLastName" type="text" placeholder="Last Name" value=@Model.LastName disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputEmail">Email</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputEmail" type="text" placeholder="Email" value=@Model.Email disabled="disabled">
+                    </div>
+                    <label class="col-lg-2 control-label" for="inputPhone">Phone</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputPhone" type="text" placeholder="Phone" value=@Model.Phone disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputAddress">Address</label>
+                    <div class="col-lg-10">
+                        <input class="form-control" id="inputAddress" type="text" placeholder="Address" value=@Model.Address disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputCity">City</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputCity" type="text" placeholder="City" value=@Model.City disabled="disabled">
+                    </div>
+                    <label class="col-lg-2 control-label" for="inputPostalCode">Postal Code</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputPostalCode" type="text" placeholder="Postal Code" value=@Model.PostalCode disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputRole">Role</label>
+                    <div class="col-lg-10">
+                        <input class="form-control" id="inputRole" type="text" placeholder="Role" value=@Model.Role disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputCommission">Commission</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputCommission" type="text" placeholder="Commission" value=@Model.Commission disabled="disabled">
+                    </div>
+                    <label class="col-lg-2 control-label" for="inputRate">Rate</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputRate" type="text" placeholder="Rate" value=@Model.Rate disabled="disabled">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="inputStoreName">Store</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputStoreName" type="text" placeholder="Store" value=@Model.StoreName disabled="disabled">
+                    </div>
+                    <label class="col-lg-2 control-label" for="inputCompanyName">Company</label>
+                    <div class="col-lg-4">
+                        <input class="form-control" id="inputCompanyName" type="text" placeholder="Company" value=@Model.CompanyName disabled="disabled">
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+

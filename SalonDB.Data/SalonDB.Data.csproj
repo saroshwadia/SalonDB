@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DEFB363B-4C5B-4B35-9A2A-04D46FAB69BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SalonDB.Data</RootNamespace>
+    <AssemblyName>SalonDB.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySpaces.Core">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EntitySpaces 2012\Runtimes\.NET 4.0\EntitySpaces.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySpaces.DynamicQuery">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EntitySpaces 2012\Runtimes\.NET 4.0\EntitySpaces.DynamicQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySpaces.Interfaces">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EntitySpaces 2012\Runtimes\.NET 4.0\EntitySpaces.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySpaces.Loader">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EntitySpaces 2012\Runtimes\.NET 4.0\EntitySpaces.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySpaces.SqlClientProvider">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\EntitySpaces 2012\Runtimes\.NET 4.0\EntitySpaces.SqlClientProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DBProviderEF.cs" />
+    <Compile Include="DBProviderES.cs" />
+    <Compile Include="eTransactionStatus.cs" />
+    <Compile Include="ModelES\esBase\CollectionBase.cs" />
+    <Compile Include="ModelES\esBase\EntityBase.cs" />
+    <Compile Include="ModelES\esBase\QueryBase.cs" />
+    <Compile Include="ModelES\esCustom\Appointment.cs" />
+    <Compile Include="ModelES\esCustom\AppointmentCollection.cs" />
+    <Compile Include="ModelES\esCustom\AppointmentQuery.cs" />
+    <Compile Include="ModelES\esCustom\Category.cs" />
+    <Compile Include="ModelES\esCustom\CategoryCollection.cs" />
+    <Compile Include="ModelES\esCustom\CategoryQuery.cs" />
+    <Compile Include="ModelES\esCustom\Company.cs" />
+    <Compile Include="ModelES\esCustom\CompanyCollection.cs" />
+    <Compile Include="ModelES\esCustom\CompanyQuery.cs" />
+    <Compile Include="ModelES\esCustom\Customer.cs" />
+    <Compile Include="ModelES\esCustom\CustomerCollection.cs" />
+    <Compile Include="ModelES\esCustom\CustomerQuery.cs" />
+    <Compile Include="ModelES\esCustom\Menu.cs" />
+    <Compile Include="ModelES\esCustom\MenuCollection.cs" />
+    <Compile Include="ModelES\esCustom\MenuQuery.cs" />
+    <Compile Include="ModelES\esCustom\Product.cs" />
+    <Compile Include="ModelES\esCustom\ProductCollection.cs" />
+    <Compile Include="ModelES\esCustom\ProductQuery.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionsView.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionsViewCollection.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionsViewQuery.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionView.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionViewCollection.cs" />
+    <Compile Include="ModelES\esCustom\ProductTransactionViewQuery.cs" />
+    <Compile Include="ModelES\esCustom\SalesView.cs" />
+    <Compile Include="ModelES\esCustom\SalesViewCollection.cs" />
+    <Compile Include="ModelES\esCustom\SalesViewQuery.cs" />
+    <Compile Include="ModelES\esCustom\Service.cs" />
+    <Compile Include="ModelES\esCustom\ServiceCollection.cs" />
+    <Compile Include="ModelES\esCustom\ServiceQuery.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsTimefilter.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsTimefilterCollection.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsTimefilterQuery.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsView.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsViewCollection.cs" />
+    <Compile Include="ModelES\esCustom\ServiceTransactionsViewQuery.cs" />
+    <Compile Include="ModelES\esCustom\Staff.cs" />
+    <Compile Include="ModelES\esCustom\StaffCollection.cs" />
+    <Compile Include="ModelES\esCustom\StaffHour.cs" />
+    <Compile Include="ModelES\esCustom\StaffHourCollection.cs" />
+    <Compile Include="ModelES\esCustom\StaffHourQuery.cs" />
+    <Compile Include="ModelES\esCustom\StaffQuery.cs" />
+    <Compile Include="ModelES\esCustom\Store.cs" />
+    <Compile Include="ModelES\esCustom\StoreCollection.cs" />
+    <Compile Include="ModelES\esCustom\StoreQuery.cs" />
+    <Compile Include="ModelES\esCustom\Supplier.cs" />
+    <Compile Include="ModelES\esCustom\SupplierCollection.cs" />
+    <Compile Include="ModelES\esCustom\SupplierQuery.cs" />
+    <Compile Include="ModelES\esCustom\Transaction.cs" />
+    <Compile Include="ModelES\esCustom\TransactionCollection.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailProduct.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailProductCollection.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailProductQuery.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailService.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailServiceCollection.cs" />
+    <Compile Include="ModelES\esCustom\TransactionDetailServiceQuery.cs" />
+    <Compile Include="ModelES\esCustom\TransactionQuery.cs" />
+    <Compile Include="ModelES\esGenerated\Appointment.cs" />
+    <Compile Include="ModelES\esGenerated\Category.cs" />
+    <Compile Include="ModelES\esGenerated\Company.cs" />
+    <Compile Include="ModelES\esGenerated\Customer.cs" />
+    <Compile Include="ModelES\esGenerated\Menu.cs" />
+    <Compile Include="ModelES\esGenerated\Product.cs" />
+    <Compile Include="ModelES\esGenerated\ProductTransactionsView.cs" />
+    <Compile Include="ModelES\esGenerated\ProductTransactionView.cs" />
+    <Compile Include="ModelES\esGenerated\SalesView.cs" />
+    <Compile Include="ModelES\esGenerated\Service.cs" />
+    <Compile Include="ModelES\esGenerated\ServiceTransactionsTimefilter.cs" />
+    <Compile Include="ModelES\esGenerated\ServiceTransactionsView.cs" />
+    <Compile Include="ModelES\esGenerated\Staff.cs" />
+    <Compile Include="ModelES\esGenerated\StaffHour.cs" />
+    <Compile Include="ModelES\esGenerated\Store.cs" />
+    <Compile Include="ModelES\esGenerated\Supplier.cs" />
+    <Compile Include="ModelES\esGenerated\Transaction.cs" />
+    <Compile Include="ModelES\esGenerated\TransactionDetailProduct.cs" />
+    <Compile Include="ModelES\esGenerated\TransactionDetailService.cs" />
+    <Compile Include="Model\Appointment.cs" />
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\Company.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Custom\Staff.cs" />
+    <Compile Include="Model\database_firewall_rules.cs" />
+    <Compile Include="Model\Menu.cs" />
+    <Compile Include="Model\DBModel.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProductTransactionsView.cs" />
+    <Compile Include="Model\SalesView.cs" />
+    <Compile Include="Model\Service.cs" />
+    <Compile Include="Model\ServiceTransactionsTimefilter.cs" />
+    <Compile Include="Model\ServiceTransactionsView.cs" />
+    <Compile Include="Model\Staff.cs" />
+    <Compile Include="Model\StaffHour.cs" />
+    <Compile Include="Model\Store.cs" />
+    <Compile Include="Model\Supplier.cs" />
+    <Compile Include="Model\Transaction.cs" />
+    <Compile Include="Model\TransactionDetailProduct.cs" />
+    <Compile Include="Model\TransactionDetailService.cs" />
+    <Compile Include="Model\View_1.cs" />
+    <Compile Include="Model\View_2.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

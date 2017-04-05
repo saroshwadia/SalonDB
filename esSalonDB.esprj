@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntitySpacesProject Version="2012.1.0930.0">
+  <Folder Name="Project">
+    <RecordedTemplate Name="Custom Tables- Classes Master (C#)">
+      <Template Name="Custom - Classes Master (C#)" Path="{fixup}EntitySpaces\C#\Custom - Classes Master (C#).est" Version="2012.0.0.0" />
+      <Input>
+        <Item Type="System.Collections.ArrayList" Key="Entities" Value="dbo.Appointment,dbo.Category,dbo.Company,dbo.Customer,dbo.Menu,dbo.Product,dbo.Service,dbo.Staff,dbo.StaffHour,dbo.Store,dbo.Supplier,dbo.Transaction,dbo.TransactionDetailProduct,dbo.TransactionDetailService" />
+        <Item Type="System.String" Key="Database" Value="SalonDB" />
+        <Item Type="System.String" Key="Namespace" Value="BusinessObjects" />
+        <Item Type="(null)" Key="Table" />
+        <Item Type="System.String" Key="OutputPath" Value="{fixup\salondb.data\model\escustom\}" />
+        <Item Type="System.String" Key="EntityType" Value="Tables" />
+      </Input>
+      <esSettings>
+        <Driver>SQL</Driver>
+        <ConnectionString>Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog=SalonDB;Data Source=(local);Initial File Name="";Server SPN=""</ConnectionString>
+        <TemplatePath>{fixup}</TemplatePath>
+        <OutputPath>{fixup}</OutputPath>
+        <UIAssemblyPath>{fixup}</UIAssemblyPath>
+        <CompilerAssemblyPath>{fixup}</CompilerAssemblyPath>
+        <LanguageMappingFile>{fixup}</LanguageMappingFile>
+        <UserMetadataFile>{fixup}</UserMetadataFile>
+        <AbstractPrefix>es</AbstractPrefix>
+        <EntitySuffix />
+        <CollectionSuffix>Collection</CollectionSuffix>
+        <QuerySuffix>Query</QuerySuffix>
+        <MetadataSuffix>Metadata</MetadataSuffix>
+        <ProxyStubSuffix>ProxyStub</ProxyStubSuffix>
+        <PrefixWithSchema>false</PrefixWithSchema>
+        <ProcPrefix>proc_</ProcPrefix>
+        <ProcInsert>Insert</ProcInsert>
+        <ProcUpdate>Update</ProcUpdate>
+        <ProcDelete>Delete</ProcDelete>
+        <ProcLoadAll>LoadAll</ProcLoadAll>
+        <ProcLoadByPK>LoadByPrimaryKey</ProcLoadByPK>
+        <ProcSuffix />
+        <ProcVerbFirst>false</ProcVerbFirst>
+        <OnePrefix />
+        <OneSeparator>By</OneSeparator>
+        <OneSuffix />
+        <ManyPrefix />
+        <ManySeparator>By</ManySeparator>
+        <ManySuffix>Collection</ManySuffix>
+        <SelfOnly>false</SelfOnly>
+        <SwapNames>false</SwapNames>
+        <UseAssociativeName>false</UseAssociativeName>
+        <UseUpToPrefix>true</UseUpToPrefix>
+        <PreserveUnderscores>false</PreserveUnderscores>
+        <UseRawNames>false</UseRawNames>
+        <UseNullableTypesAlways>true</UseNullableTypesAlways>
+        <TurnOffDateTimeInClassHeaders>false</TurnOffDateTimeInClassHeaders>
+        <DefaultTemplateDoubleClickAction>Execute</DefaultTemplateDoubleClickAction>
+        <LicenseProxyEnable>false</LicenseProxyEnable>
+        <LicenseProxyUrl />
+        <LicenseProxyUserName />
+        <LicenseProxyPassword />
+        <LicenseProxyDomainName />
+        <DriverInfoCollection>
+          <esSettingsDriverInfo>
+            <Driver>SQL</Driver>
+            <ConnectionString>Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog=SalonDB;Data Source=(local);Initial File Name="";Server SPN=""</ConnectionString>
+            <DateAdded>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateAdded>
+            <DateModified>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateModified>
+            <AddedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </AddedBy>
+            <ModifiedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </ModifiedBy>
+            <ConcurrencyColumnEnabled>false</ConcurrencyColumnEnabled>
+            <ConcurrencyColumn />
+          </esSettingsDriverInfo>
+        </DriverInfoCollection>
+      </esSettings>
+    </RecordedTemplate>
+    <RecordedTemplate Name="Generated Tables - Classes Master (C#)">
+      <Template Name="Generated - Classes Master (C#)" Path="{fixup}EntitySpaces\C#\Generated - Classes Master (C#).est" Version="2012.0.0.0" />
+      <Input>
+        <Item Type="System.Boolean" Key="WcfIsRequired" Value="False" />
+        <Item Type="System.Boolean" Key="WcfSupport" Value="False" />
+        <Item Type="System.Boolean" Key="CompactXML" Value="False" />
+        <Item Type="System.Boolean" Key="WcfEmitDefaultValue" Value="True" />
+        <Item Type="System.Boolean" Key="MetadataClassShouldIgnoreSchema" Value="True" />
+        <Item Type="System.Boolean" Key="LINQtoSQL" Value="False" />
+        <Item Type="System.String" Key="Namespace" Value="BusinessObjects" />
+        <Item Type="System.Boolean" Key="DebugVisualizer" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalModel" Value="True" />
+        <Item Type="System.Boolean" Key="SupportINotifyChanged" Value="True" />
+        <Item Type="System.Boolean" Key="TargetMultipleDatabases" Value="False" />
+        <Item Type="System.Boolean" Key="TargetTheCompactFramework" Value="False" />
+        <Item Type="System.Boolean" Key="MetadataClassShouldIgnoreCatalog" Value="True" />
+        <Item Type="System.Boolean" Key="UseDnnObjectQualifier" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateStrProperties" Value="True" />
+        <Item Type="System.String" Key="ConnectionName" Value="" />
+        <Item Type="System.String" Key="Database" Value="SalonDB" />
+        <Item Type="System.Boolean" Key="UseCustomBaseClass" Value="True" />
+        <Item Type="System.Collections.ArrayList" Key="Entities" Value="dbo.Appointment,dbo.Category,dbo.Company,dbo.Customer,dbo.Menu,dbo.Product,dbo.Service,dbo.Staff,dbo.StaffHour,dbo.Store,dbo.Supplier,dbo.Transaction,dbo.TransactionDetailProduct,dbo.TransactionDetailService" />
+        <Item Type="System.Boolean" Key="GenerateProxyStub" Value="False" />
+        <Item Type="System.Boolean" Key="SerializableQueries" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalDataContracts" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalRiaServicesSupport" Value="False" />
+        <Item Type="System.String" Key="WcfDataContract" Value="http://tempuri.org/" />
+        <Item Type="System.Boolean" Key="DebuggerDisplay" Value="True" />
+        <Item Type="System.String" Key="EntityType" Value="Tables" />
+        <Item Type="System.Boolean" Key="WcfOrder" Value="True" />
+        <Item Type="System.String" Key="OutputPath" Value="{fixup\salondb.data\model\esgenerated\}" />
+        <Item Type="(null)" Key="Table" />
+        <Item Type="System.Boolean" Key="GenerateSingleFile" Value="True" />
+        <Item Type="System.Boolean" Key="IncludeRowStateInXml" Value="True" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalModelSelectedTablesOnly" Value="False" />
+      </Input>
+      <esSettings>
+        <Driver>SQL</Driver>
+        <ConnectionString>Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog=SalonDB;Data Source=(local);Initial File Name="";Server SPN=""</ConnectionString>
+        <TemplatePath>{fixup}</TemplatePath>
+        <OutputPath>{fixup}</OutputPath>
+        <UIAssemblyPath>{fixup}</UIAssemblyPath>
+        <CompilerAssemblyPath>{fixup}</CompilerAssemblyPath>
+        <LanguageMappingFile>{fixup}</LanguageMappingFile>
+        <UserMetadataFile>{fixup}</UserMetadataFile>
+        <AbstractPrefix>es</AbstractPrefix>
+        <EntitySuffix />
+        <CollectionSuffix>Collection</CollectionSuffix>
+        <QuerySuffix>Query</QuerySuffix>
+        <MetadataSuffix>Metadata</MetadataSuffix>
+        <ProxyStubSuffix>ProxyStub</ProxyStubSuffix>
+        <PrefixWithSchema>false</PrefixWithSchema>
+        <ProcPrefix>proc_</ProcPrefix>
+        <ProcInsert>Insert</ProcInsert>
+        <ProcUpdate>Update</ProcUpdate>
+        <ProcDelete>Delete</ProcDelete>
+        <ProcLoadAll>LoadAll</ProcLoadAll>
+        <ProcLoadByPK>LoadByPrimaryKey</ProcLoadByPK>
+        <ProcSuffix />
+        <ProcVerbFirst>false</ProcVerbFirst>
+        <OnePrefix />
+        <OneSeparator>By</OneSeparator>
+        <OneSuffix />
+        <ManyPrefix />
+        <ManySeparator>By</ManySeparator>
+        <ManySuffix>Collection</ManySuffix>
+        <SelfOnly>false</SelfOnly>
+        <SwapNames>false</SwapNames>
+        <UseAssociativeName>false</UseAssociativeName>
+        <UseUpToPrefix>true</UseUpToPrefix>
+        <PreserveUnderscores>false</PreserveUnderscores>
+        <UseRawNames>false</UseRawNames>
+        <UseNullableTypesAlways>true</UseNullableTypesAlways>
+        <TurnOffDateTimeInClassHeaders>false</TurnOffDateTimeInClassHeaders>
+        <DefaultTemplateDoubleClickAction>Execute</DefaultTemplateDoubleClickAction>
+        <LicenseProxyEnable>false</LicenseProxyEnable>
+        <LicenseProxyUrl />
+        <LicenseProxyUserName />
+        <LicenseProxyPassword />
+        <LicenseProxyDomainName />
+        <DriverInfoCollection>
+          <esSettingsDriverInfo>
+            <Driver>SQL</Driver>
+            <ConnectionString>Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog=SalonDB;Data Source=(local);Initial File Name="";Server SPN=""</ConnectionString>
+            <DateAdded>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateAdded>
+            <DateModified>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateModified>
+            <AddedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </AddedBy>
+            <ModifiedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </ModifiedBy>
+            <ConcurrencyColumnEnabled>false</ConcurrencyColumnEnabled>
+            <ConcurrencyColumn />
+          </esSettingsDriverInfo>
+        </DriverInfoCollection>
+      </esSettings>
+    </RecordedTemplate>
+    <RecordedTemplate Name="Custom Views- Classes Master (C#)">
+      <Template Name="Custom - Classes Master (C#)" Path="{fixup}EntitySpaces\C#\Custom - Classes Master (C#).est" Version="2012.0.0.0" />
+      <Input>
+        <Item Type="System.Collections.ArrayList" Key="Entities" Value="dbo.ProductTransactionsView,dbo.SalesView,dbo.ServiceTransactionsTimefilter,dbo.ServiceTransactionsView" />
+        <Item Type="System.String" Key="Database" Value="SalonDB" />
+        <Item Type="System.String" Key="Namespace" Value="BusinessObjects" />
+        <Item Type="System.String" Key="OutputPath" Value="{fixup\salondb.data\model\escustom\}" />
+        <Item Type="System.String" Key="EntityType" Value="Views" />
+      </Input>
+      <esSettings>
+        <Driver>SQL</Driver>
+        <ConnectionString>Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;User ID=sa;Initial Catalog=SalonDB;Data Source=(local)</ConnectionString>
+        <TemplatePath>{fixup}</TemplatePath>
+        <OutputPath>{fixup}</OutputPath>
+        <UIAssemblyPath>{fixup}</UIAssemblyPath>
+        <CompilerAssemblyPath>{fixup}</CompilerAssemblyPath>
+        <LanguageMappingFile>{fixup}</LanguageMappingFile>
+        <UserMetadataFile>{fixup}</UserMetadataFile>
+        <AbstractPrefix>es</AbstractPrefix>
+        <EntitySuffix />
+        <CollectionSuffix>Collection</CollectionSuffix>
+        <QuerySuffix>Query</QuerySuffix>
+        <MetadataSuffix>Metadata</MetadataSuffix>
+        <ProxyStubSuffix>ProxyStub</ProxyStubSuffix>
+        <PrefixWithSchema>false</PrefixWithSchema>
+        <ProcPrefix>proc_</ProcPrefix>
+        <ProcInsert>Insert</ProcInsert>
+        <ProcUpdate>Update</ProcUpdate>
+        <ProcDelete>Delete</ProcDelete>
+        <ProcLoadAll>LoadAll</ProcLoadAll>
+        <ProcLoadByPK>LoadByPrimaryKey</ProcLoadByPK>
+        <ProcSuffix />
+        <ProcVerbFirst>false</ProcVerbFirst>
+        <OnePrefix />
+        <OneSeparator>By</OneSeparator>
+        <OneSuffix />
+        <ManyPrefix />
+        <ManySeparator>By</ManySeparator>
+        <ManySuffix>Collection</ManySuffix>
+        <SelfOnly>false</SelfOnly>
+        <SwapNames>false</SwapNames>
+        <UseAssociativeName>false</UseAssociativeName>
+        <UseUpToPrefix>true</UseUpToPrefix>
+        <PreserveUnderscores>false</PreserveUnderscores>
+        <UseRawNames>false</UseRawNames>
+        <UseNullableTypesAlways>true</UseNullableTypesAlways>
+        <TurnOffDateTimeInClassHeaders>false</TurnOffDateTimeInClassHeaders>
+        <DefaultTemplateDoubleClickAction>Execute</DefaultTemplateDoubleClickAction>
+        <LicenseProxyEnable>false</LicenseProxyEnable>
+        <LicenseProxyUrl />
+        <LicenseProxyUserName />
+        <LicenseProxyPassword />
+        <LicenseProxyDomainName />
+        <DriverInfoCollection>
+          <esSettingsDriverInfo>
+            <Driver>SQL</Driver>
+            <ConnectionString>Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;User ID=sa;Initial Catalog=SalonDB;Data Source=(local)</ConnectionString>
+            <DateAdded>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateAdded>
+            <DateModified>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateModified>
+            <AddedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </AddedBy>
+            <ModifiedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </ModifiedBy>
+            <ConcurrencyColumnEnabled>false</ConcurrencyColumnEnabled>
+            <ConcurrencyColumn />
+          </esSettingsDriverInfo>
+        </DriverInfoCollection>
+      </esSettings>
+    </RecordedTemplate>
+    <RecordedTemplate Name="Generated Views- Classes Master (C#)">
+      <Template Name="Generated - Classes Master (C#)" Path="{fixup}EntitySpaces\C#\Generated - Classes Master (C#).est" Version="2012.0.0.0" />
+      <Input>
+        <Item Type="System.Boolean" Key="DebuggerDisplay" Value="True" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalModel" Value="True" />
+        <Item Type="System.Boolean" Key="UseCustomBaseClass" Value="True" />
+        <Item Type="System.Boolean" Key="UseDnnObjectQualifier" Value="False" />
+        <Item Type="System.Boolean" Key="SupportINotifyChanged" Value="True" />
+        <Item Type="System.String" Key="WcfDataContract" Value="http://tempuri.org/" />
+        <Item Type="System.Boolean" Key="LINQtoSQL" Value="False" />
+        <Item Type="System.String" Key="EntityType" Value="Views" />
+        <Item Type="System.Boolean" Key="CompactXML" Value="False" />
+        <Item Type="System.Boolean" Key="TargetTheCompactFramework" Value="False" />
+        <Item Type="System.Boolean" Key="IncludeRowStateInXml" Value="True" />
+        <Item Type="System.Boolean" Key="WcfEmitDefaultValue" Value="True" />
+        <Item Type="System.Boolean" Key="DebugVisualizer" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalDataContracts" Value="False" />
+        <Item Type="System.String" Key="Database" Value="SalonDB" />
+        <Item Type="System.Boolean" Key="GenerateStrProperties" Value="True" />
+        <Item Type="(null)" Key="Table" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalRiaServicesSupport" Value="False" />
+        <Item Type="EntitySpaces.MetadataEngine.esPluginSource" Key="Source" Value="EntitySpaces.MetadataEngine.esPluginSource" />
+        <Item Type="System.Boolean" Key="MetadataClassShouldIgnoreSchema" Value="True" />
+        <Item Type="System.Boolean" Key="GenerateSingleFile" Value="True" />
+        <Item Type="System.Boolean" Key="TargetMultipleDatabases" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateProxyStub" Value="False" />
+        <Item Type="System.Boolean" Key="WcfIsRequired" Value="False" />
+        <Item Type="System.Boolean" Key="GenerateHierarchicalModelSelectedTablesOnly" Value="False" />
+        <Item Type="System.Boolean" Key="WcfOrder" Value="True" />
+        <Item Type="System.String" Key="ConnectionName" Value="Generated Views" />
+        <Item Type="System.Boolean" Key="SerializableQueries" Value="False" />
+        <Item Type="EntitySpaces.MetadataEngine.Sql.SqlColumns" Key="Columns" Value="EntitySpaces.MetadataEngine.Sql.SqlColumns" />
+        <Item Type="System.String" Key="OutputPath" Value="{fixup\salondb.data\model\esgenerated\}" />
+        <Item Type="System.String" Key="Namespace" Value="BusinessObjects" />
+        <Item Type="EntitySpaces.MetadataEngine.Sql.SqlView" Key="View" Value="EntitySpaces.MetadataEngine.Sql.SqlView" />
+        <Item Type="System.Boolean" Key="WcfSupport" Value="False" />
+        <Item Type="System.Collections.ArrayList" Key="Entities" Value="dbo.ProductTransactionsView,dbo.SalesView,dbo.ServiceTransactionsTimefilter,dbo.ServiceTransactionsView" />
+        <Item Type="System.Boolean" Key="MetadataClassShouldIgnoreCatalog" Value="True" />
+      </Input>
+      <esSettings>
+        <Driver>SQL</Driver>
+        <ConnectionString>Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;User ID=sa;Initial Catalog=SalonDB;Data Source=(local)</ConnectionString>
+        <TemplatePath>{fixup}</TemplatePath>
+        <OutputPath>{fixup}</OutputPath>
+        <UIAssemblyPath>{fixup}</UIAssemblyPath>
+        <CompilerAssemblyPath>{fixup}</CompilerAssemblyPath>
+        <LanguageMappingFile>{fixup}</LanguageMappingFile>
+        <UserMetadataFile>{fixup}</UserMetadataFile>
+        <AbstractPrefix>es</AbstractPrefix>
+        <EntitySuffix />
+        <CollectionSuffix>Collection</CollectionSuffix>
+        <QuerySuffix>Query</QuerySuffix>
+        <MetadataSuffix>Metadata</MetadataSuffix>
+        <ProxyStubSuffix>ProxyStub</ProxyStubSuffix>
+        <PrefixWithSchema>false</PrefixWithSchema>
+        <ProcPrefix>proc_</ProcPrefix>
+        <ProcInsert>Insert</ProcInsert>
+        <ProcUpdate>Update</ProcUpdate>
+        <ProcDelete>Delete</ProcDelete>
+        <ProcLoadAll>LoadAll</ProcLoadAll>
+        <ProcLoadByPK>LoadByPrimaryKey</ProcLoadByPK>
+        <ProcSuffix />
+        <ProcVerbFirst>false</ProcVerbFirst>
+        <OnePrefix />
+        <OneSeparator>By</OneSeparator>
+        <OneSuffix />
+        <ManyPrefix />
+        <ManySeparator>By</ManySeparator>
+        <ManySuffix>Collection</ManySuffix>
+        <SelfOnly>false</SelfOnly>
+        <SwapNames>false</SwapNames>
+        <UseAssociativeName>false</UseAssociativeName>
+        <UseUpToPrefix>true</UseUpToPrefix>
+        <PreserveUnderscores>false</PreserveUnderscores>
+        <UseRawNames>false</UseRawNames>
+        <UseNullableTypesAlways>true</UseNullableTypesAlways>
+        <TurnOffDateTimeInClassHeaders>false</TurnOffDateTimeInClassHeaders>
+        <DefaultTemplateDoubleClickAction>Execute</DefaultTemplateDoubleClickAction>
+        <LicenseProxyEnable>false</LicenseProxyEnable>
+        <LicenseProxyUrl />
+        <LicenseProxyUserName />
+        <LicenseProxyPassword />
+        <LicenseProxyDomainName />
+        <DriverInfoCollection>
+          <esSettingsDriverInfo>
+            <Driver>SQL</Driver>
+            <ConnectionString>Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security Info=False;User ID=sa;Initial Catalog=SalonDB;Data Source=(local)</ConnectionString>
+            <DateAdded>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateAdded>
+            <DateModified>
+              <IsEnabled>false</IsEnabled>
+              <ColumnName />
+              <Type>ClientSide</Type>
+              <ClientType>UtcNow</ClientType>
+              <ServerSideText />
+            </DateModified>
+            <AddedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </AddedBy>
+            <ModifiedBy>
+              <IsEnabled>false</IsEnabled>
+              <UseEventHandler>false</UseEventHandler>
+              <ColumnName />
+              <ServerSideText />
+            </ModifiedBy>
+            <ConcurrencyColumnEnabled>false</ConcurrencyColumnEnabled>
+            <ConcurrencyColumn />
+          </esSettingsDriverInfo>
+        </DriverInfoCollection>
+      </esSettings>
+    </RecordedTemplate>
+  </Folder>
+</EntitySpacesProject>
