@@ -1,0 +1,139 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+         
+         
+           @(Html.EJ().Grid<Service>("ServiceGrid")
+             .Datasource((IEnumerable<Service>)Model.Services)
+             .AllowPaging()
+    .PageSettings(Page => { Page.PageSize(10); }).EnableAltRow(true)
+                //.AllowResizeToFit()
+
+                .AllowScrolling()
+                .ScrollSettings(col => { col.Width(925).Height(350); })
+
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Service"); })
+
+                .Columns(col =>
+                {
+                    col.Field(p => p.ServiceID).HeaderText("ServiceID").IsPrimaryKey(true).Visible(false).Add();
+                    col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).HeaderText("Company").EditType(EditingType.Dropdown).Visible(false).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.Name).HeaderText("Name").Add();
+                    col.Field(p => p.Description).HeaderText("Description").Add();
+                    col.Field(p => p.CategoryID).DataSource((IEnumerable<Category>)Model.Categories).HeaderText("Category").EditType(EditingType.Dropdown).Visible(true).ForeignKeyField("CategoryID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.Price).HeaderText("Price").Format("{0:C2}").Width("7%").Visible(true).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
+                    col.Field(p => p.Duration).HeaderText("Duration").Width("9%").Visible(true).Add();
+                    col.Field(p => p.ShowOnline).HeaderText("ShowOnline").Width("11%").Visible(true).Add();
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Service");
+                                    evt.EndEdit("endEdit_Service");
+                                    evt.EndDelete("endDelete_Service");
+                                    evt.RowSelected("onRowSelected_Service");
+                                    evt.ActionComplete("onActionComplete_Service");
+                                })
+        )
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Service()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Service()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Service()">Delete</button>
+            </p>
+
+        </div>
+        @*<div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <p>
+                            <label for="Name">Name:</label>
+                            <label for="txtName" id="txtServiceName"></label>
+                        </p>
+                       <p>
+                            <label for="Description">Description:</label>
+                            <label for="Description" id="txtServiceDescription"></label>
+                        </p>
+                        <p>
+                            <label for="Category">Category:</label>
+                            <label for="Category" id="txtServiceCategory"></label>
+                        </p>
+                        <p>
+                            <label for="Price">Price:</label>
+                            <label for="Price" id="txtServicePrice"></label>
+                        </p>
+                        <p>
+                            <label for="Duration">Duration:</label>
+                            <label for="Duration" id="txtServiceDuration"></label>
+                        </p>
+                        <p>
+                            <label for="ShowOnline">Show Online:</label>
+                            <label for="ShowOnline" id="txtServiceShowOnline"></label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<script id="template_Service" type="text/template">
+    <table cellspacing="10">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="Name" name="Name" value="{{:Name}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+             <td>Description</td>
+            <td>
+                <input id="Description" name="Description" value="{{:Description}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+            <td style="text-align: left">
+                <input id="ServiceID" name="ServiceID" value="{{: ServiceID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td style="text-align: left">
+                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td style="text-align: left">
+                <input id="StoreID" name="StoreID" value="{{: StoreID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+          </tr>
+
+        <tr>
+            <td>Category</td>
+            <td>
+                <input type="text" id="CategoryID" />
+            </td>
+         </tr>
+        <tr>
+            <td>Price</td>
+            <td>
+                <input type="text" id="Price" name="Price" class="e-field e-ejinputtext" value="{{:Price}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>Duration</td>
+            <td>
+                <input id="Duration" type="text" name="Duration" value="{{:Duration}}" class="e-field e-ejinputtext" style="width:55px;height:28px" />
+            </td>
+            <td>ShowOnline</td>
+            <td>
+                <input id="ShowOnline" type="text" name="ShowOnline" value="{{:ShowOnline}}" class="e-field e-ejinputtext" style="width: 55px; height: 28px" />
+            </td>
+        </tr>
+
+    </table>
+
+
+</script>
+

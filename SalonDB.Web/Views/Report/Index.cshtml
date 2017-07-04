@@ -1,0 +1,37 @@
+﻿<p>
+    <h2 style="color:brown">Reports</h2>
+</p>
+<div class="row">
+
+
+    <div class="col-md-3">
+
+        <div class="list-group" style="font-weight:bold">
+            <button type="button" id="btnCategorySummaryReport" class="list-group-item" onclick="DisplayView_Reports('CategorySummaryReport')">Category Summary Report</button>
+            <button type="button" id="btnCategoryDetailReport" class="list-group-item" onclick="DisplayView_Reports('CategoryDetailReport')">Category Detail Report</button>
+            <button type="button" id="btnCashOutSummaryReport" class="list-group-item" onclick="DisplayView_Reports('CashOutSummaryReport')">CashOut Summary Report</button>
+            <button type="button" id="btnCashOutDetailReport" class="list-group-item" onclick="DisplayView_Reports('CashOutDetailReport')">CashOut Detail Report</button>
+            <button type="button" id="btnSalesReport" class="list-group-item" onclick="DisplayView_Reports('SalesReport')">Sales Report - Current Year</button>
+            <button type="button" id="btnInventoryReport" class="list-group-item" onclick="DisplayView_Reports('InventoryReport')">Inventory Report</button>
+            <button type="button" id="btnServiceSalesMonthly" class="list-group-item" onclick="DisplayView_Reports('ServiceSalesMonthly')">Service Sales - Month</button>
+            @*<button type="button" class="list-group-item" onclick="DisplayView_Reports('SalesOvertimePerService')">Sales Overtime /Service</button>*@
+            <button type="button" id="btnServiceSalesOvertime" class="list-group-item" onclick="DisplayView_Reports('ServiceSalesOvertime')">Service Sales - Time Period</button>
+            <button type="button" id="btnCurrentMonthServiceSales" class="list-group-item" onclick="DisplayView_Reports('CurrentMonthServiceSales')">Service Sales - Current Month</button>
+
+            <button type="button" id ="btnSalesComparison" class="list-group-item" onclick="DisplayView_Reports('SalesComparison')">Sales Comparison - Current vs. Last Year</button>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+
+        <div id="partial" style="display:inline">
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="~/Scripts/SalonDB.js"></script>
+

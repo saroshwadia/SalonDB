@@ -13,6 +13,7 @@ namespace SalonDB.Web.Models
         public int Quantity { get; set; }
         public decimal DiscountPercentage { get; set; }
         public bool IsService { get; set; }
+        public int Sequence { get; set; }
         public decimal Total
         {
             get
@@ -40,7 +41,7 @@ namespace SalonDB.Web.Models
         {
         }
 
-        public ServiceProductViewModel(Guid iD, string name, decimal price, int quantity, decimal discountPercentage, bool isService)
+        public ServiceProductViewModel(Guid iD, string name, decimal price, int quantity, decimal discountPercentage, bool isService, int sequence)
         {
             ID = iD;
             Name = name;
@@ -48,6 +49,7 @@ namespace SalonDB.Web.Models
             Quantity = quantity;
             DiscountPercentage = discountPercentage;
             IsService = isService;
+            Sequence = sequence;
         }
 
     }

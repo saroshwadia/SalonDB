@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SalonDB.Data.Core.spSalesComparison_Result>
+@*<div id="container" style="width:820px; height:500px;">*@
+
+    @(
+    Html.EJ().Chart("chartContainer")
+     .Title(tl => tl.Text("Sales Comparison"))
+                          .Palette(pl => { pl.Add("skyblue"); pl.Add("grey"); pl.Add("orange"); })
+
+    .Series(sr =>
+    {
+        sr.DataSource(Model)
+          .Type(SeriesType.Column)
+           .Name("PreviousYear")
+          .XName("MonthName")
+          .YName("PreviousYear")
+          .Add();
+
+        sr.DataSource(Model)
+        .Type(SeriesType.Column)
+        .Name("CurrentYear")
+        .XName("MonthName")
+        .YName("CurrentYear")
+        .Add();
+
+    }
+
+    )
+
+
+    )
+
+@*</div>*@
+
+
+
+
+

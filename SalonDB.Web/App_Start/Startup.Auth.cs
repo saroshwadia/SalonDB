@@ -46,6 +46,8 @@ namespace SalonDB.Web
             //   appSecret: "");
 
             //app.UseGoogleAuthentication();
+
+            app.MapSignalR();
         }
     }
 }

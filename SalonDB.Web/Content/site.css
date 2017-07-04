@@ -47,3 +47,61 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+.fixed-panel100 {
+    min-height: 100px;
+    max-height: 100px;
+    overflow-y: scroll;
+}
+
+.fixed-panel150 {
+    min-height: 150px;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.fixed-panel200 {
+    min-height: 200px;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.fixed-panel250 {
+    min-height: 250px;
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+.fixed-panel275 {
+    min-height: 275px;
+    max-height: 275px;
+    overflow-y: scroll;
+}
+
+.fixed-panel300 {
+    min-height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.fixed-panel350 {
+    min-height: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+.fixed-panel400 {
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.fixed-panel450 {
+    min-height: 450px;
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+.fixed-panel500 {
+    min-height: 500px;
+    max-height: 500px;
+    overflow-y: scroll;
+}

@@ -1,0 +1,135 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+           
+            
+           
+           @(Html.EJ().Grid<Company>("CompanyGrid")
+             .Datasource((IEnumerable<Company>)Model.Companies)
+             .AllowPaging()
+    .PageSettings(Page => { Page.PageSize(10); })
+                //.AllowResizeToFit(true)
+
+                .AllowScrolling()
+                .ScrollSettings(col => { col.Width(900).Height(350); })
+
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Company"); })
+
+                .Columns(col =>
+                {
+                    col.Field(p => p.CompanyID).HeaderText("CompanyID").IsPrimaryKey(true).Visible(false).Add();
+                    col.Field(p => p.Name).HeaderText("Name").Add();
+                    col.Field(p => p.Description).HeaderText("Description").Add();
+                    col.Field(p => p.Phone).HeaderText("Phone").Visible(true).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
+                    col.Field(p => p.Address).HeaderText("Address").Visible(true).Add();
+                    col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
+                    col.Field(p => p.City).HeaderText("City").Visible(true).Add();
+
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Company");
+                                    evt.EndEdit("endEdit_Company");
+                                    evt.EndDelete("endDelete_Company");
+                                    evt.RowSelected("onRowSelected_Company");
+                                    evt.ActionComplete("onActionComplete_Company");
+                                })
+        )
+            @Html.EJ().ScriptManager()
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Company()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Company()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Company()">Delete</button>
+            </p>
+        </div>
+        @*<div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <p>
+                            <label for="Name">Name:</label>
+                            <label for="txtName" id="txtCompanyName"></label>
+                        </p>
+                       <p>
+                            <label for="Description">Description:</label>
+                            <label for="Description" id="txtCompanyDescription"></label>
+                        </p>
+                        <p>
+                            <label for="Phone">Phone:</label>
+                            <label for="Phone" id="txtCompanyPhone"></label>
+                        </p>
+                        <p>
+                            <label for="Address">Address:</label>
+                            <label for="Address" id="txtCompanyAddress"></label>
+                        </p>
+                        <p>
+                            <label for="PostalCode">Postal Code:</label>
+                            <label for="PostalCode" id="txtCompanyPostalCode"></label>
+                        </p>
+                        <p>
+                            <label for="City">City:</label>
+                            <label for="City" id="txtCompanyCity"></label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<script id="template_Company" type="text/template">
+    <table cellspacing="10">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="Name" name="Name" value="{{:Name}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+             <td>Description</td>
+            <td>
+                <input id="Description" name="Description" value="{{:Description}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+           
+          </tr>
+
+        <tr>
+            <td>Phone</td>
+            <td style="text-align: left">
+                <input type="text" id="Phone" name="Phone" class="e-field e-ejinputtext" value="{{:Phone}}" />
+            </td>
+            <td>City</td>
+
+            <td>
+                <input id="City" type="text" name="City" value="{{:City}}" class="e-field e-ejinputtext" style="width:55px;height:28px" />
+            </td>
+
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input id="Address" type="text" name="Address" value="{{:Address}}" class="e-field e-ejinputtext" style="width:55px;height:28px" />
+            </td>
+            <td>PostalCode</td>
+            <td>
+                <input id="PostalCode" type="text" name="PostalCode" value="{{:PostalCode}}" class="e-field e-ejinputtext" style="width: 55px; height: 28px" />
+            </td>
+            <td>
+                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+
+            </td>
+
+
+
+        </tr>
+
+    </table>
+
+
+</script>
+

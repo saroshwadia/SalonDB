@@ -1,19 +1,35 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+@using SalonDB.Data
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Salon Management</title>
+
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/ej/web/bootstrap-theme/ej.web.all.min.css")
-		@Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+
+    @Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+    @Scripts.Render("~/Scripts/ej/web/ej.web.all.min.js")
+
     @Scripts.Render("~/Scripts/jsrender.min.js")
-    @Scripts.Render("~/Scripts/ej/ej.web.all.min.js")
+    @*@Scripts.Render("~/Scripts/scripts/ej.widget.all.min.js")*@
+
+    @Scripts.Render("~/Scripts/ej/ej.unobtrusive.min.js")
+    @Scripts.Render("~Scripts/Chart.bundle.min.js")
     
-     
+    @Scripts.Render("~/Scripts/jquery.signalR-2.2.2.min.js")
+    @Scripts.Render("~/signalr/hubs")
+
+    @*<script src="~/Scripts/scripts/ej.widget.all.min.js"></script>*@
+    @*<link href="~/Content/ejthemes/default-theme/ej.web.all.min.css" rel="stylesheet" />*@
+    <link href="~/Content/ej/web/SalonManagementTheme/ej.web.all.min.css" rel="stylesheet" />
+    <link href="~/Content/ej/web/SalonManagementTheme/ej.theme.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,10 +41,26 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Appointment", "Index", "Appointment")</li>
-                    <li>@Html.ActionLink("POS", "Index", "POS")</li>
-                    <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        if (HttpContext.Current.User.IsInAnyRole(eRoles.Admin, eRoles.Owner))
+                        {
+                            <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                        }
+
+                        <li>@Html.ActionLink("Customer", "Index", "Customer")</li>
+                        <li>@Html.ActionLink("Appointment", "Index", "Appointment")</li>
+                        <li>@Html.ActionLink("POS", "Index", "POS")</li>
+
+                        if (HttpContext.Current.User.IsInAnyRole(eRoles.Admin, eRoles.Owner))
+                        {
+                            <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                        }
+
+                        <li>@Html.ActionLink("Report", "Index", "Report")</li>
+
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -36,18 +68,23 @@
             </div>
         </div>
     </div>
-   <div class="container body-content">
-         @RenderBody()   	     
-   </div>
-   <footer>  
-      <div class="container body-content">   
-         <hr/>          
-         <p>&copy; @DateTime.Now.Year - Salon Management by GSM Tech.</p>              
-       </div>        
-    </footer>
-           
-       @Html.EJ().ScriptManager()
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <div class="container container-fluid body-content">
+        @RenderBody()
+    </div>
+    <div class="panel-footer panel-info">
+        <p>&copy; @DateTime.Now.Year - Salon Management by GSM Tech.</p>
+        </div>
+        @*<footer>
+            <div class="container body-content">
+                <hr />
+                <p>&copy; @DateTime.Now.Year - Salon Management by GSM Tech.</p>
+            </div>
+        </footer>*@
+
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+        @Html.EJ().ScriptManager()
+
 </body>
 </html>
+

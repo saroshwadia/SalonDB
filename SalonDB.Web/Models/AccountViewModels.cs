@@ -7,6 +7,7 @@
 #endregion
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace SalonDB.Web.Models
 {
@@ -67,6 +68,12 @@ namespace SalonDB.Web.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+        public System.Guid StaffID { get; set; }
+        public System.Guid CompanyID { get; set; }
+        public System.Guid StoreID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
     }
 
     public class RegisterViewModel

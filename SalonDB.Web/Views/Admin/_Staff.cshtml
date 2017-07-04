@@ -1,0 +1,214 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+           
+           
+           @(Html.EJ().Grid<Staff>("StaffGrid")
+               // TODO Add picklist for staff roles
+               //TODO Update IDStore in DB fix everywhere
+             .Datasource((IEnumerable<Staff>)Model.Staffs)
+             .AllowPaging().EnableAltRow(true)
+    //.AllowResizeToFit()
+    .PageSettings(Page => { Page.PageSize(10); })
+    .AllowScrolling()
+                .ScrollSettings(col => { col.Width(925).Height(350); })
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Staff"); })
+
+                .Columns(col =>
+                {
+                    col.Field(p => p.StaffID).HeaderText("StaffID").IsPrimaryKey(true).Visible(false).Add();
+                    col.Field(p => p.StoreID).DataSource((IEnumerable<Store>)Model.Stores).HeaderText("Store").EditType(EditingType.Dropdown).Visible(false).ForeignKeyField("StoreID").ForeignKeyValue("Name").Add();
+                    col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).HeaderText("Company").EditType(EditingType.Dropdown).Visible(false).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.FirstName).HeaderText("FirstName").Width(130).Add();
+                    col.Field(p => p.LastName).HeaderText("LastName").Width(130).Add();
+                    col.Field(p => p.Phone).HeaderText("Phone").Visible(true).Width(130).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
+                    col.Field(p => p.Email).HeaderText("Email").Visible(true).Width(190).Add();
+
+                    col.Field(p => p.Address).HeaderText("Address").Width(190).Visible(true).Add();
+                    col.Field(p => p.City).HeaderText("City").Width(120).Visible(true).Add();
+
+                    col.Field(p => p.PostalCode).HeaderText("PostalCode").Width(120).Visible(true).Add();
+
+                    col.Field(p => p.Role).HeaderText("Role").Width(90).Visible(true).Add();
+                    col.Field(p => p.Commission).HeaderText("Commission").Width(120).Visible(true).Add();
+                    col.Field(p => p.Rate).HeaderText("Rate").Visible(true).Add();
+                    col.Field(p => p.ResourceColor).HeaderText("ResourceColor").Visible(false).Add();
+
+                    col.Field(p => p.Password).HeaderText("Password").Visible(false).Add();
+
+
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Staff");
+                                    evt.EndEdit("endEdit_Staff");
+                                    evt.EndDelete("endDelete_Staff");
+                                    evt.RowSelected("onRowSelected_Staff");
+                                    evt.ActionComplete("onActionComplete_Staff");
+                                })
+        )
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Staff()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Staff()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Staff()">Delete</button>
+            </p>
+
+
+        </div>
+        @*<div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <p>
+                            <label for="Name">Store:</label>
+                            <label for="txtStore" id="txtStaffStore"></label>
+                        </p>
+                        <p>
+                            <label for="FirstName">FirstName:</label>
+                            <label for="txtFirstName" id="txtStaffFirstName"></label>
+                        </p>
+                        <p>
+                            <label for="LastName">LastName:</label>
+                            <label for="txtLastName" id="txtStaffLastName"></label>
+                        </p>
+
+                        <p>
+                            <label for="Phone">Phone:</label>
+                            <label for="Phone" id="txtStaffPhone"></label>
+                        </p>
+                        <p>
+                            <label for="Email">Email:</label>
+                            <label for="Email" id="txtStaffEmail"></label>
+                        </p>
+                        <p>
+                            <label for="Address">Address:</label>
+                            <label for="Address" id="txtStaffAddress"></label>
+                        </p>
+                        <p>
+                            <label for="PostalCode">Postal Code:</label>
+                            <label for="PostalCode" id="txtStaffPostalCode"></label>
+                        </p>
+                        <p>
+                            <label for="City">City:</label>
+                            <label for="City" id="txtStaffCity"></label>
+                        </p>
+
+                        <p>
+                            <label for="Role">Role:</label>
+                            <label for="Role" id="txtStaffRole"></label>
+                        </p>
+
+                        <p>
+                            <label for="Commission">Commission:</label>
+                            <label for="Commission" id="txtStaffCommission"></label>
+                        </p>
+                        <p>
+                            <label for="Rate">Rate:</label>
+                            <label for="Rate" id="txtStaffRate"></label>
+                        </p>
+
+                        <p>
+                            <label for="ResourceColor">Resource Color:</label>
+                            @Html.EJ().ColorPicker("txtStaffResourceColor")
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<script id="template_Staff" type="text/template">
+    <table cellspacing="10">
+        <tr>
+        <td>Store</td>
+        <td>
+            <input id="StoreID" name="StoreID" value="{{: StoreID}}" hidden="hidden" class="e-field e-ejinputtext valid e-disable"
+                   style="text-align: right; width: 280px; height: 28px" />
+        </td>
+        <td>
+            <input id="StaffID" name="StaffID" value="{{: StaffID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                   style="text-align: right; width: 280px; height: 28px" />
+        </td>
+            @*<td>Company</td>*@
+        <td>
+            <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                   style="text-align: right; width: 280px; height: 28px" />
+        </td>
+        </tr>
+        <tr>
+            <td>FirstName</td>
+            <td>
+                <input id="FirstName" name="FirstName" value="{{:FirstName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>LastName</td>
+            <td>
+                <input id="LastName" name="LastName" value="{{:LastName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>
+                <input id="Password" name="Password" value="{{:Password}}" hidden="hidden" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Phone</td>
+            <td style="text-align: left">
+                <input type="text" id="Phone" name="Phone" class="e-field e-ejinputtext" value="{{:Phone}}" style="width:300px;height:28px" />
+            </td>
+            <td>Email</td>
+            <td>
+                <input id="Email" type="text" name="Email" value="{{:Email}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input id="Address" type="text" name="Address" value="{{:Address}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>City</td>
+            <td>
+                <input id="City" type="text" name="City" value="{{:City}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>PostalCode</td>
+            <td>
+                <input id="PostalCode" type="text" name="PostalCode" value="{{:PostalCode}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+
+            <td>Role</td>
+            <td>
+                <input id="Role" type="text" name="Role" value="{{:Role}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Commission</td>
+            <td>
+                <input id="Commission" type="text" name="Commission" value="{{:Commission}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>Rate</td>
+            <td>
+                <input id="Rate" type="text" name="Rate" value="{{:Rate}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+           
+            <td>ResourceColor</td>
+            <td>
+                <input id="ResourceColor" type="text" name="ResourceColor" value="{{:ResourceColor}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+
+    </table>
+
+
+</script>
+

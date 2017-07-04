@@ -1,0 +1,32 @@
+﻿@using Syncfusion.MVC.EJ
+@using Syncfusion.JavaScript.Models
+@using Syncfusion.JavaScript
+
+
+<script src="~/Scripts/ej/l10n/ej.localetexts.en-US.min.js"></script>
+<div style="width:100%; height:100%;">
+
+    @(Html.EJ().ReportViewer("reportViewer")
+        .Parameters(param => { param.Name("FromDate").Labels(new List<string>() { "FromDate" }).Values(new List<string>() { ViewBag.FromDate }).Add();
+            param.Name("ToDate").Labels(new List<string>() { "ToDate" }).Values(new List<string>() { ViewBag.ToDate }).Add(); }
+        )
+            .ProcessingMode(Syncfusion.JavaScript.ReportViewerEnums.ProcessingMode.Local)
+             .ReportServiceUrl(VirtualPathUtility.ToAbsolute("~/api/ReportViewerApi"))
+             .ReportPath("~/Views/Report/rdl/" + ViewBag.reportName + ".rdl")
+             //.Locale("de-DE")
+
+
+             .Locale("en-US")
+
+
+    )
+
+    @(Html.EJ().ScriptManager())
+    
+    <style type="text/css">
+        #reportViewer {
+            width: 900px !important;
+            height: 600px !important;
+        }
+    </style>
+</div>

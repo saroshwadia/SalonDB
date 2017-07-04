@@ -1,0 +1,205 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+           
+
+            @*@Html.HiddenFor(model => model.SelectedProduct, new { id = "SelectedProduct", name = "SelectedProduct" })*@
+
+            @(
+             Html.EJ().Grid<Product>("ProductGrid")
+             .Datasource((IEnumerable<Product>)Model.Products).EnableAltRow(true)
+                .AllowPaging()
+                    .PageSettings(Page => {  Page.PageSize(10); })
+                //.AllowResizeToFit(true)
+                //.AllowTextWrap()
+
+                .AllowScrolling()
+                .ScrollSettings(col => { col.Width(925).Height(350); })
+
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template"); })
+
+                //.ToolbarSettings(toolbar =>
+                //{
+                //    toolbar.ShowToolbar().ToolbarItems(items =>
+                //    {
+                //        items.AddTool(ToolBarItems.Add);
+                //        items.AddTool(ToolBarItems.Edit);
+                //        items.AddTool(ToolBarItems.Delete);
+                //        //items.AddTool(ToolBarItems.Update);
+                //        //items.AddTool(ToolBarItems.Cancel);
+                //    });
+                //})
+
+                .Columns(col =>
+                {
+                    col.Field(p => p.ProductID).HeaderText("ProductID").IsPrimaryKey(true).Visible(false).Add();
+
+                    col.Field(p => p.Name).HeaderText("Name").Width(250).Add();
+                    col.Field(p => p.Price).HeaderText("Price").Width(60).Format("{0:C2}").Visible(true).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
+                    col.Field(p => p.SupplierID).DataSource((IEnumerable<Supplier>)Model.Suppliers).Width(90).HeaderText("Supplier").EditType(EditingType.Dropdown).Visible(true).ForeignKeyField("SupplierID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.CategoryID).DataSource((IEnumerable<Category>)Model.Categories).Width(120).HeaderText("Category").EditType(EditingType.Dropdown).Visible(true).ForeignKeyField("CategoryID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.Description).HeaderText("Description").Visible(false).Add();
+                    col.Field(p => p.WholesalePrice).HeaderText("Wholesale Price").Width(120).Format("{0:C2}").Visible(true).Add();
+                    col.Field(p => p.Commission).HeaderText("Commission").Width(100).Visible(true).Add();
+                    col.Field(p => p.BarCode).HeaderText("BarCode").Visible(false).Add();
+                    col.Field(p => p.UnitsInStock).HeaderText("In Stock").Width(100).Visible(true).Add();
+                    col.Field(p => p.UnitsOnOrder).HeaderText("On Order").Width(105).Visible(true).Add();
+                    col.Field(p => p.MinimumStockLevel).HeaderText("MinimumStockLevel").Visible(false).Add();
+
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Product");
+                                    evt.EndEdit("endEdit_Product");
+                                    evt.EndDelete("endDelete_Product");
+                                    evt.RowSelected("onRowSelected_Product");
+                                    evt.ActionComplete("onActionComplete_Product");
+                                })
+            )
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Product()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Product()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Product()">Delete</button>
+            </p>
+        </div>
+        @*<div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <p>
+                            <label for="Name">Name:</label>
+                            <label for="Name" id="txtProductName"></label>
+                        </p>
+                        @Html.EJ().MaskEdit("txtName").WatermarkText("Name").Enabled(false).Width("200")
+                        <p>
+                            <label for="Description">Description:</label>
+                            <label for="Description" id="txtProductDescription"></label>
+                        </p>
+                        <p>
+                            <label for="Category">Category:</label>
+                            <label for="Category" id="txtProductCategory"></label>
+                        </p>
+                        <p>
+                            <label for="Category">Supplier:</label>
+                            <label for="Category" id="txtProductSupplier"></label>
+                        </p>
+                        <p>
+                            <label for="Price">Price:</label>
+                            <label for="Price" id="txtProductPrice"></label>
+                        </p>
+                        <p>
+                            <label for="WholeSalePrice">Wholesale Price:</label>
+                            <label for="WholeSalePrice" id="txtProductWholeSalePrice"></label>
+                        </p>
+                        <p>
+                            <label for="Commission">Commission:</label>
+                            <label for="Commission" id="txtProductCommission"></label>
+                        </p>
+                        <p>
+                            <label for="Barcode">Barcode:</label>
+                            <label for="Barcode" id="txtProductBarcode"></label>
+                        </p>
+                        <p>
+                            <label for="UnitsInStock">Units in Stock:</label>
+                            <label for="UnitsInStock" id="txtProductUnitsInStock"></label>
+                        </p>
+                        <p>
+                            <label for="UnitsOnOrder">Units on Order:</label>
+                            <label for="UnitsOnOrder" id="txtProductUnitsOnOrder"></label>
+                        </p>
+                        <p>
+                            <label for="MinimumStockLevel">MinimumStockLevel:</label>
+                            <label for="MinimumStockLevel" id="txtProductMinimumStockLevel"></label>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+
+<div id="modal-container" class="modal fade"
+     tabindex="-1" role="dialog">
+    <div class="modal-content">
+    </div>
+</div>
+
+<script id="template" type="text/template">
+    <table cellspacing="10">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="Name" name="Name" value="{{:Name}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+             <td>Description</td>
+            <td>
+                <input id="Description" name="Description" value="{{:Description}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+            <td style="text-align: left">
+                <input id="ProductID" name="ProductID" value="{{: ProductID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td style="text-align: left">
+                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Category</td>
+            <td>
+                <input type="text" id="CategoryID" style="width: 300px; height: 28px"/>
+            </td>
+            <td>Supplier</td>
+            <td>
+                <input type="text" id="SupplierID" style="width: 300px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td>
+                <input type="text" id="Price" name="Price" class="e-field e-ejinputtext" value="{{:Price}}" />
+            </td>
+            <td>WholeSalePrice</td>
+            <td>
+                <input type="text" id="WholesalePrice" name="WholesalePrice" value="{{:WholesalePrice}}" />
+            </td>
+        </tr>
+        <tr>
+            <td>Commission</td>
+            <td>
+                <input id="Commission" type="text" name="Commission" value="{{:Commission}}" class="e-field e-ejinputtext" style="width:116px;height:28px" />
+            </td>
+            <td>Barcode</td>
+            <td>
+                <input id="BarCode" type="text" name="BarCode" value="{{:BarCode}}" class="e-field e-ejinputtext" style="width: 116px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>UnitsInStock</td>
+            <td>
+                <input id="UnitsInStock" type="text" name="UnitsInStock" value="{{:UnitsInStock}}" class="e-field e-ejinputtext" style="width:150px;height:28px" />
+            </td>
+            <td>UnitsOnOrder</td>
+            <td>
+                <input id="UnitsOnOrder" type="text" name="UnitsOnOrder" value="{{:UnitsOnOrder}}" class="e-field e-ejinputtext" style="width: 150px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>MinimumStockLevel</td>
+            <td>
+                <input id="MinimumStockLevel" type="text" name="MinimumStockLevel" value="{{:MinimumStockLevel}}" class="e-field e-ejinputtext" style="width: 150px; height: 28px" />
+            </td>
+        </tr>
+
+    </table>
+</script>

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalonDB.Data", "SalonDB.Data\SalonDB.Data.csproj", "{DEFB363B-4C5B-4B35-9A2A-04D46FAB69BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalonDB.Win", "SalonDB.Win\SalonDB.Win.csproj", "{3A83F982-F4C2-429D-8144-DABAF564A0AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalonDB.Web", "SalonDB.Web\SalonDB.Web.csproj", "{CC7B76EF-3C30-4B99-AD72-2D8EA2C858EC}"
 EndProject
@@ -19,10 +17,6 @@ Global
 		{DEFB363B-4C5B-4B35-9A2A-04D46FAB69BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEFB363B-4C5B-4B35-9A2A-04D46FAB69BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEFB363B-4C5B-4B35-9A2A-04D46FAB69BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A83F982-F4C2-429D-8144-DABAF564A0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A83F982-F4C2-429D-8144-DABAF564A0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A83F982-F4C2-429D-8144-DABAF564A0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A83F982-F4C2-429D-8144-DABAF564A0AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC7B76EF-3C30-4B99-AD72-2D8EA2C858EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC7B76EF-3C30-4B99-AD72-2D8EA2C858EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC7B76EF-3C30-4B99-AD72-2D8EA2C858EC}.Release|Any CPU.ActiveCfg = Release|Any CPU

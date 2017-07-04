@@ -11,6 +11,7 @@ namespace SalonDB.Web.Models
         public string action { get; set; }
         public List<SchedulerEntity> added { get; set; }
         public List<SchedulerEntity> changed { get; set; }
+        public List<SchedulerEntity> deleted { get; set; }
         public SchedulerEntity value { get; set; }
     }
 }

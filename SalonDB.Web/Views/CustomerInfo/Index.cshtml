@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SalonDB.Data.Core.Domain.Customer>
+
+@{
+    ViewBag.Title = "CustomerList";
+}
+
+<h2>Customer List</h2>
+
+<div class="container-fluid">
+    @(Html.EJ().Grid<SalonDB.Data.Core.Domain.Customer>("Grid")
+         .Datasource((IEnumerable<SalonDB.Data.Core.Domain.Customer>)Model)
+         .AllowPaging()
+         .AllowSorting()
+         //.AllowFiltering()
+         //.FilterSettings(filter => { filter.FilterType(FilterType.Menu); })
+         .PageSettings(Page => { Page.PageSize(10); })
+         .EnableAltRow(true)
+         .AllowScrolling()
+         .EnableAltRow(true)
+         //.ScrollSettings(col => { col.Width(900).Height(350); })
+         .ScrollSettings(col => { col.Height(350); })
+         .AllowSearching()
+         .ToolbarSettings(tool =>
+         {
+             tool.ShowToolbar().ToolbarItems(items =>
+             {
+                 items.AddTool(ToolBarItems.Search);
+             });
+
+         })
+         .Columns(col =>
+         {
+             col.Field(p => p.CustomerID).HeaderText("CustomerID").IsPrimaryKey(true).Visible(false).Add();
+             col.Field(p => p.FirstName).HeaderText("First Name").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.LastName).HeaderText("Last Name").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.Phone).HeaderText("Phone").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.Email).HeaderText("Email").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.Address).HeaderText("Address").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.City).HeaderText("City").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.PostalCode).HeaderText("PostalCode").TextAlign(TextAlign.Left).Add();
+             col.HeaderText("").Template("#customerAppointmentsTemplate").Add();
+             col.HeaderText("").Template("#customerTransactionsTemplate").Add();
+         })
+         .ClientSideEvents(eve => eve.DataBound("onDataBound"))
+    )
+</div>
+
+<script type="text/x-jsrender" id="customerAppointmentsTemplate">
+    <a href="/CustomerInfo/CustomerAppointments?id={{:CustomerID}}">Appointments</a>
+</script>
+
+<script type="text/x-jsrender" id="customerTransactionsTemplate">
+    <a href="/CustomerInfo/CustomerTransactions?id={{:CustomerID}}">Transactions</a>
+</script>
+
+<script type="text/javascript">
+    function onDataBound(args) {
+        //debugger;
+        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
+        {
+            //key.indexOf("ID") <= 0
+            if (!endsWith(key, "ID")) {
+                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
+            }
+        }
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+</script>

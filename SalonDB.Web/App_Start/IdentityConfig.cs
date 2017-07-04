@@ -19,7 +19,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using SalonDB.Web.Models;
 using System.Diagnostics;
-using BusinessObjects;
 
 namespace SalonDB.Web
 {

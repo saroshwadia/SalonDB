@@ -2,88 +2,791 @@
 @{
     ViewBag.Title = "Appointments";
 }
-@{
+<br />
 
-    //List<string> view = new List<string>() { "Day", "Week", "WorkWeek", "Month" };
+<div id="target" class="cols-sample-area">
 
+    @Html.EJ().WaitingPopup("target").ShowImage(true).ShowOnInit(true).Text("Loading Appointments, Please Wait...")
 
-}
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<h2>Appointmenst</h2>
+    @Html.HiddenFor(m => m.CurrentStatus)
+    @Html.HiddenFor(m => m.CurrentCustomerID)
+    @Html.HiddenFor(m => m.CurrentTimeZone)
 
-<div class="panel panel-primary col-md-3">
-    <div class="panel-heading">
-        <h3 class="panel-title">Calendar</h3>
-    </div>
-    <div class="panel-body">
-        @Html.EJ().DatePicker("DatePick").TagName("div").Value(Model.CurrentDate).DisplayInline(true).ShowFooter(false).ClientSideEvents(s => s.Select("onSelected"))
-    </div>
-</div>
-
-<div class="panel panel-primary col-md-9">
-    <div class="panel-heading">
-        <h3 class="panel-title">Scheduler</h3>
-    </div>
-    <div class="panel-body">
-@(Html.EJ().Schedule("Schedule1")
+    @(Html.EJ().Schedule("Schedule1")
         .Width("100%")
-        .Height("525px")
-        .TimeZone("UTC -07:00")
-        .CurrentView(CurrentView.Day)
-        .CurrentDate(Model.CurrentDate)
+        .Height("725px")
+        .CurrentView(Syncfusion.JavaScript.CurrentView.Day)
+        .EnableLoadOnDemand(true)
+        .ShowAppointmentNavigator(false)
+        .CurrentDate((DateTime)Model.CurrentDate)
+        .WorkHours(hrs => hrs.Highlight(true).Start(8).End(18))
+        .TimeScale(ts => ts.Enable(true).majorSlot(60).minorSlotCount(2))
         .ShowDeleteConfirmationDialog()
-        .ShowLocationField(true)
         .ShowAppointmentNavigator(true)
         .ShowHeaderBar(true)
         .ShowCurrentTimeIndicator(true)
-        .TooltipSettings(set => set.Enable(true))
+        .ShowLocationField(false)
+        .ShowTimeZoneFields(false)
+        .ShowQuickWindow(true)
+        .ShowAllDayRow(false)
+        .IsDST(false)
+        .AllowDragAndDrop(true)
+        .EnableAppointmentResize(false)
+        //.TooltipSettings(set => set.Enable(true).TemplateId("#tooltipTemplate"))
+        .TooltipSettings(set => set.Enable(false))
         .EnableAppointmentNavigation(false)
         .ContextMenuSettings(cxt => cxt.Enable(true).MenuItems(item => item.Appointment(Model.AppContextMenu)))
-        .ScheduleClientSideEvents(evt => evt.MenuItemClick("onMenuItemClick").Create("onCreate"))
+        .ScheduleClientSideEvents(evt => evt.MenuItemClick("onMenuItemClick").Create("onCreate").AppointmentWindowOpen("onAppointmentWindowOpen").DragStop("dragStop").Navigation("onNavigation").CellClick("cellClick").ActionBegin("onBegin").ActionComplete("OnComplete"))
         .Group(gr => { gr.Resources(Model.GroupCol); })
         .Resources(res =>
         {
-            res.Field("StaffId").Title("Staff").Name("Owners").AllowMultiple(false).ResourceSettings(flds => flds.Datasource(ds => ds.URL("Appointment/GetResData").Adaptor("UrlAdaptor")).Text("Text").Id("Id").Color("Color")).Add();
+            res.Field("StaffID").Title("Staff").Name("Owners").AllowMultiple(false).ResourceSettings(flds => flds.Datasource(ds => ds.URL("/Appointment/GetResData").Adaptor("UrlAdaptor")).Text("Text").Id("ID").Color("Color")).Add();
         })
-        .CategorizeSettings(cat => cat.Enable(true))
+        .CategorizeSettings(cat => cat.Enable(true).Datasource(Model.CategorizeSettings).Id("ID").Text("Text").Color("Color").FontColor("ForeColor").Title("Status"))
         .PrioritySettings(pri => pri.Enable(true))
-        .AppointmentSettings(fields => fields.Datasource(ds => ds.URL("Appointment/GetData").Adaptor("UrlAdaptor"))
-            .Id("Id")
-            .Subject("Subject")
-            .StartTime("StartTime")
-            .StartTimeZone("StartTimeZone")
-            .EndTime("EndTime")
-            .EndTimeZone("EndTimeZone")
-            .Description("Description")
-            .Location("Location")
-            .AllDay("AllDay")
-            .Priority("Priority")
-            .Categorize("Categorize")
-            .Recurrence("Recurrence")
-            .RecurrenceRule("RecurrenceRule")
-            .RecurrenceId("RecurrenceId")
-            .RecurrenceExDate("RecurrenceExDate")
-            .ResourceFields("StaffId"))
-)
-    </div>
+        .AppointmentSettings(fields => fields.Datasource(ds => ds.URL("/Appointment/GetData").CrudURL("/Appointment/Batch").Adaptor("UrlAdaptor"))
+                .ApplyTimeOffset(false)
+                .Id("Id")
+                .Subject("Subject")
+                .StartTime("StartTime")
+                .EndTime("EndTime")
+                .StartTimeZone("StartTimeZone")
+                .EndTimeZone("EndTimeZone")
+                .Description("Description")
+                .Location("Location")
+                .AllDay("AllDay")
+                .Priority("Priority")
+                .Categorize("Categorize")
+                .Recurrence("Recurrence")
+                .RecurrenceRule("RecurrenceRule")
+                .RecurrenceId("RecurrenceId")
+                .RecurrenceExDate("RecurrenceExDate")
+                .ResourceFields("StaffID"))
+    )
 </div>
 
+<style type="text/css" media="screen">
+    #spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%
+    }
+</style>
 
-<script>
-    function onSelected(args) { // this function will be called when the date is selected in the month calendar
-        $("#Schedule1").ejSchedule({ currentDate: new Date(args.value) }); // here we are rendering the Scheduler with the selected date
+<style>
+    .customcheck {
+        float: left;
+        margin-right: 10px;
     }
 
-    function onMenuItemClick(args) {
-        //args.events contains information of the clicked menu item.
-        //debugger;
-        if (args.events.ID == "checkout") {
-            alert("Custom menu CheckOut clicked");
+    .error {
+        background-color: #FF8A8A;
+    }
+
+    #custom table td {
+        padding: 5px;
+    }
+</style>
+
+<style type="text/css" class="cssStyles">
+    #waitingPopUp {
+        height: 320px;
+        width: 600px;
+        top: 100px;
+        left: 100px
+    }
+</style>
+
+<div id="customWindow" style="display: none">
+    <form id="custom">
+
+        <div class="panel panel-info">
+
+            <div class="panel-body">
+                <input style="display: none" id="customId" type="text" name="Id" />
+                <input style="display: none" type="text" class="form-control" id="subject" placeholder="Enter Subject" value="New Appointment">
+
+                <div class="row" id="addCustomerRow" style="display:none">
+                    <br />
+                    <div class="col-md-3">
+                        Name:
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerName" placeholder="Enter Name" value="" onkeyup="refreshAddCustomerControls()">
+                        <br />
+                    </div>
+                    <div class="col-md-3">
+                        Phone:
+                    </div>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerPhone" placeholder="Enter Phone" value="" style="width:100%">
+                        <br />
+                    </div>
+
+                    <div class="col-md-3">
+                        Email:
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerEmail" placeholder="Enter Email" value="">
+                        <br />
+                    </div>
+
+                    <div class="col-md-12">
+                        <br />
+                        <br />
+                        <button id="btnCancelCustomer" type="button" class="btn btn-warning" onclick="cancelCustomer()" style="float:right;margin-right:20px;margin-bottom:10px;">Cancel</button>
+                        <button id="btnSaveCustomer" type="button" class="btn btn-primary" onclick="saveCustomer()" style="float:right;margin-right:20px;margin-bottom:10px;">OK</button>
+                    </div>
+
+                </div>
+
+                <div class="row" id="appointmentRow">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            Customer:
+                        </div>
+                        <div class="col-md-7">
+                            @Html.EJ().DropDownList("customselectCustomer").Datasource((IEnumerable<SalonDB.Web.Models.CustomerViewModel>)Model.CustomerCol).DropDownListFields(df => df.ID("CustomerID").Text("Name").Value("CustomerID")).Width("100%").WatermarkText("Select Customer").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentCustomerID.ToString())
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btnAddCustomer" type="button" class="btn btn-warning" onclick="addCustomer()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Staff:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectStaff").Datasource((IEnumerable<SalonDB.Web.Models.StaffViewModel>)Model.StaffCol).DropDownListFields(df => df.ID("StaffID").Text("Name").Value("StaffID")).Width("100%").WatermarkText("Select Staff").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentStaffID.ToString())
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Service:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectService").Datasource((IEnumerable<SalonDB.Web.Models.ServiceViewModel>)Model.ServiceCol).DropDownListFields(df => df.ID("ServiceID").Text("Name").Value("ServiceID")).Width("100%").WatermarkText("Select Service").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowCheckbox(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").MultiSelectMode(MultiSelectModeTypes.VisualMode).ClientSideEvents(e => e.Change("serviceChange"))
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Start:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DateTimePicker("StartTime").Width("100%").ClientSideEvents(c => c.Change("startTimeChange"))
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            End:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DateTimePicker("EndTime").Width("100%")
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Status:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectStatus").Datasource((IEnumerable<SalonDB.Data.CategorizeSettings>)Model.CategorizeSettings).DropDownListFields(df => df.ID("ID").Text("Text").Value("ID")).Width("100%").WatermarkText("Select Status").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentStatus.ToString())
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Duration:
+                        </div>
+                        <div class="col-md-9">
+                            <input type="Text" name="duration" id="durationText" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+                    <button id="btncancel" type="button" class="btn btn-warning" onclick="cancel()" style="float:right;margin-right:20px;margin-bottom:10px;">Cancel</button>
+                    <button id="btnsubmit" type="button" class="btn btn-primary" onclick="save()" style="float:right;margin-right:20px;margin-bottom:10px;">OK</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+<script id="tooltipTemplate" type="text/x-jsrender">
+    <div style="width:250px">
+        <div style="padding-top:3px;">
+            <div style="float:left; font:13px Segoe UI; font-weight:bold;">Staff&nbsp;&nbsp;:&nbsp;</div>
+            <div style="padding-top:2px; font:12px Segoe UI SemiBold;">{{:StaffName}}</div>
+        </div>
+        <div style="padding-top:3px">
+            <div style="float:left; font:13px Segoe UI; font-weight:bold;">CustomerName:&nbsp;</div>
+            <div style="padding-top:2px; font:12px Segoe UI SemiBold;">{{:CustomerName}}</div>
+        </div>
+        <div style="padding-top:3px">
+            <div style="float:left; font:13px Segoe UI; font-weight:bold;">Start:&nbsp;</div>
+            <div style="padding-top:2px; font:12px Segoe UI SemiBold;">{{:StartTime.toISOString().slice(0, 10) + " " + StartTime.getHours() + ":" + StartTime.getMinutes()}}</div>
+        </div>
+        <div style="padding-top:3px">
+            <div style="float:left; font:13px Segoe UI; font-weight:bold;">End:&nbsp;</div>
+            <div style="padding-top:2px; font:12px Segoe UI SemiBold;">{{:EndTime.toISOString().slice(0, 10) + " " + EndTime.getHours() + ":" + EndTime.getMinutes()}}</div>
+        </div>
+        <div style="padding-top:3px">
+            <div style="float:left; font:13px Segoe UI; font-weight:bold;">Duration (mins):&nbsp;</div>
+            <div style="padding-top:2px; font:12px Segoe UI SemiBold;">{{:Duration}}</div>
+        </div>
+    </div>
+</script>
+
+<script>
+
+    var appointmentID;
+    var newAppointment;
+    var totalDuration = 0;
+    var serviceList = null;
+    var viewLoading = true;
+    var currentTimeZone = null;
+    var actionType = "";
+
+    //$(function () {
+    //    var obj = ej.Schedule.prototype._dragStop;
+    //    ej.Schedule.prototype._dragStop = function (args) {
+    //        $(".cols-sample-area").ejWaitingPopup({ showOnInit: true });
+    //        var proxy = this;
+    //        setTimeout(function () { obj.call(proxy, args); }, 5);
+    //    }
+    //    var obj1 = ej.Schedule.prototype._saveAppointment;
+    //    ej.Schedule.prototype._saveAppointment = function () {
+    //        $(".cols-sample-area").ejWaitingPopup({ showOnInit: true });
+    //        var proxy = this;
+    //        setTimeout(function () { obj1.call(proxy); }, 5);
+    //    }
+    //    var obj2 = ej.Schedule.prototype._appointmentResizeStop;
+    //    ej.Schedule.prototype._appointmentResizeStop = function (e) {
+    //        $(".cols-sample-area").ejWaitingPopup({ showOnInit: true });
+    //        var proxy = this;
+    //        setTimeout(function () { obj2.call(proxy, e); }, 5);
+    //    }
+    //    var obj3 = ej.Schedule.prototype._deleteApp;
+    //    ej.Schedule.prototype._deleteApp = function (id) {
+    //        $(".cols-sample-area").ejWaitingPopup({ showOnInit: true });
+    //        var proxy = this;
+    //        setTimeout(function () { obj3.call(proxy, id); }, 5);
+    //    }
+    //    $(".cols-sample-area").ejWaitingPopup({
+    //        showOnInit: true,
+    //        showImage: true,
+    //        text: "Loading Appointments, Please Wait..."
+    //    });
+    //    $(document).ajaxSuccess(function () { // will be triggered after rendering the appointments
+    //        debugger;
+    //        $(".cols-sample-area").ejWaitingPopup('hide');
+    //    });
+    //});
+
+    //$("#target").ejWaitingPopup({
+    //    showOnInit: true,
+    //    showImage: true,
+    //    text: "Loading Appointments, Please Wait..."
+    //});
+
+    //$(document).ajaxSuccess(function () { // will be triggered after rendering the appointments
+    //    //debugger;
+    //    //alert("ajaxSuccess");
+    //    var popupObj = $("#target").data("ejWaitingPopup");
+    //    popupObj.hide();
+    //    });
+
+    function onBegin(args) { // this function will be called when the view change action begins
+        if (args.requestType == "dataBinding") {
+            //debugger;
+            // here we are enabling the waiting popup
+            //$("#myWaitingPopup").ejWaitingPopup('show');
+            //alert("onBegin: " + args.requestType);
+            var popupObj = $("#target").data("ejWaitingPopup");
+            popupObj.show();
+            //this.element.ejWaitingPopup('show')
+        }
+    }
+    function OnComplete(args) {
+        if (args.requestType == "dataBound") {
+            //debugger;
+            //$("#myWaitingPopup").ejWaitingPopup('hide');
+            //alert("OnComplete: " + args.requestType);
+            var popupObj = $("#target").data("ejWaitingPopup");
+            popupObj.hide();
+            //this.element.ejWaitingPopup('hide');
         }
     }
 
+    $.when($.ready).then(function () {
+        //alert("when ready");
+        //debugger;
+        if (currentTimeZone != null && currentTimeZone != "") {
+            currentTimeZone = @Html.Raw(Json.Encode(Model.CurrentTimeZone));
+            serviceList = @Html.Raw(Json.Encode(Model.ServiceCol));
+        }
+        var popupObj = $("#target").data("ejWaitingPopup");
+        popupObj.hide();
+    });
+
+     function onMenuItemClick(args) {
+         //debugger;
+         //args.events contains information of the clicked menu item.
+         var allowEdit = args.targetInfo.AllowEdit;
+         newAppointment = false;
+
+         actionType = args.events.ID
+
+         if (args.events.ID == "new") {
+             newAppointment = true;
+             allowEdit = true;
+         }
+
+         if (allowEdit) {
+             if (args.events.ID == "checkout") {
+                 //debugger;
+                 var appointmentID = args.targetInfo.Id;
+                 var url = "/POS?appointmentID=" + args.targetInfo.Id + "&controllerName=Appointment" + "";
+                 //alert("Custom menu CheckOut clicked");
+                 location.href = url;
+             }
+         }
+         else {
+             args.cancel = true;
+             displayAppointmentMessage(args.events.text);
+         }
+
+     }
+
+    function onSelect(args) { // this function will be called when the date is selected in the month calendar
+        //debugger;
+        $("#Schedule1").ejSchedule({ currentDate: new Date(args.value) }); // here we are rendering the Scheduler with the selected date
+    }
+
     function onCreate(args) {
-        this._dataManager.dataSource.crudUrl = "/Appointment/Batch";
+        //debugger;
+        var currentDate = new Date();
+        var timeOffset = currentDate.getTimezoneOffset();
+        currentTimeZone = @Html.Raw(Json.Encode(Model.CurrentTimeZone));
+        serviceList = @Html.Raw(Json.Encode(Model.ServiceCol));
+
+        //this.model.timeZone = currentTimeZone;
+        //this.model.currentDate = currentDate;
+        //this._dataManager.dataSource.crudUrl = "/Appointment/Batch";
+        //alert("Current TimeZone: " + value + " Time Offset: " + timeOffset + " Set To: " + this.model.timeZone);
+    }
+
+    function cellClick(args) {
+        //debugger;
+        if (args.type == "cellClick") {
+            args.cancel = true;
+        }
+    }
+
+    $(function () {
+        $("#customWindow").ejDialog({
+            width: 500,
+            height: "auto",
+            position: { X: 400, Y: 100 },
+            showOnInit: false,
+            enableModal: true,
+            enableAnimation: true,
+            animation: {
+                //animation settings while opening the dialog
+                show: {
+                    effect: "slide",
+                    duration: 500
+                },
+                //animation settings while closing the dialog
+                hide: {
+                    effect: "slide",
+                    duration: 500
+                }
+            },
+            title: "Create Appointment",
+            enableResize: false,
+            allowKeyboardNavigation: false,
+            close: "clearFields"
+        });
+        //$("#btncancel").ejButton({ width: '85px' });
+        //$("#btnsubmit").ejButton({ width: '85px' });
+    });
+
+    function onAppointmentWindowOpen(args) {
+        args.cancel = true;
+        //debugger;
+        viewLoading = true;
+
+        var quickobj = $("#Schedule1AppointmentQuickWindow").data("ejDialog");
+        quickobj.close();
+        clearFields();
+        appointmentID = "";
+
+        $("#StartTime").ejDateTimePicker({ value: args.startTime });
+        $("#EndTime").ejDateTimePicker({ value: args.endTime });
+
+        if (!ej.isNullOrUndefined(args.resources)) {
+            var ID = args.resources.ID;
+            var target = $('#customselectStaff').data("ejDropDownList");
+            target.selectItemByValue(ID);
+
+            var currentStatus = $("#CurrentStatus").val();
+            var target2 = $('#customselectStatus').data("ejDropDownList");
+            target2.selectItemByValue(currentStatus);
+
+            var customerID = $("#CurrentCustomerID").val();
+            var target3 = $('#customselectCustomer').data("ejDropDownList");
+            target3.selectItemByValue(customerID);
+
+        }
+
+        if (!ej.isNullOrUndefined(args.appointment)) {
+
+            appointmentID = args.appointment.Id;
+            var staffID = args.appointment.StaffID;
+            var target = $('#customselectStaff').data("ejDropDownList");
+            target.selectItemByValue(staffID);
+
+            var status = args.appointment.Status;
+            var target2 = $('#customselectStatus').data("ejDropDownList");
+            target2.selectItemByValue(status);
+
+            var customerID = args.appointment.CustomerID;
+            var target3 = $('#customselectCustomer').data("ejDropDownList");
+            target3.selectItemByValue(customerID);
+
+            var selectedServices = args.appointment.SelectedServices;
+            var target4 = $('#customselectService').data("ejDropDownList");
+            target4.selectItemByValue(selectedServices);
+
+            $("#customId").val(args.appointment.ID);
+            $("#user").val(args.appointment.User);
+            $("#customdescription").val(args.appointment.Description);
+            $("#StartTime").ejDateTimePicker({ value: new Date(args.appointment.StartTime) });
+            $("#EndTime").ejDateTimePicker({ value: new Date(args.appointment.EndTime) });
+            //Add code to get Resouce ID and other Data from the args object and populate the local #vars
+            $("#customWindow").ejDialog("open");
+        }
+        else {
+            // New appointment so set default values
+            $("#customWindow").ejDialog("open");
+        }
+
+        recalcDates(args.startTime);
+
+        viewLoading = false;
+    }
+
+    function currentTime() {
+        var scheobj = $("#Schedule1").data("ejSchedule");
+        if (scheobj.element.find('.e-highlightcurrenttimeline').length > 0) {
+            var rowindex = ($('.e-highlightcurrenttimeline')[0].offsetTop / scheobj.element.find('.e-workcells').height()) - 1;
+            var highScrol = scheobj.element.find('.e-highlightcurrenttimeline').length != 0 ? rowindex * scheobj.element.find('.e-workcells').height() : 0;
+            $('div#' + scheobj._id + "_scroller").ejScroller({ scrollTop: highScrol });
+            scheobj.element.find('.e-scrolltimecells').css('top', -(scheobj.element.find('.e-draggableworkarea').scrollTop()) + 'px');
+        }
+    }
+
+    function save(args) {
+        //debugger;
+        var obj = {}, temp = {}, rType;
+        var editParams = {};
+        var actionParams = {};
+        var formelement = $("#customWindow").find("#custom").get(0);
+        for (var index = 0; index < formelement.length; index++) {
+            var columnName = formelement[index].name, $element = $(formelement[index]);
+            if (columnName != undefined) {
+                if (columnName == "")
+                    columnName = formelement[index].id.replace(this._id, "");
+                if (columnName != "" && obj[columnName] == null) {
+                    var value = formelement[index].value;
+                    if (columnName == "Id" && value != "")
+                        //debugger;
+                        //value = parseInt(value);
+                        value = value;
+                    if ($element.hasClass("e-datetimepicker"))
+                        value = new Date(value);
+                    obj[columnName] = value;
+                }
+            }
+        }
+
+        obj["RecurrenceRule"] = null;
+        obj["CustomerID"] = obj.customselectCustomer;
+        obj["StaffID"] = obj.customselectStaff;
+        obj["SelectedServices"] = obj.hiddenEle;
+        obj["Status"] = obj.customselectStatus;
+        obj["Categorize"] = obj.customselectStatus;
+
+        if (appointmentID != "" && obj["Id"] == "") {
+            obj["Id"] = appointmentID;
+        }
+
+        $("#customWindow").ejDialog("close");
+
+        var object = $("#Schedule1").data("ejSchedule");
+
+        object.saveAppointment(obj);
+        clearFields();
+
+        ////debugger;
+        //var progressNotifier = $.connection.progressHub;
+
+        //progressNotifier.client.sendMessage = function (message) {
+        //    refreshData(message);
+        //};
+
+        //$.connection.hub.start().done(function () {
+        //    progressNotifier.server.sendProgress();
+        //});
+
+    }
+
+    //function refreshData(message) {
+    //    alert("refreshData:" + message);
+    //}
+
+    function clearFields() {
+        $("#customId").val("");
+        $("#user").val("");
+        $("#subject").val("");
+        $("#customdescription").val("");
+
+        $("#customselectCustomer").val("");
+        $("#customselectStaff").val("");
+        $("#customselectService").val("");
+        $("#customselectStatus").val("");
+
+        var target4 = $('#customselectService').data("ejDropDownList");
+        target4.selectItemByValue("");
+
+        var target5 = $('#customselectStatus').data("ejDropDownList");
+        target5.selectItemByValue("");
+
+        totalDuration = 0;
+
+        document.getElementById("addCustomerRow").style.display = "none";
+        document.getElementById("appointmentRow").style.display = "inline";
+        setWindowTitle("Create Appointment");
+
+        resetCustomerFields();
+
+    }
+
+    function resetCustomerFields() {
+        $("#customerName").val("");
+        $("#customerPhone").val("");
+        $("#customerEmail").val("");
+    }
+
+    function temp() {
+        $("#user").removeClass("error");
+    }
+
+    function cancel() {
+        clearFields();
+        $("#customWindow").ejDialog("close");
+    }
+
+    function addCustomer() {
+        //debugger;
+        setWindowTitle("Create Customer");
+        document.getElementById("addCustomerRow").style.display = "inline";
+        document.getElementById("appointmentRow").style.display = "none";
+        //document.getElementById("btnSaveCustomer").setAttribute("disabled", "disabled");
+        refreshAddCustomerControls();
+    }
+
+    function refreshAddCustomerControls() {
+        //debugger;
+        var value = document.getElementById('customerName').value
+
+        if (value == null || value == "") {
+            document.getElementById("btnSaveCustomer").setAttribute("disabled", "disabled");
+        }
+        else {
+            document.getElementById("btnSaveCustomer").removeAttribute("disabled");
+        }
+    }
+
+    function setWindowTitle(title) {
+        $("#customWindow").ejDialog({
+            title: title
+        });
+    }
+
+    function saveCustomer() {
+
+        var customerNameValue = document.getElementById('customerName').value;
+        var customerPhoneValue = document.getElementById('customerPhone').value;
+        var customerEmailValue = document.getElementById('customerEmail').value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Appointment/AddCustomer",
+            data: '{customerName: "' + customerNameValue + '", customerPhone: "' + customerPhoneValue + '", customerEmail: "' + customerEmailValue + '" }',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //alert("Success: " + response);
+                //debugger;
+
+                reLoadcustomerData(response[1]);
+
+                var target = $('#customselectCustomer').data("ejDropDownList");
+                target.selectItemByValue(response[0]);
+
+                document.getElementById("addCustomerRow").style.display = "none";
+                document.getElementById("appointmentRow").style.display = "inline";
+                setWindowTitle("Create Appointment");
+                resetCustomerFields();
+
+            },
+            failure: function (response) {
+                alert("Failure: " + response.responseText);
+            },
+            error: function (response) {
+                alert("Error: " + response.responseText);
+            }
+        });
+
+
+    }
+
+    function reLoadcustomerData(args) {
+        //debugger;
+        var blanklist = null; //{};
+
+        $("#customselectCustomer").ejDropDownList({ dataSource: blanklist });
+        $("#customselectCustomer").ejDropDownList({ dataSource: args });
+
+    }
+
+    function cancelCustomer() {
+        document.getElementById("addCustomerRow").style.display = "none";
+        document.getElementById("appointmentRow").style.display = "inline";
+        setWindowTitle("Create Appointment");
+    }
+
+
+    //function dragStart(args) {
+    //    //debugger;
+    //    if (!args.appointment.AllowEdit) {
+    //        args.cancel = true;
+    //        alert("Cannot Edit this Appointment.");
+    //    }
+    //}
+
+    function dragStop(args) {
+        //debugger;
+        if (!args.appointment.AllowEdit) {
+            args.cancel = true;
+            displayAppointmentMessage("Move");
+        }
+    }
+
+    function displayAppointmentMessage(args) {
+        alert("Cannot '" + args + "' a Paid Appointment.");
+    }
+
+    function serviceChange(args) {
+        //debugger;
+        if (!viewLoading) {
+            recalcDates();
+        }
+    }
+
+    function startTimeChange(args) {
+        if (!viewLoading) {
+            recalcDates();
+        }
+    }
+
+    function getServiceDuration(serviceID) {
+        var ReturnValue = 0;
+        var result = $.grep(serviceList, function (e) { return e.ServiceID == serviceID; });
+
+        if (result.length > 0) {
+            ReturnValue = result[0].Duration;
+        }
+
+        return ReturnValue;
+    }
+
+    function refreshControls() {
+        //debugger;
+        var obj = $('#customselectService').data("ejDropDownList");
+        var count = obj._selectedItemsID.length;
+        var isValid = false;
+
+        if (count > 0) {
+            isValid = true
+        }
+
+        if (isValid) {
+            $("#btnsubmit").attr('disabled', false);
+            //document.getElementById("btnsubmit").disabled = false;
+        }
+        else {
+            $("#btnsubmit").attr('disabled', true);
+            //document.getElementById("btnsubmit").disabled = true;
+        }
+
+    }
+
+    function recalcDates() {
+        //debugger
+        var obj = $('#customselectService').data("ejDropDownList");
+        var oST = $('#StartTime').data("ejDateTimePicker");
+        var count = obj._selectedItemsID.length;
+        var minTimeSlot = 15; //Min Time Slot.
+
+        totalDuration = 0; // This is a global var.
+
+        if (count > 0) {
+            for (var row = 0; row < count; row++) {
+                var serviceID = obj._selectedItemsID[row];
+                var serviceDuration = getServiceDuration(serviceID);
+
+                totalDuration += serviceDuration;
+            }
+        }
+
+        if (totalDuration < minTimeSlot) {
+            totalDuration = minTimeSlot;
+        }
+
+        if (oST.model.value != null) {
+            var oSTValue = oST.model.value;
+            var newETValue = new Date(oSTValue);
+
+            newETValue.setMinutes(oSTValue.getMinutes() + totalDuration);
+
+            $("#EndTime").ejDateTimePicker({ value: newETValue });
+            $("#durationText").val(totalDuration.toString());
+        }
+
+        refreshControls();
     }
 
 </script>

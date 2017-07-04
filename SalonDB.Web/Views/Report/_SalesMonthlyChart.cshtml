@@ -1,0 +1,37 @@
+﻿
+@model SalonDB.Web.Models.ServiceSalesMonthlyChartViewModel
+
+
+@(
+    Html.EJ().Chart("chartContainer")
+     //.Legend(lg => lg.Title(tl =>
+
+     //      tl.Text(Model.Label)))
+
+     .Title(tl => tl.Text("Service Sales for " + Model.Label))
+                     .Palette(pl => { pl.Add("grey"); pl.Add("skyblue"); pl.Add("orange"); })
+
+    .Series(sr =>
+    {
+        sr.DataSource(Model.Chart)
+          .Type(SeriesType.Column)
+          .XName("Name")
+          .Name("Month")
+          .YName("Amount")
+
+.Add();
+
+    }
+    )
+
+)
+
+
+
+
+@*</div>*@
+
+
+
+
+

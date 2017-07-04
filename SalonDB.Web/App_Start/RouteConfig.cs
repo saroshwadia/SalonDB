@@ -18,13 +18,19 @@ namespace SalonDB.Web
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            var ActionName = "About";
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                ActionName = "Index";
+            }
+
+                routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("wcf/{resource}.svc/{*pathInfo}");
             routes.IgnoreRoute("wcf/{resource}.svc");
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = ActionName, id = UrlParameter.Optional }
             );
         }
     }

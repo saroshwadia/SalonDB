@@ -1,5 +1,5 @@
 ﻿//using BusinessObjects;
-using SalonDB.Data.Model;
+using SalonDB.Data.Core.Domain;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using SalonDB.Web.App_Start;
@@ -11,11 +11,16 @@ using System.Net;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using SalonDB.Data.Persistence;
+using SalonDB.Data;
 
 namespace SalonDB.Web.Controllers
 {
     public class LoginController : Controller
     {
+
+        UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
+
         // GET: Login form MyUserName
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -44,9 +49,13 @@ namespace SalonDB.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            var ActionName = "About";
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            MvcApplication.CurrentStaff = null;
-            return RedirectToAction("Index", "Home");
+            //MvcApplication.CurrentStaff = null;
+            //return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(ActionName, new System.Web.Routing.RouteValueDictionary(new { controller = "Home", action = ActionName, fromLogout = true }));
+
         }
 
         private IAuthenticationManager AuthenticationManager
@@ -61,40 +70,52 @@ namespace SalonDB.Web.Controllers
         {
             var ReturnValue = false;
             var StaffEnt = new Staff();
-            MvcApplication.CurrentStaff = null;
-
-            if (new MyUserManager().IsValid(model.Email, model.Password, out StaffEnt))
+            //MvcApplication.CurrentStaff = null;
+            var js = new System.Web.Script.Serialization.JavaScriptSerializer();
+            
+            if (new MyUserManager().IsValid(unitOfWork, model.Email, model.Password, out StaffEnt))
             {
 
-                MvcApplication.CurrentStaff = StaffEnt;
+                var LoginViewModelEnt = MvcApplication.ConvertStaff(StaffEnt);
+                var UserData = js.Serialize(LoginViewModelEnt);
+
+                //MvcApplication.CurrentStaff = StaffEnt;
 
                 var ident = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
                 var c1 = new Claim(ClaimTypes.NameIdentifier, model.Email);
                 var c2 = new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string");
                 var c3 = new Claim(ClaimTypes.Name, $"{StaffEnt.FirstName} {StaffEnt.LastName}");
-                //var c4 = new Claim(ClaimTypes.Role, eRoles.User);
-
+                var c4 = new Claim(ClaimTypes.Email , $"{StaffEnt.Email}");
+                var c5 = new Claim(ClaimTypes.UserData, UserData);
+             
                 ident.AddClaim(c1);
                 ident.AddClaim(c2);
                 ident.AddClaim(c3);
+                ident.AddClaim(c4);
+                ident.AddClaim(c5);
 
                 if (StaffEnt.Role == null)
                 {
-                    var c4 = new Claim(ClaimTypes.Role, eRoles.Guest);
-                    ident.AddClaim(c4);
+                    var cRole = new Claim(ClaimTypes.Role, eRoles.Guest);
+                    ident.AddClaim(cRole);
                 }
                 else
                 {
                     foreach (var item in StaffEnt.Role.Split(";".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
                     {
-                        var c4 = new Claim(ClaimTypes.Role, item.Trim());
-                        ident.AddClaim(c4);
+                        var cRole = new Claim(ClaimTypes.Role, item.Trim());
+                        ident.AddClaim(cRole);
                     }
                 }
 
                 oHttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = model.RememberMe }, ident);
                 //return RedirectToAction("Index", "Home"); // auth succeed 
                 ReturnValue = true;
+
+                //Save LstLogin for the current user.
+                StaffEnt.LastLogin = DateTime.Now;
+                unitOfWork.Commit();
+
             }
             // invalid username or password
             //ModelState.AddModelError("", "Invalid Email or Password.");

@@ -1,0 +1,102 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+          
+
+           
+           @(Html.EJ().Grid<Supplier>("SupplierGrid")
+             .Datasource((IEnumerable<Supplier>)Model.Suppliers)
+             .AllowPaging()
+                //.AllowResizeToFit()
+                .PageSettings(Page => { Page.PageSize(10); })
+                .EnableAltRow(true)
+                .AllowScrolling()
+                .ScrollSettings(col => { col.Width(900).Height(350); })
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Supplier"); })
+
+                .Columns(col =>
+                {
+
+                    col.Field(p => p.SupplierID).HeaderText("SupplierID").IsPrimaryKey(true).Visible(false).Add();
+                    col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).HeaderText("Company").EditType(EditingType.Dropdown).Visible(false).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
+                    col.Field(p => p.Name).HeaderText("Name").Add();
+                    col.Field(p => p.Description).HeaderText("Description").Add();
+                    col.Field(p => p.Phone).HeaderText("Phone").Visible(true).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
+                    col.Field(p => p.Address).HeaderText("Address").Visible(true).Add();
+                    col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
+                    col.Field(p => p.City).HeaderText("City").Visible(true).Add();
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Supplier");
+                                    evt.EndEdit("endEdit_Supplier");
+                                    evt.EndDelete("endDelete_Supplier");
+                                    evt.RowSelected("onRowSelected_Supplier");
+                                    evt.ActionComplete("onActionComplete_Supplier");
+                                })
+        )
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Supplier()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Supplier()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Supplier()">Delete</button>
+            </p>
+
+        </div>
+       
+    </div>
+</div>
+
+<script id="template_Supplier" type="text/template">
+    <table cellspacing="10">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input id="Name" name="Name" value="{{:Name}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>Description</td>
+            <td>
+                <input id="Description" name="Description" value="{{:Description}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td style="text-align: left">
+                <input type="text" id="Phone" name="Phone" class="e-field e-ejinputtext" value="{{:Phone}}" />
+            </td>
+            <td>City</td>
+            <td>
+                <input id="City" type="text" name="City" value="{{:City}}" class="e-field e-ejinputtext" style="width:55px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input id="Address" type="text" name="Address" value="{{:Address}}" class="e-field e-ejinputtext" style="width:55px;height:28px" />
+            </td>
+            <td>PostalCode</td>
+            <td>
+                <input id="PostalCode" type="text" name="PostalCode" value="{{:PostalCode}}" class="e-field e-ejinputtext" style="width: 55px; height: 28px" />
+            </td>
+            <td>
+                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+
+                <input id="SupplierID" name="SupplierID" value="{{: SupplierID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+
+            </td>
+
+
+
+        </tr>
+
+    </table>
+
+
+</script>
+

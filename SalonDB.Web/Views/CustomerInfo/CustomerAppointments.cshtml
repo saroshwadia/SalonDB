@@ -1,0 +1,79 @@
+﻿@model SalonDB.Web.Models.POSViewModel
+@{String CurrentDate;}
+@{String ChartDate;}
+@{CurrentDate = DateTime.Now.ToLongDateString();}
+@{ChartDate = DateTime.Now.ToString("MMMM, yyyy");}
+@{bool UserLoggedIn = Model.StaffEnt != null;}
+@{int Counter = 0;}
+
+@{
+    ViewBag.Title = "CustomerAppointments";
+}
+
+<h2>Customer Appointments for '@Model.CustomerEnt.FirstName @Model.CustomerEnt.LastName'</h2>
+
+<div class="container-fluid">
+    @(Html.EJ().Grid<SalonDB.Web.Models.AppointmentViewModel>("Grid")
+         .Datasource((IEnumerable<SalonDB.Web.Models.AppointmentViewModel>)Model.AppointmentCol)
+         .AllowPaging()
+         .AllowSorting()
+         //.AllowFiltering()
+         //.FilterSettings(filter => { filter.FilterType(FilterType.Menu); })
+         .PageSettings(Page => { Page.PageSize(10); })
+         .EnableAltRow(true)
+         .AllowScrolling()
+         .EnableAltRow(true)
+         //.ScrollSettings(col => { col.Width(900).Height(350); })
+         .ScrollSettings(col => { col.Height(350); })
+         .AllowSearching()
+         .ToolbarSettings(tool =>
+         {
+             tool.ShowToolbar().ToolbarItems(items =>
+             {
+                 items.AddTool(ToolBarItems.Search);
+             });
+
+         })
+         .Columns(col =>
+         {
+             col.Field(p => p.AppointmentStart).HeaderText("Date").Format("{0:yyyy-MM-dd}").TextAlign(TextAlign.Center).Add();
+             col.Field(p => p.AppointmentStart).HeaderText("Date").Format("{0:hh:mm tt}").TextAlign(TextAlign.Center).Add();
+             col.Field(p => p.AppointmentEnd).HeaderText("Date").Format("{0:hh:mm tt}").TextAlign(TextAlign.Center).Add();
+             col.Field(p => p.StaffName).HeaderText("Staff").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.Duration).HeaderText("Duration").Format("{0:N0}").TextAlign(TextAlign.Right).Add();
+             col.Field(p => p.Status).HeaderText("Status").TextAlign(TextAlign.Left).Add();
+             col.HeaderText("").Template("#checkoutTemplate").Add();
+             col.HeaderText("").Template("#editTemplate").Add();
+         })
+         .ClientSideEvents(eve => eve.DataBound("onDataBound"))
+    )
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<script type="text/x-jsrender" id="checkoutTemplate">
+    <a href="/pos/index?appointmentID={{:AppointmentID}}&controllerName=CustomerAppointments">CheckOut</a>
+</script>
+
+<script type="text/x-jsrender" id="editTemplate">
+    <a href="/appointment/index?appointmentID={{:AppointmentID}}&controllerName=CustomerAppointments">Edit</a>
+</script>
+
+<script type="text/javascript">
+    function onDataBound(args) {
+        //debugger;
+        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
+        {
+            //key.indexOf("ID") <= 0
+            if (!endsWith(key, "ID")) {
+                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
+            }
+        }
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+</script>

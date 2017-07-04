@@ -3574,7 +3574,7 @@
         }
 
         & when not(@skin="material") {
-            padding: 1px 18px 1px 28px;
+            padding: 3px 18px 3px 28px;
         }
 
         height: inherit;
@@ -4079,19 +4079,19 @@
     }
 
     .e-menu.e-context {
-        & when (@skin= "material") {
-            box-shadow: @box-shadow;
-            padding: 0px;
-            border: 0px solid;
-        }
-
-        & when not (@skin= "material") { 
-            padding: 1px;
-            border: 1px solid;
-        } 
         position: absolute;
         z-index: 9998;
         font-size: 13px;
+        & when (@skin= "material") {    
+            box-shadow: @box-shadow;
+            padding: 0px;
+            border: 0px solid;
+        } 
+        & when not (@skin= "material") { 
+            padding: 1px;
+            border: 1px solid;
+            width: 150px;
+        }
     }
 
     .e-menu.e-context .e-list > ul .e-list, .e-menu.e-context .e-list, .e-menu.e-context > li.e-list.e-separator {
@@ -4418,10 +4418,12 @@
 
 .mixin(@widget) when (@widget = radiobutton), (@widget = none) {
 
-    .e-radiobtn-wrap {
+ .e-radiobtn-wrap {
         vertical-align: middle;
-        margin-bottom: 3px;
     }
+	.e-radiobtn-wrap > span.e-radsmaller, .e-radiobtn-wrap > span.e-radmedium {
+		display:inline-block;
+	}
 
     .e-radiobtn-wrap .e-radiobtn {
         display: none;
@@ -4514,6 +4516,31 @@
             line-height: 15px;
         }
     }
+	.e-radiobtn-wrap .e-text {
+        margin-left:3px;
+		padding: 2px;
+		text-align: left;
+		top: 0;
+		cursor: pointer;
+		float:right;
+		vertical-align:middle;
+		line-height:12px;
+		& when (@skin= "material") {
+			line-height:20px;
+		}
+    }
+	.e-radiobtn-wrap.e-radmed .e-text {
+		
+		line-height:16px;
+		& when (@skin= "material") {
+			line-height:25px;
+		}
+	}
+	 .e-radiobtn-wrap.e-rtl .e-text {
+	 		float:left;
+
+	 }
+	
 }
 
 .mixin(@widget) when (@widget = tab), (@widget = none) {
@@ -10795,7 +10822,7 @@ background-image: url('../@{font-path}/icons-white.png');
     }
 
     .e-grid .e-scrollcss {
-        padding-right: 18px;
+        padding-right: 17px;
     }
 
     .e-grid .e-animatebutton {
@@ -10880,7 +10907,7 @@ background-image: url('../@{font-path}/icons-white.png');
         padding: 0px;
     }
 
-    .e-grid .e-draganddrop {
+    .e-grid.e-draganddrop {
         background-color: #179bd7;
         border-color: #5396bc;
         border-width: 1px;
@@ -10894,7 +10921,7 @@ background-image: url('../@{font-path}/icons-white.png');
         background-color: rgba(255,255,255,0.3);
         opacity: 0.6;
     }
-    .e-grid .e-draganddrop .e-rowcell {
+    .e-grid.e-draganddrop .e-rowcell {
         border-color: #b4daef;
         color: #fff;
         & when not (@skin= "material") {
@@ -10906,7 +10933,7 @@ background-image: url('../@{font-path}/icons-white.png');
         cursor: url('@{font-path}/grid/dropPointer.cur'), default;
     }
 
-    .e-grid .e-draganddrop tr:first-child td {
+    .e-grid.e-draganddrop tr:first-child td {
         border-top-width: 0px;
     }
 
@@ -12319,6 +12346,7 @@ background-image: url('../@{font-path}/icons-white.png');
     .e-groupbutton {
         outline: 0 none;
         overflow: hidden;
+        display:block;
     }
 
     .e-groupbutton > .e-ul {
@@ -14592,7 +14620,7 @@ background-image: url('../@{font-path}/icons-white.png');
     }
 
     .e-gantt .e-dialog-icon .e-close {
-        position: absoloute;
+        position: absolute;
     }
 
     .e-gantt .e-icon.e-close {
@@ -16393,7 +16421,7 @@ background-image: url('../@{font-path}/icons-white.png');
         -ms-transform: rotate(270deg);
         /* Opera */
         -o-transform: rotate(270deg);
-        transform: rotate(270);
+        transform: rotate(270deg);
     }
 
     .e-ganttchart .e-striplinespan {
@@ -16470,7 +16498,6 @@ background-image: url('../@{font-path}/icons-white.png');
         -webkit-background-clip: content-box;
         -khtml-background-clip: content-box;
         -o-background-clip: content-box;
-        -moz-background-clip: content-box;
         background-clip: content-box;
     }
 
@@ -16563,7 +16590,7 @@ background-image: url('../@{font-path}/icons-white.png');
         position: relative;
     }
 
-    .e-schedule .e-scheduleoutertable td, e-schedule .e-scheduleoutertable tr {
+    .e-schedule .e-scheduleoutertable td, .e-schedule .e-scheduleoutertable tr {
         vertical-align: top;
     }
 
@@ -16875,7 +16902,7 @@ background-image: url('../@{font-path}/icons-white.png');
 
     .e-schedule.e-rtl .e-agendahover {
         left: 0px;
-        right: initial;
+        right: inherit;
     }
 
     .e-schedule.e-rtl .e-editapp,
@@ -16991,8 +17018,8 @@ background-image: url('../@{font-path}/icons-white.png');
         width: 25px;
     }
 
-    .e-schedule .e-headerdays table tr:first td:first-child,
-    .e-schedule .e-headerdays table tr:last td:first-child {
+    .e-schedule .e-headerdays table tr:first-child td:first-child,
+    .e-schedule .e-headerdays table tr:last-child td:first-child {
         border-left: none !important;
     }
 
@@ -17948,24 +17975,24 @@ background-image: url('../@{font-path}/icons-white.png');
         }
     }
 
-        .e-scheduledialog.e-appointmentaddwindow {
-            & when (@skin= "material") {
+    .e-scheduledialog.e-appointmentaddwindow {
+        & when (@skin= "material") {
             padding: 20px 24px 14px 14px !important;
-            }            
         }
+    }
 
-        .e-scheduledialog .e-appwindow table td {
-            & when (@skin= "material") {
+    .e-scheduledialog .e-appwindow table td {
+        & when (@skin= "material") {
             padding: 10px !important;
-            }
         }
+    }
 
-        .e-scheduledialog .e-recurEditor table td {
-            & when (@skin= "material") {
+    .e-scheduledialog .e-recurEditor table td {
+        & when (@skin= "material") {
             padding: 10px !important;
-            }
         }
-   
+    }
+
 
     .e-scheduledialog .e-appwindow,
     .e-scheduledialog .e-recurwindow {
@@ -18030,20 +18057,20 @@ background-image: url('../@{font-path}/icons-white.png');
         }
     }
 
-    
-        .e-scheduledialog button {
-            & when (@skin= "material") {
-            text-transform: uppercase;
-            }
-        }
 
-        .e-scheduledialog .e-btnmargin button {
-            & when (@skin= "material") {
+    .e-scheduledialog button {
+        & when (@skin= "material") {
+            text-transform: uppercase;
+        }
+    }
+
+    .e-scheduledialog .e-btnmargin button {
+        & when (@skin= "material") {
             width: 100% !important;
             text-transform: uppercase;
-            }
         }
-    
+    }
+
 
     .e-scheduledialog .e-textlabel {
         text-align: left;
@@ -28751,6 +28778,10 @@ slideRight Animate
         box-sizing: border-box;
     }
 
+	.e-ss-auto {
+		display: "inline-block";
+	}
+	
     .e-spreadsheet-list {
         position: relative;
     }

@@ -1,0 +1,226 @@
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
+
+
+<div id="MainForm" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+
+            @(Html.EJ().Grid<Customer>("CustomerGrid")
+             .Datasource((IEnumerable<Customer>)Model.Customers)
+             .AllowPaging()
+             .PageSettings(Page => { Page.PageSize(10); }).EnableAltRow(true)
+                      .AllowScrolling()
+                .EnableAltRow(true)
+                .ScrollSettings(col => { col.Width(900).Height(350); })
+                .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Customer"); })
+
+                .Columns(col =>
+                {
+                    col.Field(p => p.CustomerID).HeaderText("CustomerID").IsPrimaryKey(true).Visible(false).Add();
+                    col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).Visible(false).HeaderText("Company").EditType(EditingType.Dropdown).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.FirstName).HeaderText("First Name").Width(120).Add();
+                    col.Field(p => p.LastName).HeaderText("Last Name").Width(120).Add();
+                    col.Field(p => p.Phone).HeaderText("Phone").Width(130).Visible(true).EditType(EditingType.Numeric).Add();
+                    col.Field(p => p.Email).HeaderText("Email").Width(190).Visible(true).Add();
+
+                    col.Field(p => p.Address).HeaderText("Address").Width(190).Visible(true).Add();
+                    col.Field(p => p.City).HeaderText("City").Width(90).Visible(true).Add();
+
+                    col.Field(p => p.PostalCode).HeaderText("PostalCode").Width(120).Visible(true).Add();
+                    col.Field(p => p.StoreID).DataSource((IEnumerable<Store>)Model.Stores).HeaderText("Store").EditType(EditingType.Dropdown).Visible(true).ForeignKeyField("StoreID").ForeignKeyValue("Name").Add();
+
+                    col.Field(p => p.Discount).HeaderText("Discount").Width(90).Visible(true).Add();
+                    col.Field(p => p.Notes).HeaderText("Notes").Width(200).Visible(true).Add();
+
+                    col.HeaderText("Edit").Template("#editTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteTemplate").Add();
+
+                })
+                                .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Customer");
+                                    evt.EndEdit("endEdit_Customer");
+                                    evt.EndDelete("endDelete_Customer");
+                                    evt.RowSelected("onRowSelected_Customer");
+                                    evt.ActionComplete("onActionComplete_Customer");
+                                })
+            )
+            <br />
+            <p>
+                <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Customer()">Add</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Customer()">Edit</button>
+                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Customer()">Delete</button>
+            </p>
+
+        </div>
+        @*<div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <p>
+                                <label for="Name">Store:</label>
+                                <label for="txtStore" id="txtCustomerStore"></label>
+                            </p>
+                            <p>
+                                <label for="FirstName">FirstName:</label>
+                                <label for="txtFirstName" id="txtCustomerFirstName"></label>
+                            </p>
+                            <p>
+                                <label for="LastName">LastName:</label>
+                                <label for="txtLastName" id="txtCustomerLastName"></label>
+                            </p>
+
+                            <p>
+                                <label for="Phone">Phone:</label>
+                                <label for="Phone" id="txtCustomerPhone"></label>
+                            </p>
+                            <p>
+                                <label for="Email">Email:</label>
+                                <label for="Email" id="txtCustomerEmail"></label>
+                            </p>
+                            <p>
+                                <label for="Address">Address:</label>
+                                <label for="Address" id="txtCustomerAddress"></label>
+                            </p>
+                            <p>
+                                <label for="PostalCode">Postal Code:</label>
+                                <label for="PostalCode" id="txtCustomerPostalCode"></label>
+                            </p>
+                            <p>
+                                <label for="City">City:</label>
+                                <label for="City" id="txtCustomerCity"></label>
+                            </p>
+
+                            <p>
+                                <label for="Discount">Discount:</label>
+                                <label for="Discount" id="txtCustomerDiscount"></label>
+                            </p>
+
+                           <p>
+                                <label for="Notes">Notes:</label>
+                                <label for="Notes" id="txtCustomerNotes"></label>
+                            </p>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>
+
+<script id="template_Customer" type="text/template">
+    <table cellspacing="10">
+        <tr>
+
+            <td>Store</td>
+            <td>
+                <input id="StoreID" name="StoreID" value="{{: StoreID}}" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td>
+                <input id="CustomerID" name="CustomerID" value="{{: CustomerID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td>
+                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>FirstName</td>
+            <td>
+                <input id="FirstName" name="FirstName" value="{{:FirstName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>LastName</td>
+            <td>
+                <input id="LastName" name="LastName" value="{{:LastName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Phone</td>
+            <td style="text-align: left">
+                <input type="text" id="Phone" name="Phone" class="e-field e-ejinputtext" value="{{:Phone}}" style="width:300px;height:28px" />
+            </td>
+            <td>Email</td>
+            <td>
+                <input id="Email" type="text" name="Email" value="{{:Email}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input id="Address" type="text" name="Address" value="{{:Address}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>City</td>
+            <td>
+                <input id="City" type="text" name="City" value="{{:City}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>PostalCode</td>
+            <td>
+                <input id="PostalCode" type="text" name="PostalCode" value="{{:PostalCode}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+
+            <td>Discount</td>
+            <td>
+                <input id="Discount" type="text" name="Discount" value="{{:Discount}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Notes</td>
+            <td>
+                <input id="Notes" type="text" name="Notes" value="{{:Notes}}" class="e-field e-ejinputtext" style="width:750px;height:28px" />
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/x-jsrender" id="editTemplate">
+    <a id="rec_edit" href='/customer/edit' onclick='return check(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteTemplate">
+    <a href='/customer/delete' onclick='return check(2)'>Delete</a>
+</script>
+
+<script type="text/x-jsrender" id="recdeleteTemplate">
+    <a id="rec_delete" href="/customer/delete">Delete</a>
+</script>
+
+
+<script type="text/javascript">
+
+    function check(args) {
+        debugger;
+
+        if (args == 1) {
+            edit_Customer();
+        }
+
+        if (args == 2) {
+            delete_Customer();
+        }
+
+        return false;
+    }
+
+    $("#rec_delete").click(function (e) {
+        debugger;
+        e.preventDefault();//this will prevent the link trying to navigate to another page
+        var href = $(this).attr("href");//get the href so we can navigate later
+
+        //do the delete
+        delete_Customer();
+
+        //when update has finished, navigate to the other page
+        //window.location = href;
+    });
+
+</script>

@@ -1,0 +1,27 @@
+﻿
+@model IEnumerable<SalonDB.Data.Core.spServiceSalesOvertime_Result>
+
+@(
+    Html.EJ().Chart("chartContainer")
+     .Title(tl => tl.Text("Service Sales Overtime"))
+     .PrimaryXAxis(x => x.Range(xi => xi.Interval(1))
+     .LabelIntersectAction(LabelIntersectAction.Rotate90))
+                     .Palette(pl => {  pl.Add("skyblue"); pl.Add("orange"); pl.Add("grey"); })
+
+    .Series(sr =>
+    {
+        sr.DataSource(Model)
+          .Type(SeriesType.Column)
+          .XName("Name")
+          .Name("Time")
+          .YName("Amount")
+          .Add();
+
+    }
+
+    )
+
+)
+
+
+
