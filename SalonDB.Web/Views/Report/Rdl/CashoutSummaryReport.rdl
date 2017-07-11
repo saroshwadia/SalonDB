@@ -475,7 +475,6 @@ WHERE        (1 = 2)</CommandText>
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -655,7 +654,7 @@ WHERE        (1 = 2)</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Cashier's Signature:    _________________________  Date:  ______________   Time:  ______________</Value>
+                    <Value>Cashier's Signature:    _________________________  Date:  ____________  Time:  _____________</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -684,7 +683,7 @@ WHERE        (1 = 2)</CommandText>
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>Manager's Signature:  _________________________  Date:  ______________  Time:   ______________</Value>
+                    <Value>Manager's Signature:  _________________________  Date:  ____________  Time:   _____________</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -768,7 +767,7 @@ WHERE        (1 = 2)</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.41864cm</Top>
-              <Left>5.03971cm</Left>
+              <Left>6.62721cm</Left>
               <Height>0.89104cm</Height>
               <Width>6.89208cm</Width>
               <ZIndex>1</ZIndex>
@@ -800,7 +799,7 @@ WHERE        (1 = 2)</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>1.52136cm</Top>
-              <Left>5.03971cm</Left>
+              <Left>6.62721cm</Left>
               <Height>0.6cm</Height>
               <Width>6.20417cm</Width>
               <ZIndex>2</ZIndex>

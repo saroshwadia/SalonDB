@@ -54,6 +54,9 @@
                     col.Field(p => p.UnitsOnOrder).HeaderText("On Order").Width(105).Visible(true).Add();
                     col.Field(p => p.MinimumStockLevel).HeaderText("MinimumStockLevel").Visible(false).Add();
 
+                    col.HeaderText("Edit").Template("#editProductTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteProductTemplate").Add();
+
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -202,4 +205,30 @@
         </tr>
 
     </table>
+</script>
+
+
+<script type="text/x-jsrender" id="editProductTemplate">
+    <a id="rec_edit" href='/product/edit' onclick='return handleProduct(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteProductTemplate">
+    <a href='/product/delete' onclick='return handleProduct(2)'>Delete</a>
+</script>
+
+<script type="text/javascript">
+
+    function handleProduct(args) {
+
+        if (args == 1) {
+            edit_Product();
+        }
+
+        if (args == 2) {
+            delete_Product();
+        }
+
+        return false;
+    }
+
 </script>

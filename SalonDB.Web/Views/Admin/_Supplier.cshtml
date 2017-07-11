@@ -29,6 +29,10 @@
                     col.Field(p => p.Address).HeaderText("Address").Visible(true).Add();
                     col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
                     col.Field(p => p.City).HeaderText("City").Visible(true).Add();
+
+                    col.HeaderText("Edit").Template("#editSupplierTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteSupplierTemplate").Add();
+
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -97,6 +101,32 @@
 
     </table>
 
+
+</script>
+
+
+<script type="text/x-jsrender" id="editSupplierTemplate">
+    <a id="rec_edit" href='/Supplier/edit' onclick='return handleSupplier(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteSupplierTemplate">
+    <a href='/Supplier/delete' onclick='return handleSupplier(2)'>Delete</a>
+</script>
+
+<script type="text/javascript">
+
+    function handleSupplier(args) {
+
+        if (args == 1) {
+            edit_Supplier();
+        }
+
+        if (args == 2) {
+            delete_Supplier();
+        }
+
+        return false;
+    }
 
 </script>
 

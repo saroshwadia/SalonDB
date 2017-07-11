@@ -30,6 +30,9 @@
                     col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
                     col.Field(p => p.City).HeaderText("City").Visible(true).Add();
 
+                    col.HeaderText("Edit").Template("#editCompanyTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteCompanyTemplate").Add();
+
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -133,3 +136,27 @@
 
 </script>
 
+<script type="text/x-jsrender" id="editCompanyTemplate">
+    <a id="rec_edit" href='/Company/edit' onclick='return handleCompany(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteCompanyTemplate">
+    <a href='/Company/delete' onclick='return handleCompany(2)'>Delete</a>
+</script>
+
+<script type="text/javascript">
+
+    function handleCompany(args) {
+
+        if (args == 1) {
+            edit_Company();
+        }
+
+        if (args == 2) {
+            delete_Company();
+        }
+
+        return false;
+    }
+
+</script>

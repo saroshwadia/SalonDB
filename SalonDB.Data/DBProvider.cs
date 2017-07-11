@@ -1203,6 +1203,23 @@ namespace SalonDB.Data
             return ReturnValue;
         }
 
+        public static TimeSpan GetUTCOffset()
+        {
+            System.Globalization.CultureInfo.CurrentCulture.ClearCachedData(); // clear the cache 
+            var ReturnValue = GetUTCOffset(TimeZone.CurrentTimeZone, DateTime.Now);
+
+            return ReturnValue;
+        }
+
+        public static TimeSpan GetUTCOffset(TimeZone timeZone, DateTime currentDate)
+        {
+            var ReturnValue = new TimeSpan();
+
+            ReturnValue = timeZone.GetUtcOffset(currentDate);
+
+            return ReturnValue;
+        }
+
         public static string GetCurrentTimeZone()
         {
             var ReturnValue = string.Empty;
@@ -1216,7 +1233,7 @@ namespace SalonDB.Data
             var a1 = localZone.IsDaylightSavingTime(currentDate);
 
             DateTime currentUTC = localZone.ToUniversalTime(currentDate);
-            TimeSpan currentOffset = localZone.GetUtcOffset(currentDate);
+            TimeSpan currentOffset = GetUTCOffset(localZone, currentDate);
             System.Globalization.DaylightTime daylight = localZone.GetDaylightChanges(currentYear);
             var a2 = $"{daylight.Start:yyyy-MM-dd HH:mm}";
             var a3 = $"{daylight.End:yyyy-MM-dd HH:mm}";
@@ -1618,7 +1635,7 @@ namespace SalonDB.Data
 
             try
             {
-                using (var context = db)
+                using (var context = new SalonContext())
                 {
                     var parent = context.Appointments
                         //.Include(p => p.Transactions)

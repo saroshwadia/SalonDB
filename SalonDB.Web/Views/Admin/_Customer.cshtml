@@ -36,8 +36,8 @@
                     col.Field(p => p.Discount).HeaderText("Discount").Width(90).Visible(true).Add();
                     col.Field(p => p.Notes).HeaderText("Notes").Width(200).Visible(true).Add();
 
-                    col.HeaderText("Edit").Template("#editTemplate").Add();
-                    col.HeaderText("Delete").Template("#deleteTemplate").Add();
+                    col.HeaderText("Edit").Template("#editCustomerTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteCustomerTemplate").Add();
 
                 })
                                 .ClientSideEvents(evt =>
@@ -182,23 +182,17 @@
     </table>
 </script>
 
-<script type="text/x-jsrender" id="editTemplate">
-    <a id="rec_edit" href='/customer/edit' onclick='return check(1)'>Edit</a>
+<script type="text/x-jsrender" id="editCustomerTemplate">
+    <a id="rec_edit" href='/customer/edit' onclick='return handleCustomer(1)'>Edit</a>
 </script>
 
-<script type="text/x-jsrender" id="deleteTemplate">
-    <a href='/customer/delete' onclick='return check(2)'>Delete</a>
+<script type="text/x-jsrender" id="deleteCustomerTemplate">
+    <a href='/customer/delete' onclick='return handleCustomer(2)'>Delete</a>
 </script>
-
-<script type="text/x-jsrender" id="recdeleteTemplate">
-    <a id="rec_delete" href="/customer/delete">Delete</a>
-</script>
-
 
 <script type="text/javascript">
 
-    function check(args) {
-        debugger;
+    function handleCustomer(args) {
 
         if (args == 1) {
             edit_Customer();
@@ -210,17 +204,5 @@
 
         return false;
     }
-
-    $("#rec_delete").click(function (e) {
-        debugger;
-        e.preventDefault();//this will prevent the link trying to navigate to another page
-        var href = $(this).attr("href");//get the href so we can navigate later
-
-        //do the delete
-        delete_Customer();
-
-        //when update has finished, navigate to the other page
-        //window.location = href;
-    });
 
 </script>

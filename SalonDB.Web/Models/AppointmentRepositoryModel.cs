@@ -12,8 +12,9 @@ namespace SalonDB.Web.Models
     public static class AppointmentRepositoryModel
     {
         private static bool SaveInUTC = false;
+        private static string TimeZoneUTC = "UTC +00:00";
 
-        public static SchedulerEntity Insert(SchedulerEntity app, LoginViewModel LoginInfo, string _CurrentTimeZone)
+        public static SchedulerEntity Insert(SchedulerEntity app, LoginViewModel LoginInfo, string _CurrentTimeZone, bool applyTimeOffset)
         {
             var ReturnValue = new SchedulerEntity();
             decimal TotalAmount = 0;
@@ -26,7 +27,7 @@ namespace SalonDB.Web.Models
             UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
             DateTime startTime = Convert.ToDateTime(app.StartTime);
             DateTime endTime = Convert.ToDateTime(app.EndTime);
-
+            var UTCoffset = SalonDB.Data.DBProvider.GetUTCOffset();
             var currentTimeZone = TimeZone.CurrentTimeZone;
             var TransactionDate = DateTime.Now;
 
@@ -34,7 +35,14 @@ namespace SalonDB.Web.Models
             {
                 startTime = startTime.ToUniversalTime();
                 endTime = endTime.ToUniversalTime();
-                TransactionDate = TransactionDate.ToUniversalTime();
+                TransactionDate = endTime;
+            }
+
+            if (applyTimeOffset)
+            {
+                startTime = startTime.AddMinutes(UTCoffset.TotalMinutes);
+                endTime = endTime.AddMinutes(UTCoffset.TotalMinutes);
+                TransactionDate = endTime;
             }
 
             if (app.Subject == null)
@@ -56,8 +64,8 @@ namespace SalonDB.Web.Models
                 CustomerID = Guid.Parse(app.CustomerID),
                 StartTime = startTime,
                 EndTime = endTime,
-                StartTimeZone = _CurrentTimeZone,
-                EndTimeZone = _CurrentTimeZone,
+                StartTimeZone = TimeZoneUTC, // _CurrentTimeZone,
+                EndTimeZone = TimeZoneUTC, //_CurrentTimeZone,
                 Subject = app.Subject,
                 //Location = app.Location,
                 Description = app.Description,
@@ -201,7 +209,7 @@ namespace SalonDB.Web.Models
             return ReturnValue;
         }
 
-        public static SchedulerEntity Update(SchedulerEntity app, LoginViewModel LoginInfo, string _CurrentTimeZone)
+        public static SchedulerEntity Update(SchedulerEntity app, LoginViewModel LoginInfo, string _CurrentTimeZone, bool applyTimeOffset)
         {
             var ReturnValue = new SchedulerEntity();
             ReturnValue = app;
@@ -216,6 +224,8 @@ namespace SalonDB.Web.Models
             UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
             DateTime startTime = Convert.ToDateTime(app.StartTime);
             DateTime endTime = Convert.ToDateTime(app.EndTime);
+            DateTime TransactionDate = endTime;
+            var UTCoffset = SalonDB.Data.DBProvider.GetUTCOffset();
 
             var ID = Guid.Parse(app.Id);
             //var filterData = unitOfWork.Appointments.FindAll(c => c.AppointmentID == ID);
@@ -233,6 +243,23 @@ namespace SalonDB.Web.Models
                 {
                     if (TransactionEnt != null)
                     {
+
+                        startTime = Convert.ToDateTime(app.StartTime);
+                        endTime = Convert.ToDateTime(app.EndTime);
+
+                        if (SaveInUTC)
+                        {
+                            startTime = startTime.ToUniversalTime();
+                            endTime = endTime.ToUniversalTime();
+                        }
+
+                        if (applyTimeOffset)
+                        {
+                            startTime = startTime.AddMinutes(UTCoffset.TotalMinutes);
+                            endTime = endTime.AddMinutes(UTCoffset.TotalMinutes);
+                            TransactionDate = endTime;
+                        }
+
                         unitOfWork.Transactions.DeleteDetails(TransactionEnt);
 
                         if (!string.IsNullOrEmpty(app.SelectedServices))
@@ -279,22 +306,14 @@ namespace SalonDB.Web.Models
                         TransactionEnt.DiscountPercent = TotalDiscountPercent;
                         TransactionEnt.TaxPercent = TotalTaxPercent;
                         TransactionEnt.Total = GrandTotal;
+                        TransactionEnt.TransactionDate = TransactionDate;
 
-                    }
-
-                    startTime = Convert.ToDateTime(app.StartTime);
-                    endTime = Convert.ToDateTime(app.EndTime);
-
-                    if (SaveInUTC)
-                    {
-                        startTime = startTime.ToUniversalTime();
-                        endTime = endTime.ToUniversalTime();
                     }
 
                     AppointmentEnt.StartTime = startTime;
                     AppointmentEnt.EndTime = endTime;
-                    AppointmentEnt.StartTimeZone = _CurrentTimeZone;
-                    AppointmentEnt.EndTimeZone = _CurrentTimeZone;
+                    AppointmentEnt.StartTimeZone = TimeZoneUTC; //_CurrentTimeZone;
+                    AppointmentEnt.EndTimeZone = TimeZoneUTC; //_CurrentTimeZone;
                     AppointmentEnt.Subject = app.Subject;
                     //appoint.Location = value.Location;
                     AppointmentEnt.Description = app.Description;
@@ -384,11 +403,11 @@ namespace SalonDB.Web.Models
                 StartTime = item.StartTime.Value;
                 EndTime = item.EndTime.Value;
 
-                //if (SaveInUTC)
-                //{
-                //    StartTime = item.StartTime.Value.ToLocalTime();
-                //    EndTime = item.EndTime.Value.ToLocalTime();
-                //}
+                if (SaveInUTC)
+                {
+                    StartTime = item.StartTime.Value.ToLocalTime();
+                    EndTime = item.EndTime.Value.ToLocalTime();
+                }
 
 
                 //AppointmentData.Add(new Models.SchedulerEntity { Id = item.AppointmentID.ToString(), CustomerID = item.CustomerID.ToString(), StaffId = item.StaffID.ToString(), Subject = item.Subject, StartTime = item.StartTime.Value, EndTime = item.EndTime.Value, Description = item.Description, Duration = oTimeSpan.Minutes, CustomerName = $"{item.Customer.FirstName} {item.Customer.LastName}", StaffName = $"{item.Staff.FirstName} {item.Staff.LastName}", AllDay = false, Recurrence = false, RecurrenceRule = "" });

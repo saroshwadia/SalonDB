@@ -28,6 +28,7 @@ namespace SalonManagement.Web.Controllers
         {
             LoginInfo = MvcApplication.GetLoginInfo<LoginViewModel>(User.Identity);
             var Data = SalonDB.Data.DBProvider.GetCustomers(LoginInfo.CompanyID);
+
             return View(Data);
         }
 

@@ -80,7 +80,7 @@ namespace SalonDB.Web.Controllers
 
                 //SalonDB.Data.DBProvider.GenerateTransactionData(CurrentStaff, MaxTransactions, StartDate, EndtDate, MaxAppointments);
 
-                var Result = DBProvider.DeleteAppointment(new Guid("BF8B7F4C-93EA-4268-9E40-0ECAE829246A"));
+                //var Result = DBProvider.DeleteAppointment(new Guid("BF8B7F4C-93EA-4268-9E40-0ECAE829246A"));
             }
 
             unitOfWork.RollBack();

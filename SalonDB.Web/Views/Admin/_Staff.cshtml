@@ -9,8 +9,8 @@
            
            
            @(Html.EJ().Grid<Staff>("StaffGrid")
-               // TODO Add picklist for staff roles
-               //TODO Update IDStore in DB fix everywhere
+             // TODO Add picklist for staff roles
+             //TODO Update IDStore in DB fix everywhere
              .Datasource((IEnumerable<Staff>)Model.Staffs)
              .AllowPaging().EnableAltRow(true)
     //.AllowResizeToFit()
@@ -41,6 +41,9 @@
                     col.Field(p => p.ResourceColor).HeaderText("ResourceColor").Visible(false).Add();
 
                     col.Field(p => p.Password).HeaderText("Password").Visible(false).Add();
+
+                    col.HeaderText("Edit").Template("#editStaffTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteStaffTemplate").Add();
 
 
                 })
@@ -212,3 +215,27 @@
 
 </script>
 
+<script type="text/x-jsrender" id="editStaffTemplate">
+    <a id="rec_edit" href='/Staff/edit' onclick='return handleStaff(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteStaffTemplate">
+    <a href='/Staff/delete' onclick='return handleStaff(2)'>Delete</a>
+</script>
+
+<script type="text/javascript">
+
+    function handleStaff(args) {
+
+        if (args == 1) {
+            edit_Staff();
+        }
+
+        if (args == 2) {
+            delete_Staff();
+        }
+
+        return false;
+    }
+
+</script>

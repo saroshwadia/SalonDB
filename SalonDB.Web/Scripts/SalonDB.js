@@ -4,7 +4,7 @@
 
     document.getElementById(btnName).setAttribute('class', 'list-group-item active');
 
-    if (arg == "SalesReport" || arg == "InventoryReport" ) {
+    if (arg == "SalesReport" || arg == "InventoryReport") {
 
         $.ajax({
             type: "POST",
@@ -98,8 +98,7 @@
         });
 
     }
-    else if (arg =="ServiceSalesMonthly")
-    {
+    else if (arg == "ServiceSalesMonthly") {
         $.ajax({
             type: "GET",
 
@@ -115,7 +114,7 @@
                 ej.widget.init($("#partial"));
             }
         });
-        
+
     }
     else if (arg == "SalesComparison") {
         $.ajax({
@@ -146,7 +145,7 @@
             }
         });
 
-    } 
+    }
     else if (arg == "ServiceSalesOvertime") {
         $.ajax({
             type: "GET",
@@ -198,7 +197,7 @@ function viewCategorySummary() {
 }
 
 function viewCategoryDetail() {
-  
+
 
     var obj = $('#fromdate').data('ejDatePicker');
     var strfromdate = obj.getValue();
@@ -210,10 +209,10 @@ function viewCategoryDetail() {
         type: "POST",
         url: "/Report/CategoryDetailReport",
 
-        data: JSON.stringify({ 'fromDate': strfromdate , 'toDate' :strtodate }),
+        data: JSON.stringify({ 'fromDate': strfromdate, 'toDate': strtodate }),
         contentType: "application/json; charset=utf-8",
         error: function (xhr, status, error) {
-  
+
             alert(error);
         },
         success: function (response) {
@@ -312,29 +311,28 @@ function viewServiceSalesOvertime() {
 
     var obj = $('#todate').data('ejDatePicker');
     var strtodate = obj.getValue();
-   
-        $.ajax({
-            type: "GET",
 
-            url: "/Report/_ServiceSalesOvertime?fromdate=" + strfromdate + "&todate=" + strtodate,
+    $.ajax({
+        type: "GET",
 
-            contentType: "application/json",
-            error: function (xhr, status, error) {
-                alert(error);
-            },
-            success: function (response) {
+        url: "/Report/_ServiceSalesOvertime?fromdate=" + strfromdate + "&todate=" + strtodate,
 
-                $('#container').html(response);
+        contentType: "application/json",
+        error: function (xhr, status, error) {
+            alert(error);
+        },
+        success: function (response) {
 
-                ej.widget.init($("#container"));
-            }
-        })
+            $('#container').html(response);
+
+            ej.widget.init($("#container"));
+        }
+    })
 
 
-    }
+}
 
-function ClearHighlight()
-{
+function ClearHighlight() {
     document.getElementById("btnSalesReport").setAttribute('class', 'list-group-item');
     document.getElementById("btnInventoryReport").setAttribute('class', 'list-group-item');
     document.getElementById("btnCashOutSummaryReport").setAttribute('class', 'list-group-item');
@@ -350,7 +348,7 @@ function ClearHighlight()
 
 }
 function viewChartServiceSalesMonthly() {
- 
+
     alert('test')
     var obj = $('#ddlMonth').data('ejDropDownList');
     var strmonth = obj.getValue();
@@ -358,13 +356,12 @@ function viewChartServiceSalesMonthly() {
 
     var obj = $('#ddlYear').data('ejDropDownList');
     var stryear = obj.getValue();
-   
+
     if (stryear == "" || strmonth == "")
     { alert("Please select inputs") }
-    else
-    {
+    else {
 
- alert(stryear + " " + strmonth)
+        alert(stryear + " " + strmonth)
         $.ajax({
             type: "GET",
 
@@ -381,7 +378,7 @@ function viewChartServiceSalesMonthly() {
             }
         })
     }
- }
+}
 
 function HideAll() {
     document.getElementById("LoadProduct").style.display = "None";
@@ -404,7 +401,7 @@ function HideAll() {
 
 function DisplayView(args) {
     HideAll()
-    var btnName = args.replace("Load", "btn"); 
+    var btnName = args.replace("Load", "btn");
     var Header = args.replace("Load", "");
     document.getElementById(btnName).setAttribute('class', 'list-group-item active');
     document.getElementById(args).style.display = "inline";
@@ -413,7 +410,7 @@ function DisplayView(args) {
     document.getElementById("PanelTitle").innerText = Header;
     //document.getElementById("PanelTitle").text = "Test";
     //$('#PanelTitle').value = "Reposne";  
-  }
+}
 
 function HighlightRow() {
     $(this).addClass('active').siblings().removeClass('active');
@@ -553,7 +550,7 @@ function onRowSelected_Service(args) {
 
     //$("#txtServiceDuration").html(this.getSelectedRecords()[0].Duration);
     //$("#txtServiceShowOnline").html(this.getSelectedRecords()[0].ShowOnline);
-   
+
 }
 
 function onActionComplete_Service(args) {
@@ -754,7 +751,7 @@ function endDelete_Company(args) {
 function onRowSelected_Customer(args) {
     //$("#txtCustomerFirstName").html(this.getSelectedRecords()[0].FirstName);
     //$("#txtCustomerLastName").html(this.getSelectedRecords()[0].LastName);
- 
+
 
     //if ((this.getSelectedRecords()[0].StoreID) != null)
     //{
@@ -768,7 +765,7 @@ function onRowSelected_Customer(args) {
     //$("#txtCustomerCompany").html(SelectedCompany[0].Name);
     //}
 
-  
+
     //$("#txtCustomerPhone").html(this.getSelectedRecords()[0].Phone);
     //$("#txtCustomerEmail").html(this.getSelectedRecords()[0].Email);
 
@@ -1124,7 +1121,7 @@ function onActionComplete_Staff(args) {
             fields: { id: "CompanyID", value: "CompanyID", text: "Name" },
             width: "280px",
             height: "28px"
-            
+
         }).data("ejDropDownList");
 
         var storeData = this.getColumnByField("StoreID").dataSource;
@@ -1143,16 +1140,16 @@ function onActionComplete_Staff(args) {
 
 
         var roles = [{ text: "Admin", value: "Admin", selected: ($("#Role").val().indexOf("Staff") > -1 ? true : false) },
-            { text: "POS", value: "POS", selected: ($("#Role").val().indexOf("POS") >-1 ? true : false) },
-            { text: "Owner", value: "Owner", selected: ($("#Role").val().indexOf("Owner")>-1 ? true : false)  },
-            { text: "FrontDesk", value: "FrontDesk", selected: ($("#Role").val().indexOf("FrontDesk") > -1   ? true : false) },
-            { text: "Staff", value: "Staff", selected: ($("#Role").val().indexOf("Staff")> -1 ? true : false) }
+        { text: "POS", value: "POS", selected: ($("#Role").val().indexOf("POS") > -1 ? true : false) },
+        { text: "Owner", value: "Owner", selected: ($("#Role").val().indexOf("Owner") > -1 ? true : false) },
+        { text: "FrontDesk", value: "FrontDesk", selected: ($("#Role").val().indexOf("FrontDesk") > -1 ? true : false) },
+        { text: "Staff", value: "Staff", selected: ($("#Role").val().indexOf("Staff") > -1 ? true : false) }
 
         ];
 
-          
-   
-        
+
+
+
         //, MultiSelectMode: MultiSelectModeTypes.VisualMode
         $("#Role").ejDropDownList({
             dataSource: roles, fields: {
@@ -1161,16 +1158,16 @@ function onActionComplete_Staff(args) {
                 selected: "selected"
             }, showCheckbox: true,
             multiSelectMode: ej.MultiSelectMode.VisualMode,
-             width: "280px"
+            width: "280px"
             //multiSelectMode: ej.MultiSelectMode.Delimiter,
             //delimiterChar: ";"
 
-});
+        });
 
         $("#Rate").ejCurrencyTextbox({ value: $("#Rate").val(), currencySymbol: "$", width: "116px", height: "28px", decimalPlaces: 2 });
         $("#Commission").ejCurrencyTextbox({ value: $("#Commission").val(), currencySymbol: "$", width: "280px", height: "28px", decimalPlaces: 2 });
         //$("#ResourceColor").ejColorPicker({ value: "#278787"});
-        $("#ResourceColor").ejColorPicker({ value: $("#ResourceColor").val(), width: "300px", height: "28px"});
+        $("#ResourceColor").ejColorPicker({ value: $("#ResourceColor").val(), width: "300px", height: "28px" });
 
         //$("#ShowOnline").ejCheckBox({ checked: $("#ShowOnline").val() });
 

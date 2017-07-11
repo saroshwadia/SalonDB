@@ -79,6 +79,7 @@ namespace SalonDB.Web.Models
         public string CurrentStatus { get; set; }
         public string CurrentTimeZone { get; set; }
         public string ServerTimeZone { get; set; }
+        public bool ApplyTimeOffset { get; set; }
         public List<SchedulerEntity> SchedulerCol { get; set; }
         public List<CustomerViewModel> CustomerCol { get; set; }
         public List<StaffViewModel> StaffCol { get; set; }

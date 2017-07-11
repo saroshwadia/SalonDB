@@ -23,6 +23,7 @@
         .CurrentDate((DateTime)Model.CurrentDate)
         .WorkHours(hrs => hrs.Highlight(true).Start(8).End(18))
         .TimeScale(ts => ts.Enable(true).majorSlot(60).minorSlotCount(2))
+        .TimeZone(Model.CurrentTimeZone)
         .ShowDeleteConfirmationDialog()
         .ShowAppointmentNavigator(true)
         .ShowHeaderBar(true)
@@ -47,7 +48,7 @@
         .CategorizeSettings(cat => cat.Enable(true).Datasource(Model.CategorizeSettings).Id("ID").Text("Text").Color("Color").FontColor("ForeColor").Title("Status"))
         .PrioritySettings(pri => pri.Enable(true))
         .AppointmentSettings(fields => fields.Datasource(ds => ds.URL("/Appointment/GetData").CrudURL("/Appointment/Batch").Adaptor("UrlAdaptor"))
-                .ApplyTimeOffset(false)
+                .ApplyTimeOffset(Model.ApplyTimeOffset)
                 .Id("Id")
                 .Subject("Subject")
                 .StartTime("StartTime")
@@ -366,7 +367,7 @@
              if (args.events.ID == "checkout") {
                  //debugger;
                  var appointmentID = args.targetInfo.Id;
-                 var url = "/POS?appointmentID=" + args.targetInfo.Id + "&controllerName=Appointment" + "";
+                 var url = "/POS/Index?appointmentID=" + args.targetInfo.Id + "&controllerName=Appointment" + "";
                  //alert("Custom menu CheckOut clicked");
                  location.href = url;
              }

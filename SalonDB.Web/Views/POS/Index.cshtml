@@ -468,6 +468,8 @@
         var tName = $("#TargetController").val();
         var tAction = $("#TargetAction").val();
         var url = "/" + tController + "/" + tAction;
+        var urlFrom = window.history.go(-1); 
+        var urlBack = document.referrer;
 
         if (PostIt) {
             $.post("/POS/Cancel/", { cancel: true },
@@ -482,7 +484,8 @@
         else {
             //location.href = '@Url.Action("Index","Home")';
             //location.href = "/Home/Index";
-            location.href = url;
+            //location.href = url;
+            location.href = urlBack;
         }
     }
 

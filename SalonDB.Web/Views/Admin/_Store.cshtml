@@ -28,6 +28,11 @@
                     col.Field(p => p.Address).HeaderText("Address").Visible(true).Add();
                     col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
                     col.Field(p => p.City).HeaderText("City").Visible(true).Add();
+
+                    col.HeaderText("Edit").Template("#editStoreTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteStoreTemplate").Add();
+
+
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -130,3 +135,27 @@
 
 </script>
 
+<script type="text/x-jsrender" id="editStoreTemplate">
+    <a id="rec_edit" href='/Store/edit' onclick='return handleStore(1)'>Edit</a>
+</script>
+
+<script type="text/x-jsrender" id="deleteStoreTemplate">
+    <a href='/Store/delete' onclick='return handleStore(2)'>Delete</a>
+</script>
+
+<script type="text/javascript">
+
+    function handleStore(args) {
+
+        if (args == 1) {
+            edit_Store();
+        }
+
+        if (args == 2) {
+            delete_Store();
+        }
+
+        return false;
+    }
+
+</script>

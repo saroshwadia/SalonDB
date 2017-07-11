@@ -15,10 +15,11 @@ namespace SalonDB.Web.Controllers
         UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
         LoginViewModel LoginInfo = new LoginViewModel();
         string _CurrentTimeZone = "UTC -06:00";
+        bool _ApplyTimeOffset = !System.Diagnostics.Debugger.IsAttached;
 
         public AppointmentController()
         {
-            _CurrentTimeZone = SalonDB.Data.DBProvider.GetCurrentTimeZone();
+            //_CurrentTimeZone = SalonDB.Data.DBProvider.GetCurrentTimeZone();
             _CurrentTimeZone = SalonDB.Data.DBProvider.GetTimeZoneByStoreID();
         }
 
@@ -27,6 +28,7 @@ namespace SalonDB.Web.Controllers
         {
             var DataSource = GetDataSource(DateTime.Now);
             DataSource.ServerTimeZone = SalonDB.Data.DBProvider.GetCurrentTimeZone();
+            DataSource.ApplyTimeOffset = _ApplyTimeOffset;
 
             if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -79,7 +81,7 @@ namespace SalonDB.Web.Controllers
                 if (param.action == "insert" || (param.action == "batch" && param.added != null))          // this block of code will execute while inserting the appointments
                 {
                     var value = param.action == "insert" ? param.value : param.added[0];
-                    result = AppointmentRepositoryModel.Insert(value, LoginInfo, _CurrentTimeZone);
+                    result = AppointmentRepositoryModel.Insert(value, LoginInfo, _CurrentTimeZone, _ApplyTimeOffset);
                 }
                 if (param.action == "remove" || param.deleted != null)                                        // this block of code will execute while removing the appointment
                 {
@@ -96,7 +98,7 @@ namespace SalonDB.Web.Controllers
                 if ((param.action == "batch" && param.changed != null) || param.action == "update")   // this block of code will execute while updating the appointment
                 {
                     var value = param.action == "update" ? param.value : param.changed[0];
-                    result = AppointmentRepositoryModel.Update(value, LoginInfo, _CurrentTimeZone);
+                    result = AppointmentRepositoryModel.Update(value, LoginInfo, _CurrentTimeZone, _ApplyTimeOffset);
                 }
 
             }
@@ -135,7 +137,8 @@ namespace SalonDB.Web.Controllers
                 CustomerCol = new List<CustomerViewModel>(),
                 StaffCol = new List<StaffViewModel>(),
                 ResourceCol = new List<ResourceFields>(),
-                ServiceCol = new List<ServiceViewModel>()
+                ServiceCol = new List<ServiceViewModel>(),
+                ApplyTimeOffset = _ApplyTimeOffset
             };
 
             //For Testing
