@@ -65,6 +65,22 @@ where ([Transaction].Status = 'Paid')</CommandText>
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="DSFromToDate">
+      <Query>
+        <DataSourceName>SalonDB</DataSourceName>
+        <CommandText>SELECT        GETDATE() AS FromDate, GETDATE() AS ToDate</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -74,7 +90,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>20.33583cm</Width>
+                  <Width>18.13627cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -106,6 +122,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
                               <Color>White</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -159,9 +176,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </TablixRowHierarchy>
             <DataSetName>DSCategory</DataSetName>
             <Top>0.07056cm</Top>
-            <Left>0.80083cm</Left>
+            <Left>0.18819cm</Left>
             <Height>1.2cm</Height>
-            <Width>20.33583cm</Width>
+            <Width>18.13627cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -187,7 +204,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraph>
             </Paragraphs>
             <Top>1.34111cm</Top>
-            <Left>4.07227cm</Left>
+            <Left>3.45963cm</Left>
             <Height>0.6cm</Height>
             <Width>2.62791cm</Width>
             <ZIndex>1</ZIndex>
@@ -222,9 +239,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Paragraphs>
             <rd:DefaultName>ProductTotal</rd:DefaultName>
             <Top>1.34111cm</Top>
-            <Left>6.84129cm</Left>
+            <Left>6.22865cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.37739cm</Width>
+            <Width>2.44795cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -257,7 +274,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Paragraphs>
             <rd:DefaultName>ServiceCount</rd:DefaultName>
             <Top>1.34111cm</Top>
-            <Left>9.61031cm</Left>
+            <Left>8.99767cm</Left>
             <Height>0.6cm</Height>
             <Width>2.31041cm</Width>
             <ZIndex>3</ZIndex>
@@ -292,9 +309,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Paragraphs>
             <rd:DefaultName>ServiceTotal</rd:DefaultName>
             <Top>1.34111cm</Top>
-            <Left>12.06183cm</Left>
+            <Left>11.13169cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.5cm</Width>
+            <Width>2.56871cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -326,7 +343,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraph>
             </Paragraphs>
             <Top>1.34111cm</Top>
-            <Left>15.14063cm</Left>
+            <Left>14.21049cm</Left>
             <Height>0.6cm</Height>
             <Width>1.95763cm</Width>
             <ZIndex>5</ZIndex>
@@ -361,9 +378,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Paragraphs>
             <rd:DefaultName>ServiceTotal</rd:DefaultName>
             <Top>1.34111cm</Top>
-            <Left>17.27465cm</Left>
+            <Left>16.02701cm</Left>
             <Height>0.6cm</Height>
-            <Width>2.22159cm</Width>
+            <Width>2.29745cm</Width>
             <ZIndex>6</ZIndex>
             <Style>
               <Border>
@@ -378,9 +395,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
           </Textbox>
           <Line Name="Line1">
             <Top>1.27056cm</Top>
-            <Left>0.80083cm</Left>
+            <Left>0.18819cm</Left>
             <Height>0cm</Height>
-            <Width>20.33583cm</Width>
+            <Width>18.06041cm</Width>
             <ZIndex>7</ZIndex>
             <Style>
               <Border>
@@ -406,7 +423,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
             <Top>1.27564cm</Top>
-            <Left>1.39912cm</Left>
+            <Left>0.78648cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>8</ZIndex>
@@ -421,14 +438,14 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>3.65754in</Height>
+        <Height>1.13671in</Height>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
         </Style>
       </Body>
-      <Width>8.39444in</Width>
+      <Width>7.32013in</Width>
       <Page>
         <PageHeader>
           <Height>1.2882in</Height>
@@ -446,7 +463,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
                       <Style>
                         <FontSize>14pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>Maroon</Color>
+                        <Color>Brown</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
@@ -457,9 +474,9 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.29104cm</Top>
-              <Left>7.24641cm</Left>
+              <Left>3.48932cm</Left>
               <Height>0.89104cm</Height>
-              <Width>6.89208cm</Width>
+              <Width>11.05921cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -487,7 +504,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               <rd:DefaultName>ExecutionTime</rd:DefaultName>
               <Top>0.29104cm</Top>
               <Height>0.6cm</Height>
-              <Width>4.21252cm</Width>
+              <Width>3.28648cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <Border>
@@ -506,18 +523,20 @@ where ([Transaction].Status = 'Paid')</CommandText>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Sales For </Value>
+                      <Value>="Sales from " &amp; First(Fields!FromDate.Value, "DSFromToDate") &amp; " to " &amp;  First(Fields!ToDate.Value, "DSFromToDate")</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>1.35847cm</Top>
-              <Left>7.51099cm</Left>
+              <Top>1.32319cm</Top>
+              <Left>3.48932cm</Left>
               <Height>0.6cm</Height>
-              <Width>6.20417cm</Width>
+              <Width>11.05921cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>
@@ -545,7 +564,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.09958cm</Top>
-              <Left>4.12432cm</Left>
+              <Left>3.48932cm</Left>
               <Height>0.6cm</Height>
               <Width>5.09436cm</Width>
               <ZIndex>3</ZIndex>
@@ -575,7 +594,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.08111cm</Top>
-              <Left>9.32451cm</Left>
+              <Left>8.68951cm</Left>
               <Height>0.6cm</Height>
               <Width>5.17087cm</Width>
               <ZIndex>4</ZIndex>
@@ -605,7 +624,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.09958cm</Top>
-              <Left>14.45415cm</Left>
+              <Left>13.81915cm</Left>
               <Height>0.6cm</Height>
               <Width>4.40709cm</Width>
               <ZIndex>5</ZIndex>
@@ -637,7 +656,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.59264cm</Top>
-              <Left>4.97099cm</Left>
+              <Left>4.33599cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.60128cm</Width>
               <ZIndex>6</ZIndex>
@@ -667,7 +686,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.59264cm</Top>
-              <Left>8.09308cm</Left>
+              <Left>7.45808cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.19616cm</Width>
               <ZIndex>7</ZIndex>
@@ -699,7 +718,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.59264cm</Top>
-              <Left>9.99479cm</Left>
+              <Left>9.35979cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.60128cm</Width>
               <ZIndex>8</ZIndex>
@@ -729,7 +748,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.55736cm</Top>
-              <Left>13.11688cm</Left>
+              <Left>12.48188cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.19616cm</Width>
               <ZIndex>9</ZIndex>
@@ -761,7 +780,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.59264cm</Top>
-              <Left>14.93635cm</Left>
+              <Left>14.30135cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.60128cm</Width>
               <ZIndex>10</ZIndex>
@@ -791,7 +810,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
               <Top>2.59264cm</Top>
-              <Left>17.74094cm</Left>
+              <Left>17.10594cm</Left>
               <Height>0.52063cm</Height>
               <Width>1.19616cm</Width>
               <ZIndex>11</ZIndex>
@@ -812,6 +831,7 @@ where ([Transaction].Status = 'Paid')</CommandText>
             </Border>
           </Style>
         </PageHeader>
+        <PageHeight>10in</PageHeight>
         <LeftMargin>0.5in</LeftMargin>
         <RightMargin>0.5in</RightMargin>
         <TopMargin>0.5in</TopMargin>

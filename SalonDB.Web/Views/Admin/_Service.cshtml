@@ -21,6 +21,10 @@
 
                 .Columns(col =>
                 {
+
+                    col.HeaderText("Edit").Template("#editServiceTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteServiceTemplate").Add();
+
                     col.Field(p => p.ServiceID).HeaderText("ServiceID").IsPrimaryKey(true).Visible(false).Add();
                     col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).HeaderText("Company").EditType(EditingType.Dropdown).Visible(false).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
 
@@ -31,10 +35,6 @@
                     col.Field(p => p.Price).HeaderText("Price").Format("{0:C2}").Width("7%").Visible(true).EditType(EditingType.Numeric).ValidationRules(v => v.AddRule("required", true)).Add();
                     col.Field(p => p.Duration).HeaderText("Duration").Width("9%").Visible(true).Add();
                     col.Field(p => p.ShowOnline).HeaderText("ShowOnline").Width("11%").Visible(true).Add();
-
-                    col.HeaderText("Edit").Template("#editServiceTemplate").Add();
-                    col.HeaderText("Delete").Template("#deleteServiceTemplate").Add();
-
 
                 })
                                 .ClientSideEvents(evt =>
@@ -49,8 +49,6 @@
             <br />
             <p>
                 <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Service()">Add</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Service()">Edit</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Service()">Delete</button>
             </p>
 
         </div>

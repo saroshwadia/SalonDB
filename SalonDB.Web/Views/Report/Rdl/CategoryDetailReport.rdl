@@ -138,6 +138,22 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="DSFromToDate">
+      <Query>
+        <DataSourceName>SalonDB</DataSourceName>
+        <CommandText>SELECT        GETDATE() AS FromDate, GETDATE() AS ToDate</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -147,36 +163,36 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.11442cm</Width>
+                  <Width>2.93803cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.64358cm</Width>
+                  <Width>3.46719cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.48302cm</Width>
+                  <Width>4.30663cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.61348cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -208,6 +224,7 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -469,7 +486,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.61348cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -517,7 +534,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.61348cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -834,7 +851,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.61348cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -914,7 +931,6 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Quantity1">
-                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -1137,7 +1153,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.6cm</Height>
+                  <Height>0.61348cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1213,7 +1229,6 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox13">
-                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -1459,7 +1474,10 @@
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
-                <TablixMember />
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
                 <TablixMember>
                   <Group Name="CategoryName">
                     <GroupExpressions>
@@ -1486,11 +1504,12 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DSCategoryDetailService</DataSetName>
-            <Top>1.08162cm</Top>
+            <Top>1.01423cm</Top>
             <Left>0.21182cm</Left>
-            <Height>3cm</Height>
-            <Width>26.75256cm</Width>
+            <Height>3.06739cm</Height>
+            <Width>25.16502cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1566,31 +1585,31 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>3.11442cm</Width>
+                  <Width>2.93803cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.64358cm</Width>
+                  <Width>3.46719cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.48302cm</Width>
+                  <Width>4.30663cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.58525cm</Width>
+                  <Width>2.40886cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.63832cm</Width>
+                  <Width>2.46193cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -2333,7 +2352,6 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Quantity3">
-                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -2632,7 +2650,6 @@
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox34">
-                          <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -2878,7 +2895,10 @@
             </TablixColumnHierarchy>
             <TablixRowHierarchy>
               <TablixMembers>
-                <TablixMember />
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                </TablixMember>
                 <TablixMember>
                   <Group Name="CategoryName2">
                     <GroupExpressions>
@@ -2905,11 +2925,12 @@
                 <TablixMember />
               </TablixMembers>
             </TablixRowHierarchy>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
             <DataSetName>DSCategoryDetailProduct</DataSetName>
             <Top>5.62082cm</Top>
             <Left>0.15875cm</Left>
-            <Height>2.81479cm</Height>
-            <Width>26.80563cm</Width>
+            <Height>2.8148cm</Height>
+            <Width>25.21809cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -2997,38 +3018,6 @@
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Textbox Name="Textbox20">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>Sales For </Value>
-                      <Style />
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>1.53886cm</Top>
-              <Left>9.85528cm</Left>
-              <Height>0.6cm</Height>
-              <Width>6.20417cm</Width>
-              <ZIndex>2</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
             <Textbox Name="Textbox21">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -3050,6 +3039,38 @@
               <Left>10.31573cm</Left>
               <Height>0.6cm</Height>
               <Width>5.09436cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox20">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Sales from " &amp; First(Fields!FromDate.Value, "DSFromToDate") &amp; " to " &amp; First(Fields!ToDate.Value, "DSFromToDate")</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox3</rd:DefaultName>
+              <Top>1.32718cm</Top>
+              <Left>8.0829cm</Left>
+              <Height>0.6cm</Height>
+              <Width>11.05921cm</Width>
               <ZIndex>3</ZIndex>
               <Style>
                 <Border>

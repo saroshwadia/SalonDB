@@ -19,6 +19,10 @@
 
                 .Columns(col =>
                 {
+
+                    col.HeaderText("Edit").Template("#editCustomerTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteCustomerTemplate").Add();
+
                     col.Field(p => p.CustomerID).HeaderText("CustomerID").IsPrimaryKey(true).Visible(false).Add();
                     col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).Visible(false).HeaderText("Company").EditType(EditingType.Dropdown).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
 
@@ -36,9 +40,6 @@
                     col.Field(p => p.Discount).HeaderText("Discount").Width(90).Visible(true).Add();
                     col.Field(p => p.Notes).HeaderText("Notes").Width(200).Visible(true).Add();
 
-                    col.HeaderText("Edit").Template("#editCustomerTemplate").Add();
-                    col.HeaderText("Delete").Template("#deleteCustomerTemplate").Add();
-
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -52,8 +53,6 @@
             <br />
             <p>
                 <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Customer()">Add</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Customer()">Edit</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Customer()">Delete</button>
             </p>
 
         </div>

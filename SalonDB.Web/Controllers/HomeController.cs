@@ -152,6 +152,8 @@ namespace SalonDB.Web.Controllers
 
                 //oSW.Stop();
                 //var ET = oSW.Elapsed.TotalMilliseconds;
+
+                // Test comment for git
             }
 
             var POSViewModelEnt = new POSViewModel()

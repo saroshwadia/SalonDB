@@ -58,6 +58,22 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="DSFromToDate">
+      <Query>
+        <DataSourceName>SalonDB</DataSourceName>
+        <CommandText>SELECT        GETDATE() AS FromDate, GETDATE() AS ToDate</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -824,7 +840,7 @@
             <DataSetName>DSCashoutDetail</DataSetName>
             <Top>0.17639cm</Top>
             <Height>3.105cm</Height>
-            <Width>15.68855cm</Width>
+            <Width>15.68856cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -913,7 +929,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>Sales For </Value>
+                      <Value>="Sales from " &amp; First(Fields!FromDate.Value, "DSFromToDate") &amp; " to " &amp; First(Fields!ToDate.Value, "DSFromToDate")</Value>
                       <Style />
                     </TextRun>
                   </TextRuns>
@@ -923,10 +939,10 @@
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>1.23032cm</Top>
-              <Left>5.03971cm</Left>
+              <Top>1.31395cm</Top>
+              <Left>4.00801cm</Left>
               <Height>0.6cm</Height>
-              <Width>6.20417cm</Width>
+              <Width>11.05921cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border>

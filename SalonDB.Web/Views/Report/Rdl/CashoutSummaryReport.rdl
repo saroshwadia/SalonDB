@@ -36,17 +36,19 @@ ORDER BY A.Sequence</CommandText>
         </Field>
       </Fields>
     </DataSet>
-    <DataSet Name="DSNone">
+    <DataSet Name="DSFromToDate">
       <Query>
         <DataSourceName>SalonDB</DataSourceName>
-        <CommandText>SELECT        Name
-FROM            Category
-WHERE        (1 = 2)</CommandText>
+        <CommandText>SELECT        GETDATE() AS FromDate, GETDATE() AS ToDate</CommandText>
       </Query>
       <Fields>
-        <Field Name="Name">
-          <DataField>Name</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+        <Field Name="FromDate">
+          <DataField>FromDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ToDate">
+          <DataField>ToDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
@@ -616,38 +618,6 @@ WHERE        (1 = 2)</CommandText>
               <BackgroundColor>White</BackgroundColor>
             </Style>
           </Tablix>
-          <Textbox Name="Textbox22">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>*Calculation of Cash in Drawer</Value>
-                    <Style>
-                      <FontWeight>Bold</FontWeight>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>2.04694cm</Top>
-            <Left>0.67471cm</Left>
-            <Height>0.6cm</Height>
-            <Width>5.30458cm</Width>
-            <ZIndex>1</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
           <Textbox Name="Textbox49">
             <KeepTogether>true</KeepTogether>
             <Paragraphs>
@@ -662,11 +632,11 @@ WHERE        (1 = 2)</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox49</rd:DefaultName>
-            <Top>5.25806cm</Top>
+            <Top>2.40056cm</Top>
             <Left>1.07158cm</Left>
             <Height>0.6cm</Height>
             <Width>16.61992cm</Width>
-            <ZIndex>2</ZIndex>
+            <ZIndex>1</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -691,11 +661,11 @@ WHERE        (1 = 2)</CommandText>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox49</rd:DefaultName>
-            <Top>5.89334cm</Top>
+            <Top>3.35334cm</Top>
             <Left>1.07158cm</Left>
             <Height>0.73229cm</Height>
             <Width>16.61992cm</Width>
-            <ZIndex>3</ZIndex>
+            <ZIndex>2</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -707,13 +677,13 @@ WHERE        (1 = 2)</CommandText>
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>2.85801in</Height>
+        <Height>1.77468in</Height>
         <Style />
       </Body>
       <Width>8.51723in</Width>
       <Page>
         <PageHeader>
-          <Height>1in</Height>
+          <Height>1.21018in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -798,11 +768,43 @@ WHERE        (1 = 2)</CommandText>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox3</rd:DefaultName>
-              <Top>1.52136cm</Top>
+              <Top>2.47386cm</Top>
               <Left>6.62721cm</Left>
               <Height>0.6cm</Height>
               <Width>6.20417cm</Width>
               <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox21">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Sales from " &amp; First(Fields!FromDate.Value, "DSFromToDate") &amp; " to " &amp; First(Fields!ToDate.Value, "DSFromToDate")</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox3</rd:DefaultName>
+              <Top>1.605cm</Top>
+              <Left>4.96978cm</Left>
+              <Height>0.6cm</Height>
+              <Width>11.05921cm</Width>
+              <ZIndex>3</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>

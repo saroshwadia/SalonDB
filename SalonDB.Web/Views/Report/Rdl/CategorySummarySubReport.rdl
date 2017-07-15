@@ -679,7 +679,7 @@
             <DataSetName>DSCategorySummaryDetailSub</DataSetName>
             <Left>0.29104cm</Left>
             <Height>1.2cm</Height>
-            <Width>17.87355cm</Width>
+            <Width>17.87356cm</Width>
             <Style>
               <Border>
                 <Color>White</Color>
@@ -705,6 +705,11 @@
   <ReportParameters>
     <ReportParameter Name="CategoryID">
       <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>2DA7C575-0EDB-41B2-A7D4-C46B53418FC6</Value>
+        </Values>
+      </DefaultValue>
       <Prompt>CategoryID</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>

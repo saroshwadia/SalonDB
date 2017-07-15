@@ -38,6 +38,9 @@
 
                 .Columns(col =>
                 {
+                    col.HeaderText("Edit").Template("#editProductTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteProductTemplate").Add();
+
                     col.Field(p => p.ProductID).HeaderText("ProductID").IsPrimaryKey(true).Visible(false).Add();
 
                     col.Field(p => p.Name).HeaderText("Name").Width(250).Add();
@@ -54,9 +57,6 @@
                     col.Field(p => p.UnitsOnOrder).HeaderText("On Order").Width(105).Visible(true).Add();
                     col.Field(p => p.MinimumStockLevel).HeaderText("MinimumStockLevel").Visible(false).Add();
 
-                    col.HeaderText("Edit").Template("#editProductTemplate").Add();
-                    col.HeaderText("Delete").Template("#deleteProductTemplate").Add();
-
                 })
                                 .ClientSideEvents(evt =>
                                 {
@@ -70,8 +70,6 @@
             <br />
             <p>
                 <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Product()">Add</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Product()">Edit</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Product()">Delete</button>
             </p>
         </div>
         @*<div class="col-md-4">

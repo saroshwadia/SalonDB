@@ -78,7 +78,15 @@ namespace SalonDB.Web.WebAPI
                 var Detail = DBProvider.GetCategorySummaryDetail(StoreID, FromDate, ToDate);
                 var ProductTotal = DBProvider.GetCategorySummaryProductTotal(StoreID, FromDate, ToDate);
                 var ServiceTotal = DBProvider.GetCategorySummaryServiceTotal(StoreID, FromDate, ToDate);
+              
+                List <FromToDate> FromToDateList = new List<FromToDate>();
+                var FromToDate = new FromToDate();
+                FromToDate.FromDate = FromDate;
+                FromToDate.ToDate = ToDate;
+                FromToDateList.Add(FromToDate);
 
+                      reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSFromToDate", Value = FromToDateList });
+         
 
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSCategory", Value = Category });
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSProductTotal", Value = ProductTotal });
@@ -104,7 +112,13 @@ namespace SalonDB.Web.WebAPI
                 var ServiceSales = DBProvider.GetServiceSales(StoreID, FromDate, ToDate);
                 var ProductSales = DBProvider.GetProductSales(StoreID, FromDate, ToDate);
 
+                List<FromToDate> FromToDateList = new List<FromToDate>();
+                var FromToDate = new FromToDate();
+                FromToDate.FromDate = FromDate;
+                FromToDate.ToDate = ToDate;
+                FromToDateList.Add(FromToDate);
 
+                reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSFromToDate", Value = FromToDateList });
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSCategoryDetailProduct", Value = CategoryDetailProduct });
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSCategoryDetailService", Value = CategoryDetailService });
 
@@ -122,49 +136,15 @@ namespace SalonDB.Web.WebAPI
                 var FromDate = reportOption.ReportModel.Parameters.ToList()[0].Values[0].ToString() + " 00:00:00";
                 var ToDate = reportOption.ReportModel.Parameters.ToList()[1].Values[0].ToString() + " 23:59:59";
 
-                //var _parameters = ReportHelper.GetParameters();
-                //IList<ReportParameter> _params = new List<ReportParameter>();
-                //foreach (var param in _parameters)
-                //{
-                //    ReportParameter _param = new ReportParameter();
-                //    _param.Name = param.Name;
-                //    //if (param.Name == "CompanyID")
-                //    //{
-                //    //    _param.Labels = new List<string>();
-                //    //    _param.Values = new List<string>();
-                //    //    _param.Labels.Add(CompanyID.ToString());
-                //    //    _param.Values.Add(CompanyID.ToString());
-
-                //    //}
-                //    //else if (param.Name == "StoreID")
-                //    //{
-                //    //    _param.Labels = new List<string>();
-                //    //    _param.Values = new List<string>();
-                //    //    _param.Labels.Add(StoreID.ToString());
-                //    //    _param.Values.Add(StoreID.ToString());
-                //    //}
-                //     if (param.Name == "FromDate")
-                //    {
-                //        _param.Labels = new List<string>();
-                //        _param.Values = new List<string>();
-                //        _param.Labels.Add(FromDate);
-                //        _param.Values.Add(FromDate);
-                //    }
-                //    else if (param.Name == "ToDate")
-                //    {
-                //        _param.Labels = new List<string>();
-                //        _param.Values = new List<string>();
-                //        _param.Labels.Add(ToDate);
-                //        _param.Values.Add(ToDate);
-                //    }
-                //    _params.Add(_param);
-                //}
-                //reportOption.ReportModel.Parameters = _params;
-
-
-
-
                 var CashOutSummary = DBProvider.GetCashOutSummary(CompanyID, StoreID, FromDate, ToDate);
+
+                List<FromToDate> FromToDateList = new List<FromToDate>();
+                var FromToDate = new FromToDate();
+                FromToDate.FromDate = FromDate;
+                FromToDate.ToDate = ToDate;
+                FromToDateList.Add(FromToDate);
+
+                reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSFromToDate", Value = FromToDateList });
 
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSCashoutSummary", Value = CashOutSummary });
             }
@@ -176,6 +156,14 @@ namespace SalonDB.Web.WebAPI
                 var ToDate = reportOption.ReportModel.Parameters.ToList()[1].Values[0].ToString();
 
                 var CashOutDetail = DBProvider.GetCashOutDetail(StoreID, FromDate, ToDate);
+
+                List<FromToDate> FromToDateList = new List<FromToDate>();
+                var FromToDate = new FromToDate();
+                FromToDate.FromDate = FromDate;
+                FromToDate.ToDate = ToDate;
+                FromToDateList.Add(FromToDate);
+
+                reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSFromToDate", Value = FromToDateList });
 
                 reportOption.ReportModel.DataSources.Add(new ReportDataSource { Name = "DSCashoutDetail", Value = CashOutDetail });
             }
@@ -197,6 +185,12 @@ namespace SalonDB.Web.WebAPI
             }
      
      
+        }
+        public partial class FromToDate
+        {
+            public System.String FromDate { get; set; }
+            public System.String ToDate { get; set; }
+
         }
     }
 }

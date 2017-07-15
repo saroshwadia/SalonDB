@@ -22,6 +22,9 @@
 
                 .Columns(col =>
                 {
+                    col.HeaderText("Edit").Template("#editCompanyTemplate").Add();
+                    col.HeaderText("Delete").Template("#deleteCompanyTemplate").Add();
+
                     col.Field(p => p.CompanyID).HeaderText("CompanyID").IsPrimaryKey(true).Visible(false).Add();
                     col.Field(p => p.Name).HeaderText("Name").Add();
                     col.Field(p => p.Description).HeaderText("Description").Add();
@@ -29,9 +32,6 @@
                     col.Field(p => p.Address).HeaderText("Address").Visible(true).Add();
                     col.Field(p => p.PostalCode).HeaderText("PostalCode").Visible(true).Add();
                     col.Field(p => p.City).HeaderText("City").Visible(true).Add();
-
-                    col.HeaderText("Edit").Template("#editCompanyTemplate").Add();
-                    col.HeaderText("Delete").Template("#deleteCompanyTemplate").Add();
 
                 })
                                 .ClientSideEvents(evt =>
@@ -47,8 +47,6 @@
             <br />
             <p>
                 <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Company()">Add</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsEdit" onclick="edit_Company()">Edit</button>
-                <button type="button" class="btn btn-primary" id="BtnProductsDelete" onclick="delete_Company()">Delete</button>
             </p>
         </div>
         @*<div class="col-md-4">
