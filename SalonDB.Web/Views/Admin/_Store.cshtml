@@ -17,6 +17,15 @@
                 .ScrollSettings(col => { col.Width(900).Height(350); })
                 .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Store"); })
 
+                .ToolbarSettings(tool =>
+                {
+                    tool.ShowToolbar().ToolbarItems(items =>
+                    {
+                        items.AddTool(ToolBarItems.Search);
+                    });
+
+                })
+
                 .Columns(col =>
                 {
                     col.HeaderText("Edit").Template("#editStoreTemplate").Add();
@@ -40,6 +49,7 @@
                                     evt.EndDelete("endDelete_Store");
                                     evt.RowSelected("onRowSelected_Store");
                                     evt.ActionComplete("onActionComplete_Store");
+                                    evt.DataBound("onDataBound");
                                 })
         )
             <br />
@@ -153,6 +163,21 @@
         }
 
         return false;
+    }
+
+    function onDataBound(args) {
+        //debugger;
+        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
+        {
+            //key.indexOf("ID") <= 0
+            if (!endsWith(key, "ID")) {
+                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
+            }
+        }
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
 
 </script>

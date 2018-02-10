@@ -48,6 +48,10 @@ namespace SalonDB.Web.Controllers
             var CurrentMonthEndDate = DateTime.Now.Date;
             DateTime StartingDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
             DateTime EndingDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 21, 0, 0);
+            var CategoryList = new Dictionary<string, string>();
+
+            CategoryList.Add("Value1", "Goal");
+            CategoryList.Add("Value2", "Actual");
 
             //var oSW = new Stopwatch();
 
@@ -77,6 +81,15 @@ namespace SalonDB.Web.Controllers
                 var MaxAppointments = 0;
                 var StartDate = DateTime.Now.Date;
                 var EndtDate = StartDate.AddDays(7); //new DateTime(2017, 06, 29);
+                var TotalDays = 60;
+                var AddTransactionsOnly = false;
+
+                if (AddTransactionsOnly)
+                {
+                    MaxTransactions = 200;
+                    EndtDate = DateTime.Now.Date.AddDays(-1);
+                    StartDate = EndtDate.AddDays(-TotalDays + 1);
+                }
 
                 //SalonDB.Data.DBProvider.GenerateTransactionData(CurrentStaff, MaxTransactions, StartDate, EndtDate, MaxAppointments);
 
@@ -169,7 +182,8 @@ namespace SalonDB.Web.Controllers
                 TargetAction = "Index",
                 ChartSalesByStaffCol = ChartSalesByStaffCol,
                 ChartSalesByStoreCol = ChartSalesByStoreCol,
-                ChartSalesByHourCol = ChartSalesByHour
+                ChartSalesByHourCol = ChartSalesByHour,
+                CategoryList = CategoryList
             };
 
             if (LoginInfo != null)
@@ -182,10 +196,6 @@ namespace SalonDB.Web.Controllers
 
             //var PaymentTypeCol = DBProvider.GetPaymentTypes(LoginInfo.CompanyID);
             //UpdatePaymentType();
-
-            var CategoryList = new Dictionary<string, string>();
-            CategoryList.Add("Value1", "Goal");
-            CategoryList.Add("Value2", "Actual");
 
             ViewBag.Category = CategoryList;
 

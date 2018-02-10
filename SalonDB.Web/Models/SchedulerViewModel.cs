@@ -7,6 +7,16 @@ namespace SalonDB.Web.Models
 {
     public class SchedulerEntity
     {
+
+        public SchedulerEntity()
+        {
+            this.CustomerCol = new List<CustomerViewModel>();
+            this.StaffCol = new List<StaffViewModel>();
+            this.ServiceCol = new List<ServiceViewModel>();
+            this.GroupCol = new List<string>();
+            this.CategorizeSettings = new List<Data.CategorizeSettings>();
+        }
+
         public string Id { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
@@ -29,6 +39,15 @@ namespace SalonDB.Web.Models
         public string SelectedServices { get; set; }
         public string Status { get; set; }
         public bool AllowEdit { get; set; }
+        public string CurrentStatus { get; set; }
+        public string CurrentCustomerID { get; set; }
+        public string CurrentStaffID { get; set; }
+        public List<CustomerViewModel> CustomerCol { get; set; }
+        public List<StaffViewModel> StaffCol { get; set; }
+        public List<ServiceViewModel> ServiceCol { get; set; }
+        public List<string> GroupCol { get; set; }
+        public List<SalonDB.Data.CategorizeSettings> CategorizeSettings { get; set; }
+
     }
 
     public class ResourceFields
@@ -89,5 +108,5 @@ namespace SalonDB.Web.Models
         public List<SalonDB.Data.CategorizeSettings> CategorizeSettings { get; set; }
         public List<ResourceFields> ResourceCol { get; set; }
     }
-           
+
 }

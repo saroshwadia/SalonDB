@@ -205,5 +205,106 @@ namespace SalonDB.Web.Controllers
             return Json(ReturnValue, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult EditAppointment(string appointmentID, string controllerName)
+        {
+            LoginInfo = MvcApplication.GetLoginInfo<LoginViewModel>(User.Identity);
+            var ID = Guid.Parse(appointmentID);
+            var AppointmentEnt = unitOfWork.Appointments.Get(ID);
+            var SchedulerEntityEnt = Convert(AppointmentEnt);
+            var CategorizeSettings = SalonDB.Data.CategorizeSettings.GetData();
+            var Group = new List<String>();
+
+            Group.Add("Owners");
+
+            foreach (var item in unitOfWork.Customers.FindAll(c => c.CompanyID == LoginInfo.CompanyID).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList())
+            {
+                SchedulerEntityEnt.CustomerCol.Add(new CustomerViewModel { CustomerID = item.CustomerID, Name = item.FullName });
+            }
+
+            foreach (var item in unitOfWork.Staffs.FindAll(c => c.StoreID == LoginInfo.StoreID).OrderBy(c => c.FirstName).ThenBy(c => c.LastName).ToList())
+            {
+                SchedulerEntityEnt.StaffCol.Add(new StaffViewModel { StaffID = item.StaffID, Name = item.FullName, ResourceColor = item.ResourceColor });
+            }
+
+            foreach (var item in unitOfWork.Services.FindAll(c => c.CompanyID == LoginInfo.CompanyID).OrderBy(c => c.Name).ToList())
+            {
+                SchedulerEntityEnt.ServiceCol.Add(new ServiceViewModel { ServiceID = item.ServiceID, Name = item.Name, Price = item.Price, Duration = item.Duration });
+            }
+
+            SchedulerEntityEnt.CurrentStatus = SalonDB.Data.CategorizeSettings.GetScheduledID();
+            SchedulerEntityEnt.GroupCol = Group;
+            SchedulerEntityEnt.CategorizeSettings = CategorizeSettings;
+
+            return View(SchedulerEntityEnt);
+        }
+
+        private SchedulerEntity Convert(Data.Core.Domain.Appointment appointmentEnt)
+        {
+            var ReturnValue = new SchedulerEntity();
+            var StaffEnt = unitOfWork.Staffs.Get(appointmentEnt.StaffID);
+            var CustomerEnt = unitOfWork.Customers.Get(appointmentEnt.CustomerID);
+            var AllDay = false;
+            var AllowEdit = true;
+            var SelectedServices = string.Empty;
+            var Status = string.Empty;
+
+            ReturnValue.Id = appointmentEnt.AppointmentID.ToString();
+            ReturnValue.Subject = appointmentEnt.Subject;
+            ReturnValue.Description = appointmentEnt.Description;
+            ReturnValue.StartTime = (DateTime)appointmentEnt.StartTime;
+            ReturnValue.EndTime = (DateTime)appointmentEnt.EndTime;
+            ReturnValue.StartTimeZone = appointmentEnt.StartTimeZone;
+            ReturnValue.EndTimeZone = appointmentEnt.EndTimeZone;
+            //ReturnValue.Categorize = appointmentEnt.Categorize;
+            //ReturnValue.RoomId = appointmentEnt.RoomId;
+            ReturnValue.StaffID = appointmentEnt.StaffID.ToString();
+            ReturnValue.StaffName = StaffEnt.FullName;
+            ReturnValue.CustomerID = appointmentEnt.CustomerID.ToString();
+            ReturnValue.CustomerName = CustomerEnt.FullName;
+            //ReturnValue.Priority = appointmentEnt.Priority;
+            ReturnValue.AllDay = AllDay;
+            //ReturnValue.Recurrence = appointmentEnt.Recurrence;
+            //ReturnValue.RecurrenceRule = appointmentEnt.RecurrenceRule;
+            //ReturnValue.Duration = appointmentEnt.Duration;
+            //ReturnValue.Location = appointmentEnt.Location;
+            ReturnValue.SelectedServices = SelectedServices;
+            ReturnValue.Status = Status;
+            ReturnValue.AllowEdit = AllowEdit;
+            ReturnValue.CurrentCustomerID = CustomerEnt.CustomerID.ToString();
+            ReturnValue.CurrentStaffID = StaffEnt.StaffID.ToString();
+            return ReturnValue;
+        }
+
+        private Data.Core.Domain.Appointment Convert(SchedulerEntity SchedulerEntity)
+        {
+            var ReturnValue = new Data.Core.Domain.Appointment();
+            var StaffEnt = unitOfWork.Staffs.Get(Guid.Parse(SchedulerEntity.StaffID));
+            var CustomerEnt = unitOfWork.Customers.Get(Guid.Parse(SchedulerEntity.CustomerID));
+            var SelectedServices = string.Empty;
+            var Status = string.Empty;
+
+            ReturnValue.AppointmentID = Guid.Parse(SchedulerEntity.Id);
+            ReturnValue.Subject = SchedulerEntity.Subject;
+            ReturnValue.Description = SchedulerEntity.Description;
+            ReturnValue.StartTime = (DateTime)SchedulerEntity.StartTime;
+            ReturnValue.EndTime = (DateTime)SchedulerEntity.EndTime;
+            ReturnValue.StartTimeZone = SchedulerEntity.StartTimeZone;
+            ReturnValue.EndTimeZone = SchedulerEntity.EndTimeZone;
+            //ReturnValue.Categorize = appointmentEnt.Categorize;
+            //ReturnValue.RoomId = appointmentEnt.RoomId;
+            ReturnValue.StaffID = StaffEnt.StaffID;
+            ReturnValue.CustomerID = CustomerEnt.CustomerID;
+            //ReturnValue.Priority = appointmentEnt.Priority;
+            ReturnValue.AllDay = SchedulerEntity.AllDay;
+            //ReturnValue.Recurrence = appointmentEnt.Recurrence;
+            //ReturnValue.RecurrenceRule = appointmentEnt.RecurrenceRule;
+            //ReturnValue.Duration = appointmentEnt.Duration;
+            //ReturnValue.Location = appointmentEnt.Location;
+            //ReturnValue.SelectedServices = SelectedServices;
+            //ReturnValue.Status = Status;
+
+            return ReturnValue;
+        }
+
     }
 }

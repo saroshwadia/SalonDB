@@ -20,16 +20,29 @@ namespace SalonManagement.Web.Controllers
     public class CustomerInfoController : Controller
     {
         // GET: Products
-        UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
-        LoginViewModel LoginInfo = new LoginViewModel();
         Staff CurrentStaff = null;
+        UnitOfWork unitOfWork = new UnitOfWork(new SalonContext());
+        Guid CompanyID = Guid.Empty;
+        Guid StoreID = Guid.Empty;
+        LoginViewModel LoginInfo = new LoginViewModel();
+        AdminViewModel AdminViewModel = null;
 
         public ActionResult Index()
         {
             LoginInfo = MvcApplication.GetLoginInfo<LoginViewModel>(User.Identity);
-            var Data = SalonDB.Data.DBProvider.GetCustomers(LoginInfo.CompanyID);
+            CompanyID = LoginInfo.CompanyID;
+            StoreID = LoginInfo.StoreID;
+            AdminViewModel = new AdminViewModel();
+            AdminViewModel.Services = unitOfWork.Services.FindAll(c => c.StoreID == StoreID).ToList();
+            AdminViewModel.Products = unitOfWork.Products.FindAll(c => c.StoreID == StoreID).ToList();
+            AdminViewModel.Staffs = unitOfWork.Staffs.FindAll(c => c.StoreID == StoreID).ToList();
+            AdminViewModel.Stores = unitOfWork.Stores.FindAll(c => c.CompanyID == CompanyID).ToList();
+            AdminViewModel.Customers = unitOfWork.Customers.FindAll(c => c.CompanyID == CompanyID).ToList();
+            AdminViewModel.Companies = unitOfWork.Companys.FindAll(c => c.CompanyID == CompanyID).ToList();
+            AdminViewModel.Categories = unitOfWork.Categorys.FindAll(c => c.CompanyID == CompanyID).ToList();
+            AdminViewModel.Suppliers = unitOfWork.Suppliers.FindAll(c => c.CompanyID == CompanyID).ToList();
 
-            return View(Data);
+            return View(AdminViewModel);
         }
 
         public ActionResult CustomerDetails(Guid id)
@@ -151,6 +164,12 @@ namespace SalonManagement.Web.Controllers
             var ReturnValue = SalonDB.Data.CategorizeSettings.GetStatus(status.ToString());
 
             return ReturnValue;
+        }
+
+
+        public ActionResult CustomerEdit(Guid id)
+        {
+            return View();
         }
 
     }

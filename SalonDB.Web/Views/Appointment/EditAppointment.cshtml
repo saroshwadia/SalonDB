@@ -1,0 +1,144 @@
+﻿@model SalonDB.Web.Models.SchedulerEntity
+
+@{
+    ViewBag.Title = "EditAppointment";
+}
+
+<h2>Edit Appointment</h2>
+
+<div id="customWindow">
+    <form id="custom">
+
+        <div class="panel panel-info">
+
+            <div class="panel-body">
+                <input style="display: none" id="customId" type="text" name="Id" />
+                <input style="display: none" type="text" class="form-control" id="subject" placeholder="Enter Subject" value="New Appointment">
+
+                <div class="row" id="addCustomerRow" style="display:none">
+                    <br />
+                    <div class="col-md-3">
+                        Name:
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerName" placeholder="Enter Name" value="" onkeyup="refreshAddCustomerControls()">
+                        <br />
+                    </div>
+                    <div class="col-md-3">
+                        Phone:
+                    </div>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerPhone" placeholder="Enter Phone" value="" style="width:100%">
+                        <br />
+                    </div>
+
+                    <div class="col-md-3">
+                        Email:
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="customerEmail" placeholder="Enter Email" value="">
+                        <br />
+                    </div>
+
+                    <div class="col-md-12">
+                        <br />
+                        <br />
+                        <button id="btnCancelCustomer" type="button" class="btn btn-warning" onclick="cancelCustomer()" style="float:right;margin-right:20px;margin-bottom:10px;">Cancel</button>
+                        <button id="btnSaveCustomer" type="button" class="btn btn-primary" onclick="saveCustomer()" style="float:right;margin-right:20px;margin-bottom:10px;">OK</button>
+                    </div>
+
+                </div>
+
+                <div class="row" id="appointmentRow">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            Customer:
+                        </div>
+                        <div class="col-md-7">
+                            @Html.EJ().DropDownList("customselectCustomer").Datasource((IEnumerable<SalonDB.Web.Models.CustomerViewModel>)Model.CustomerCol).DropDownListFields(df => df.ID("CustomerID").Text("Name").Value("CustomerID")).Width("100%").WatermarkText("Select Customer").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentCustomerID.ToString())
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btnAddCustomer" type="button" class="btn btn-warning" onclick="addCustomer()">+</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Staff:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectStaff").Datasource((IEnumerable<SalonDB.Web.Models.StaffViewModel>)Model.StaffCol).DropDownListFields(df => df.ID("StaffID").Text("Name").Value("StaffID")).Width("100%").WatermarkText("Select Staff").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentStaffID.ToString())
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Service:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectService").Datasource((IEnumerable<SalonDB.Web.Models.ServiceViewModel>)Model.ServiceCol).DropDownListFields(df => df.ID("ServiceID").Text("Name").Value("ServiceID")).Width("100%").WatermarkText("Select Service").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowCheckbox(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").MultiSelectMode(MultiSelectModeTypes.VisualMode).ClientSideEvents(e => e.Change("serviceChange"))
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Start:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DateTimePicker("StartTime").Width("100%").ClientSideEvents(c => c.Change("startTimeChange"))
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            End:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DateTimePicker("EndTime").Width("100%")
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Status:
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EJ().DropDownList("customselectStatus").Datasource((IEnumerable<SalonDB.Data.CategorizeSettings>)Model.CategorizeSettings).DropDownListFields(df => df.ID("ID").Text("Text").Value("ID")).Width("100%").WatermarkText("Select Status").EnableIncrementalSearch(true).EnableFilterSearch(true).ShowRoundedCorner(true).EnablePopupResize(true).PopupHeight("250px").Value(Model.CurrentStatus.ToString())
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <br />
+                        <div class="col-md-3">
+                            Duration:
+                        </div>
+                        <div class="col-md-9">
+                            <input type="Text" name="duration" id="durationText" disabled="disabled" />
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+                    <button id="btncancel" type="button" class="btn btn-warning" onclick="cancel()" style="float:right;margin-right:20px;margin-bottom:10px;">Cancel</button>
+                    <button id="btnsubmit" type="button" class="btn btn-primary" onclick="save()" style="float:right;margin-right:20px;margin-bottom:10px;">OK</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+</div>        
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

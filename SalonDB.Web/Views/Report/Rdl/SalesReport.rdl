@@ -121,7 +121,6 @@
                                   <Value>Transaction Number</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -136,7 +135,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -157,7 +156,6 @@
                                   <Value>Date</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -172,7 +170,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -193,7 +191,6 @@
                                   <Value>Name</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -208,7 +205,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -229,7 +226,6 @@
                                   <Value>Description</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -244,7 +240,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -265,7 +261,6 @@
                                   <Value>Quantity</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -280,7 +275,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -301,7 +296,6 @@
                                   <Value>Unit Price</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -316,7 +310,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -337,7 +331,6 @@
                                   <Value>Total</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -352,7 +345,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -373,7 +366,6 @@
                                   <Value>Type</Value>
                                   <Style>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -388,7 +380,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -426,6 +418,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -458,6 +451,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -490,6 +484,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -522,6 +517,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -554,6 +550,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -586,6 +583,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -618,6 +616,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -650,6 +649,7 @@
                               <Color>LightGrey</Color>
                               <Style>Solid</Style>
                             </Border>
+                            <BackgroundColor>=iif(RowNumber(Nothing) Mod 2, "White", "WhiteSmoke")</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -716,18 +716,18 @@
                         <FontFamily>Bookman Old Style</FontFamily>
                         <FontSize>24pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>SteelBlue</Color>
+                        <Color>Brown</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Right</TextAlign>
+                    <TextAlign>Center</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>textbox1</rd:DefaultName>
               <Top>0.65679cm</Top>
-              <Left>11.99452cm</Left>
+              <Left>5.71226cm</Left>
               <Height>0.51334in</Height>
               <Width>3.43403in</Width>
               <Style>
@@ -740,21 +740,6 @@
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Image Name="logo">
-              <Source>Embedded</Source>
-              <Value>logo</Value>
-              <Sizing>Fit</Sizing>
-              <Top>0.18054cm</Top>
-              <Left>0.23237cm</Left>
-              <Height>2.17891cm</Height>
-              <Width>2.89424cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
           </ReportItems>
           <Style>
             <Border>

@@ -95,7 +95,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -123,7 +122,7 @@ FROM            Product</CommandText>
                             <RightBorder>
                               <Color>LightGrey</Color>
                             </RightBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -147,7 +146,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -165,7 +163,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -189,7 +187,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -208,7 +205,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -232,7 +229,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -251,7 +247,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -275,7 +271,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -294,7 +289,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -318,7 +313,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -337,7 +331,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <FontFamily />
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
@@ -361,7 +355,6 @@ FROM            Product</CommandText>
                                     <FontFamily />
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
-                                    <Color>White</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -379,7 +372,7 @@ FROM            Product</CommandText>
                             <BottomBorder>
                               <Style>Solid</Style>
                             </BottomBorder>
-                            <BackgroundColor>SteelBlue</BackgroundColor>
+                            <BackgroundColor>PaleTurquoise</BackgroundColor>
                             <PaddingLeft>2pt</PaddingLeft>
                             <PaddingRight>2pt</PaddingRight>
                             <PaddingTop>2pt</PaddingTop>
@@ -719,7 +712,8 @@ FROM            Product</CommandText>
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>dsInventory</DataSetName>
-            <Top>0.04167in</Top>
+            <Top>0.06944in</Top>
+            <Left>0.36278cm</Left>
             <Height>0.43in</Height>
             <Width>7.64397in</Width>
             <Style>
@@ -737,7 +731,7 @@ FROM            Product</CommandText>
           </Border>
         </Style>
       </Body>
-      <Width>7.75695in</Width>
+      <Width>7.93263in</Width>
       <Page>
         <PageHeader>
           <Height>2.84938cm</Height>
@@ -756,18 +750,18 @@ FROM            Product</CommandText>
                         <FontFamily>Bookman Old Style</FontFamily>
                         <FontSize>24pt</FontSize>
                         <FontWeight>Bold</FontWeight>
-                        <Color>SteelBlue</Color>
+                        <Color>Brown</Color>
                       </Style>
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Right</TextAlign>
+                    <TextAlign>Center</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>textbox1</rd:DefaultName>
               <Top>1.14672cm</Top>
-              <Left>10.49215cm</Left>
+              <Left>5.13993cm</Left>
               <Height>0.51334in</Height>
               <Width>3.43403in</Width>
               <Style>
@@ -780,20 +774,6 @@ FROM            Product</CommandText>
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Image Name="logo">
-              <Source>Embedded</Source>
-              <Value>logo</Value>
-              <Sizing>Fit</Sizing>
-              <Top>0.67047cm</Top>
-              <Height>2.17891cm</Height>
-              <Width>2.89424cm</Width>
-              <ZIndex>1</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-              </Style>
-            </Image>
           </ReportItems>
           <Style>
             <Border>

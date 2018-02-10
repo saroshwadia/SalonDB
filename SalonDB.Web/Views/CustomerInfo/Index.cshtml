@@ -1,5 +1,6 @@
-﻿@model IEnumerable<SalonDB.Data.Core.Domain.Customer>
-
+﻿@model SalonDB.Web.Models.AdminViewModel
+@using Newtonsoft.Json
+@using SalonDB.Data.Core.Domain
 @{
     ViewBag.Title = "CustomerList";
 }
@@ -7,8 +8,8 @@
 <h2>Customer List</h2>
 
 <div class="container-fluid">
-    @(Html.EJ().Grid<SalonDB.Data.Core.Domain.Customer>("Grid")
-         .Datasource((IEnumerable<SalonDB.Data.Core.Domain.Customer>)Model)
+    @(Html.EJ().Grid<SalonDB.Data.Core.Domain.Customer>("CustomerGrid")
+         .Datasource((IEnumerable<Customer>)Model.Customers)
          .AllowPaging()
          .AllowSorting()
          //.AllowFiltering()
@@ -19,6 +20,7 @@
          .EnableAltRow(true)
          //.ScrollSettings(col => { col.Width(900).Height(350); })
          .ScrollSettings(col => { col.Height(350); })
+         .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Customer"); })
          .AllowSearching()
          .ToolbarSettings(tool =>
          {
@@ -31,6 +33,7 @@
          .Columns(col =>
          {
              col.Field(p => p.CustomerID).HeaderText("CustomerID").IsPrimaryKey(true).Visible(false).Add();
+             col.Field(p => p.CompanyID).DataSource((IEnumerable<Company>)Model.Companies).Visible(false).HeaderText("Company").EditType(EditingType.Dropdown).ForeignKeyField("CompanyID").ForeignKeyValue("Name").Add();
              col.Field(p => p.FirstName).HeaderText("First Name").TextAlign(TextAlign.Left).Add();
              col.Field(p => p.LastName).HeaderText("Last Name").TextAlign(TextAlign.Left).Add();
              col.Field(p => p.Phone).HeaderText("Phone").TextAlign(TextAlign.Left).Add();
@@ -38,12 +41,99 @@
              col.Field(p => p.Address).HeaderText("Address").TextAlign(TextAlign.Left).Add();
              col.Field(p => p.City).HeaderText("City").TextAlign(TextAlign.Left).Add();
              col.Field(p => p.PostalCode).HeaderText("PostalCode").TextAlign(TextAlign.Left).Add();
+             col.Field(p => p.StoreID).DataSource((IEnumerable<Store>)Model.Stores).HeaderText("Store").EditType(EditingType.Dropdown).Visible(true).ForeignKeyField("StoreID").ForeignKeyValue("Name").Add();
              col.HeaderText("").Template("#customerAppointmentsTemplate").Add();
              col.HeaderText("").Template("#customerTransactionsTemplate").Add();
+             col.HeaderText("").Template("#editCustomerTemplate").Add();
          })
-         .ClientSideEvents(eve => eve.DataBound("onDataBound"))
+           .ClientSideEvents(evt =>
+                                {
+                                    evt.EndAdd("endAdd_Customer");
+                                    evt.EndEdit("endEdit_Customer");
+                                    evt.EndDelete("endDelete_Customer");
+                                    evt.RowSelected("onRowSelected_Customer");
+                                    evt.ActionComplete("onActionComplete_Customer");
+                                    evt.DataBound("onDataBoundSetSearch");
+                                })
     )
+
+    <br />
+    <p>
+        <button type="button" class="btn btn-primary" id="BtnProductsAdd" onclick="add_Customer()">Add</button>
+    </p>
+
 </div>
+
+<script id="template_Customer" type="text/template">
+    <table cellspacing="10">
+        <tr>
+            <td>
+                <input id="CustomerID" name="CustomerID" value="{{:CustomerID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Store</td>
+            <td>
+                <input id="StoreID" name="StoreID" value="{{:StoreID}}" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+            <td>Company</td>
+            <td>
+                <input id="CompanyID" name="CompanyID" value="{{:CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>FirstName</td>
+            <td>
+                <input id="FirstName" name="FirstName" value="{{:FirstName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>LastName</td>
+            <td>
+                <input id="LastName" name="LastName" value="{{:LastName}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>Phone</td>
+            <td style="text-align: left">
+                <input type="text" id="Phone" name="Phone" class="e-field e-ejinputtext" value="{{:Phone}}" style="width:300px;height:28px" />
+            </td>
+            <td>Email</td>
+            <td>
+                <input id="Email" type="text" name="Email" value="{{:Email}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <input id="Address" type="text" name="Address" value="{{:Address}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+            <td>City</td>
+            <td>
+                <input id="City" type="text" name="City" value="{{:City}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>PostalCode</td>
+            <td>
+                <input id="PostalCode" type="text" name="PostalCode" value="{{:PostalCode}}" class="e-field e-ejinputtext" style="width: 300px; height: 28px" />
+            </td>
+
+            <td>Discount</td>
+            <td>
+                <input id="Discount" type="text" name="Discount" value="{{:Discount}}" class="e-field e-ejinputtext" style="width:300px;height:28px" />
+            </td>
+        </tr>
+        <tr>
+            <td>Notes</td>
+            <td>
+                <input id="Notes" type="text" name="Notes" value="{{:Notes}}" class="e-field e-ejinputtext" style="width:750px;height:28px" />
+            </td>
+        </tr>
+    </table>
+</script>
 
 <script type="text/x-jsrender" id="customerAppointmentsTemplate">
     <a href="/CustomerInfo/CustomerAppointments?id={{:CustomerID}}">Appointments</a>
@@ -53,19 +143,27 @@
     <a href="/CustomerInfo/CustomerTransactions?id={{:CustomerID}}">Transactions</a>
 </script>
 
-<script type="text/javascript">
-    function onDataBound(args) {
-        //debugger;
-        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
-        {
-            //key.indexOf("ID") <= 0
-            if (!endsWith(key, "ID")) {
-                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
-            }
-        }
-    }
+<script type="text/x-jsrender" id="customerEditTemplate">
+    <a href="/CustomerInfo/CustomerEdit?id={{:CustomerID}}">Edit</a>
+</script>
 
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+<script type="text/x-jsrender" id="editCustomerTemplate">
+    <a id="rec_edit" href='/customer/edit' onclick='return handleCustomer(1)'>Edit</a>
+</script>
+
+<script type="text/javascript" src="~/Scripts/SalonDB.js"></script>
+
+<script type="text/javascript">
+    function handleCustomer(args) {
+
+        if (args == 1) {
+            edit_Customer();
+        }
+
+        if (args == 2) {
+            delete_Customer();
+        }
+
+        return false;
     }
 </script>

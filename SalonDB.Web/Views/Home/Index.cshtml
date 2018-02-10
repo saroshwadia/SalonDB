@@ -12,6 +12,74 @@
 
 <br />
 
+<div>
+   @(Html.EJ().Chart("container001")
+        .Palette(pl => { pl.Add("grey"); pl.Add("skyblue"); pl.Add("orange"); })
+        .PrimaryXAxis(pr => pr.Title(tl => tl.Text("Store")))
+        //.PrimaryYAxis(pr => pr.Range(ra => ra.Max(80).Min(0).Interval(20)).Title(tl => tl.Text("Store")))
+        .PrimaryYAxis(pr => pr.Title(tl => tl.Text("Sales")))
+        .CommonSeriesOptions(cr => cr.Type(SeriesType.Column).EnableAnimation(true)
+        .Tooltip(tt => tt.Visible(true).Format("#point.x# : #point.y# #series.name# Sales")))
+        .Series(sr =>
+        {
+            sr.Points(pt =>
+            {
+                foreach (var oEnt in Model.ChartSalesByStoreCol)
+                {
+                    pt.X(oEnt.Name).Y(oEnt.Value1).Add();
+                }
+
+            }).Name("Actual").Add();
+            sr.Points(pt =>
+            {
+                foreach (var oEnt in Model.ChartSalesByStoreCol)
+                {
+                    pt.X(oEnt.Name).Y(oEnt.Value2).Add();
+                }
+            }).Name("Budget").Add();
+        })
+        .Load("loadTheme")
+        .IsResponsive(true)
+        .Title(t => t.Text("Sales Revenue by Store"))
+        .Size(sz => sz.Height("600"))
+        .Legend(lg => { lg.Visible(true).Position(LegendPosition.Top); })
+)
+</div>
+
+<div>
+  @(Html.EJ().Chart("container002")
+        .Palette(pl => { pl.Add("grey"); pl.Add("skyblue"); pl.Add("orange"); })
+        .PrimaryXAxis(pr => pr.Title(tl => tl.Text("Staff")))
+        //.PrimaryYAxis(pr => pr.Range(ra => ra.Max(80).Min(0).Interval(20)).Title(tl => tl.Text("Sales")))
+        .PrimaryYAxis(pr => pr.Title(tl => tl.Text("Sales")))
+        .CommonSeriesOptions(cr => cr.Type(SeriesType.Column).EnableAnimation(true)
+        .Tooltip(tt => tt.Visible(true).Format("#point.x# : #point.y# #series.name# Sales")))
+        .Series(sr =>
+        {
+            sr.Points(pt =>
+            {
+                foreach (var oEnt in Model.ChartSalesByStaffCol)
+                {
+                    pt.X(oEnt.Name).Y(oEnt.Value1).Add();
+                }
+
+            }).Name("Goal").Add();
+            sr.Points(pt =>
+            {
+                foreach (var oEnt in Model.ChartSalesByStaffCol)
+                {
+                    pt.X(oEnt.Name).Y(oEnt.Value2).Add();
+                }
+            }).Name("Actual").Add();
+        })
+        .Load("loadTheme")
+        .IsResponsive(true)
+        .Title(t => t.Text("Sales Revenue by Staff"))
+        .Size(sz => sz.Height("600"))
+        .Legend(lg => { lg.Visible(true).Position(LegendPosition.Top); })
+)
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">

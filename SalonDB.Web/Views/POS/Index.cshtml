@@ -224,7 +224,7 @@
                                 <div class="btn-group">
 
                                     <button type="button" class="btn btn-default" onclick="onsaveotherclick()" data-dismiss="modal">Other</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" onselect ="onsaveotherclick()" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-default dropdown-toggle" onselect="onsaveotherclick()" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
@@ -468,7 +468,7 @@
         var tName = $("#TargetController").val();
         var tAction = $("#TargetAction").val();
         var url = "/" + tController + "/" + tAction;
-        var urlFrom = window.history.go(-1); 
+        var urlFrom = window.history.go(-1);
         var urlBack = document.referrer;
 
         if (PostIt) {

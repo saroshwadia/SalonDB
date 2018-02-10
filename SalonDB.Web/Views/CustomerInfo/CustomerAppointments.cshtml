@@ -45,7 +45,7 @@
              col.HeaderText("").Template("#checkoutTemplate").Add();
              col.HeaderText("").Template("#editTemplate").Add();
          })
-         .ClientSideEvents(eve => eve.DataBound("onDataBound"))
+         .ClientSideEvents(eve => eve.DataBound("onDataBoundSetSearch"))
     )
 </div>
 
@@ -58,22 +58,7 @@
 </script>
 
 <script type="text/x-jsrender" id="editTemplate">
-    <a href="/appointment/index?appointmentID={{:AppointmentID}}&controllerName=CustomerAppointments">Edit</a>
+    <a href="/appointment/editappointment?appointmentID={{:AppointmentID}}&controllerName=CustomerAppointments">Edit</a>
 </script>
 
-<script type="text/javascript">
-    function onDataBound(args) {
-        //debugger;
-        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
-        {
-            //key.indexOf("ID") <= 0
-            if (!endsWith(key, "ID")) {
-                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
-            }
-        }
-    }
-
-    function endsWith(str, suffix) {
-        return str.indexOf(suffix, str.length - suffix.length) !== -1;
-    }
-</script>
+<script type="text/javascript" src="~/Scripts/SalonDB.js"></script>

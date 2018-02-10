@@ -1242,3 +1242,21 @@ function endDelete_Staff(args) {
         }
     });
 }
+
+function onDataBoundSetSearch(args) {
+    setSearchColumns(this.model);
+}
+
+function setSearchColumns(model) {
+    for (var key in model.currentViewData[0])//traverse through the first JSON array of the dataSource
+    {
+        //key.indexOf("ID") <= 0
+        if (!endsWith(key, "ID")) {
+            model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
+        }
+    }
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}

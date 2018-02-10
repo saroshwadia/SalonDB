@@ -16,7 +16,15 @@
                 .EnableAltRow(true)
                 .ScrollSettings(col => { col.Width(900).Height(350); })
                 .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Customer"); })
+                .AllowSearching()
+                .ToolbarSettings(tool =>
+                {
+                    tool.ShowToolbar().ToolbarItems(items =>
+                    {
+                        items.AddTool(ToolBarItems.Search);
+                    });
 
+                })
                 .Columns(col =>
                 {
 
@@ -48,6 +56,7 @@
                                     evt.EndDelete("endDelete_Customer");
                                     evt.RowSelected("onRowSelected_Customer");
                                     evt.ActionComplete("onActionComplete_Customer");
+                                    evt.DataBound("onDataBoundSetSearch");
                                 })
             )
             <br />
@@ -112,21 +121,25 @@
     </div>
 </div>
 
+<script type="text/javascript" src="~/Scripts/SalonDB.js"></script>
+
 <script id="template_Customer" type="text/template">
     <table cellspacing="10">
         <tr>
-
+            <td>
+                <input id="CustomerID" name="CustomerID" value="{{:CustomerID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                       style="text-align: right; width: 116px; height: 28px" />
+            </td>
+        </tr>
+        <tr>
             <td>Store</td>
             <td>
-                <input id="StoreID" name="StoreID" value="{{: StoreID}}" class="e-field e-ejinputtext valid e-disable"
+                <input id="StoreID" name="StoreID" value="{{:StoreID}}" class="e-field e-ejinputtext valid e-disable"
                        style="text-align: right; width: 116px; height: 28px" />
             </td>
+            <td>Company</td>
             <td>
-                <input id="CustomerID" name="CustomerID" value="{{: CustomerID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
-                       style="text-align: right; width: 116px; height: 28px" />
-            </td>
-            <td>
-                <input id="CompanyID" name="CompanyID" value="{{: CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
+                <input id="CompanyID" name="CompanyID" value="{{:CompanyID}}" hidden="hidden" disabled="disabled" class="e-field e-ejinputtext valid e-disable"
                        style="text-align: right; width: 116px; height: 28px" />
             </td>
         </tr>
@@ -189,8 +202,8 @@
     <a href='/customer/delete' onclick='return handleCustomer(2)'>Delete</a>
 </script>
 
-<script type="text/javascript">
 
+<script type="text/javascript">
     function handleCustomer(args) {
 
         if (args == 1) {
@@ -203,5 +216,4 @@
 
         return false;
     }
-
 </script>

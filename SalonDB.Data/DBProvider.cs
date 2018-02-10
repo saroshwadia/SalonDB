@@ -133,6 +133,11 @@ namespace SalonDB.Data
             return db.PaymentTypes.Where(x => x.CompanyID == CompanyID).OrderBy(x => x.Sequence).ToList();
         }
 
+        public static IList<PaymentType> GetMainPaymentTypes(Guid CompanyID)
+        {
+            return db.PaymentTypes.Where(x => x.CompanyID == CompanyID && x.Sequence > 0 && !x.Other).OrderBy(x => x.Sequence).ToList();
+        }
+
         public static IList<spTransactionData_Result> GetTransactionData(Guid TransactionID)
         {
             var result = spTransactionData(TransactionID);
@@ -756,6 +761,7 @@ namespace SalonDB.Data
             int EndHour = 18; //6:00 pm
             int MaxAppointmentDuration = 60; // Max 1 hour appointment
             int MaxAppointmentsPerDay = 5; // Max appointments to create per day
+            int MaxTransactionPerDay = 1; // Max transactions to create per day
             bool AddOnlyOneAppointment = false;
             var HourRange = Enumerable.Range(StartHour, EndHour - StartHour + 1).ToList();
 
@@ -766,7 +772,7 @@ namespace SalonDB.Data
 
             if (maxTransactions == 0 && maxAppointments == 0) // Just create Appointments
             {
-                DateList = Enumerable.Range(0, 1 + endDate.Subtract(startDate).Days).Select(offset => startDate.AddDays(offset)).ToList();
+                DateList = GetDateRange(startDate, endDate);
 
                 foreach (var oDate in DateList) // Each Date
                 {
@@ -842,7 +848,8 @@ namespace SalonDB.Data
 
             else
             {
-                DateList = GetRandomDateRange(startDate, endDate).ToList();
+                //DateList = GetRandomDateRange(startDate, endDate);
+                DateList = GetDateRange(startDate, endDate);
 
                 foreach (var TransactionDate in DateList)
                 {
@@ -855,19 +862,67 @@ namespace SalonDB.Data
                     {
                         IsAppointment = true;
                     }
+                    else
+                    {
+                        IsAppointment = false;
+                    }
 
                     if (IsAppointment)
                     {
-                        TransactionEnt = new Transaction();
-                        CustomerEnt = CustomerCol[oRand.Next(0, CustomerCol.Count - 1)];
 
-                        var StartTime = TransactionDate;
-                        var EndTime = StartTime.AddMinutes(30);
+                        MaxAppointmentsPerDay = Math.Max(1, maxAppointments / DateList.Count);
+                        HourRange = Enumerable.Range(StartHour, EndHour - StartHour + 1).ToList();
 
-                        AppointmentEnt = CreateAppointment(CompanyID, StaffEnt, CustomerEnt, StartTime, EndTime, ref unitOfWork, StaffCol, CustomerCol, ServiceCol, ProductCol, DateList, oRand, TransactionDate, ref TransactionEnt);
-
-                        if (AppointmentEnt != null)
+                        for (int appointmentCount = 0; appointmentCount < MaxAppointmentsPerDay; appointmentCount++)
                         {
+                            var OnHour = HourRange.RandomElementUsing(oRand);
+                            var Removed = HourRange.Remove(OnHour);
+                            var NewTransactionDate = new DateTime(TransactionDate.Date.Year, TransactionDate.Date.Month, TransactionDate.Date.Day, OnHour, 0, 0);
+
+                            TransactionEnt = new Transaction();
+                            CustomerEnt = CustomerCol[oRand.Next(0, CustomerCol.Count - 1)];
+
+                            var StartTime = NewTransactionDate;
+                            var EndTime = StartTime.AddMinutes(30);
+
+                            AppointmentEnt = CreateAppointment(CompanyID, StaffEnt, CustomerEnt, StartTime, EndTime, ref unitOfWork, StaffCol, CustomerCol, ServiceCol, ProductCol, DateList, oRand, TransactionDate, ref TransactionEnt);
+
+                            if (AppointmentEnt != null)
+                            {
+                                if (TransactionEnt != null)
+                                {
+                                    TotalTransactionsAdded++;
+                                    TotalTransactionServicesAdded += TransactionEnt.TransactionDetailServices.Count;
+                                    TotalTransactionProductsAdded += TransactionEnt.TransactionDetailProducts.Count;
+
+                                    unitOfWork.Transactions.Add(TransactionEnt);
+                                }
+
+                            }
+
+                            unitOfWork.Appointments.Add(AppointmentEnt);
+                            TotalAppointmentsAdded++;
+                        }
+
+                    }
+                    else
+                    {
+
+                        MaxTransactionPerDay = Math.Max(1, maxTransactions / DateList.Count);
+                        HourRange = Enumerable.Range(StartHour, EndHour - StartHour + 1).ToList();
+
+                        for (int transactiontCount = 0; transactiontCount < MaxTransactionPerDay; transactiontCount++)
+                        {
+
+                            var OnHour = HourRange.RandomElementUsing(oRand);
+                            var Removed = HourRange.Remove(OnHour);
+                            var NewTransactionDate = new DateTime(TransactionDate.Date.Year, TransactionDate.Date.Month, TransactionDate.Date.Day, OnHour, 0, 0);
+
+                            AppointmentEnt = null;
+                            StaffEnt = StaffCol[oRand.Next(0, StaffCol.Count - 1)];
+                            CustomerEnt = CustomerCol[oRand.Next(0, CustomerCol.Count - 1)];
+                            TransactionEnt = CreateTransaction(CompanyID, StaffEnt, CustomerEnt, ref unitOfWork, StaffCol, CustomerCol, ServiceCol, ProductCol, NewTransactionDate, oRand, ref AppointmentEnt);
+
                             if (TransactionEnt != null)
                             {
                                 TotalTransactionsAdded++;
@@ -878,26 +933,7 @@ namespace SalonDB.Data
                             }
 
                         }
-
-                        unitOfWork.Appointments.Add(AppointmentEnt);
-                        TotalAppointmentsAdded++;
-
-                    }
-                    else
-                    {
-                        AppointmentEnt = null;
-                        StaffEnt = StaffCol[oRand.Next(0, StaffCol.Count - 1)];
-                        CustomerEnt = CustomerCol[oRand.Next(0, CustomerCol.Count - 1)];
-                        TransactionEnt = CreateTransaction(CompanyID, StaffEnt, CustomerEnt, ref unitOfWork, StaffCol, CustomerCol, ServiceCol, ProductCol, TransactionDate, oRand, ref AppointmentEnt);
-
-                        if (TransactionEnt != null)
-                        {
-                            TotalTransactionsAdded++;
-                            TotalTransactionServicesAdded += TransactionEnt.TransactionDetailServices.Count;
-                            TotalTransactionProductsAdded += TransactionEnt.TransactionDetailProducts.Count;
-
-                            unitOfWork.Transactions.Add(TransactionEnt);
-                        }
+                     
                     }
                 }
 
@@ -932,6 +968,8 @@ namespace SalonDB.Data
             bool IsFutureDate = IsInTheFuture(TransactionDate);
             var NotPaidPaymentType = GetNotPaidPaymentType(CompanyID);
             var CashPaymentType = GetCashPaymentType(CompanyID);
+            var PaymentTypeCol = GetMainPaymentTypes(CompanyID);
+            var PaymentTypeEnt = PaymentTypeCol[oRand.Next(0, PaymentTypeCol.Count - 1)];
 
             ReturnValue.TransactionID = Guid.NewGuid();
             ReturnValue.CompanyID = CompanyID;
@@ -949,8 +987,8 @@ namespace SalonDB.Data
             else
             {
                 ReturnValue.Status = eTransactionStatus.Paid.ToString();
-                ReturnValue.PaymentType = CashPaymentType.Name;
-                ReturnValue.PaymentTypeID = CashPaymentType.PaymentTypeID;
+                ReturnValue.PaymentType = PaymentTypeEnt.Name; // CashPaymentType.Name;
+                ReturnValue.PaymentTypeID = PaymentTypeEnt.PaymentTypeID; // CashPaymentType.PaymentTypeID;
             }
 
             var MaxServiceRows = oRand.Next(0, 5); //0 - 5 will allow some Appointments with no services.
@@ -1112,6 +1150,24 @@ namespace SalonDB.Data
         private static bool IsInTheFuture(DateTime Date)
         {
             var ReturnValue = Date.Date >= DateTime.Now.Date;
+
+            return ReturnValue;
+        }
+
+
+        private static List<DateTime> GetDateRange(DateTime startDate, DateTime endDate)
+        {
+            var ReturnValue = new List<DateTime>();
+            var oRand = new Random(Guid.NewGuid().GetHashCode());
+            var TempData = Enumerable.Range(0, 1 + endDate.Subtract(startDate).Days).Select(offset => startDate.AddDays(offset)).ToList();
+
+            foreach (var item in TempData)
+            {
+                var Hour = oRand.Next(9, 18);
+                var TempDate = new DateTime(item.Date.Year, item.Date.Month, item.Date.Day, Hour, 0, 0);
+
+                ReturnValue.Add(TempDate);
+            }
 
             return ReturnValue;
         }
@@ -1660,7 +1716,7 @@ namespace SalonDB.Data
                         }
 
                     }
-                   
+
                 }
             }
             catch (Exception ex)
@@ -1674,7 +1730,7 @@ namespace SalonDB.Data
         public static string DeleteTransaction(Guid transactionID)
         {
             var ReturnValue = string.Empty;
-           
+
             try
             {
                 using (var context = db)

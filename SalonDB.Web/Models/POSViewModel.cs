@@ -105,6 +105,7 @@ namespace SalonDB.Web.Models
         public List<ChartViewModel> ChartSalesByStaffCol { get; set; }
         public List<ChartViewModel> ChartSalesByStoreCol { get; set; }
         public List<ChartViewModel> ChartSalesByHourCol { get; set; }
+        public Dictionary<string, string> CategoryList { get; set; }
 
         public decimal TotalSales { get; set; }
         public int TotalAppointmentsToday { get; set; }

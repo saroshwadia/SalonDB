@@ -20,6 +20,15 @@
 
                 .EditSettings(edit => { edit.AllowAdding().AllowDeleting().AllowEditing().EditMode(EditMode.DialogTemplate).ShowConfirmDialog().ShowDeleteConfirmDialog().DialogEditorTemplateID("#template_Company"); })
 
+                 .ToolbarSettings(tool =>
+                {
+                    tool.ShowToolbar().ToolbarItems(items =>
+                    {
+                        items.AddTool(ToolBarItems.Search);
+                    });
+
+                })
+
                 .Columns(col =>
                 {
                     col.HeaderText("Edit").Template("#editCompanyTemplate").Add();
@@ -41,6 +50,7 @@
                                     evt.EndDelete("endDelete_Company");
                                     evt.RowSelected("onRowSelected_Company");
                                     evt.ActionComplete("onActionComplete_Company");
+                                    evt.DataBound("onDataBound");
                                 })
         )
             @Html.EJ().ScriptManager()
@@ -155,6 +165,21 @@
         }
 
         return false;
+    }
+
+    function onDataBound(args) {
+        //debugger;
+        for (var key in this.model.currentViewData[0])//traverse through the first JSON array of the dataSource
+        {
+            //key.indexOf("ID") <= 0
+            if (!endsWith(key, "ID")) {
+                this.model.searchSettings.fields.push(key);//push the field names to the searchSettings.fields array
+            }
+        }
+    }
+
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
 
 </script>
